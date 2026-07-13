@@ -1,0 +1,49 @@
+{
+  "id": "painting-01",
+  "title": "待识别作品",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "duration": 10,
+  "background": {
+    "src": "/assets/layers/painting-01/background.webp",
+    "alt": "完整背景"
+  },
+  "layers": [
+    {
+      "id": "layer-001",
+      "name": "待识别图层",
+      "src": "/assets/layers/painting-01/layer-001.webp",
+      "z": 10,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "collapsed": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "rotation": 0,
+        "opacity": 1
+      },
+      "expanded": {
+        "x": -220,
+        "y": 40,
+        "scale": 1,
+        "rotation": -4,
+        "opacity": 1
+      },
+      "animation": {
+        "start": 1.2,
+        "duration": 1.1,
+        "ease": "power3.out"
+      },
+      "parallax": {
+        "x": 8,
+        "y": 6
+      },
+      "description": "由实际视频与原画分析后填写"
+    }
+  ]
+}

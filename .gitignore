@@ -1,0 +1,28 @@
+# Reference media and generated analysis
+reference/reference-video.mp4
+reference/audio/
+reference/frames/
+reference/contact-sheets/
+reference/ffprobe.json
+
+# Generated image assets and renders
+assets/generated/
+renders/
+tests/visual/actual/
+
+# JS tooling
+node_modules/
+dist/
+playwright-report/
+test-results/
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

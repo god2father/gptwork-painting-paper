@@ -1,0 +1,9 @@
+目标文件名必须是：
+
+reference-video.mp4
+
+完整路径：
+
+reference/reference-video.mp4
+
+可以先运行 scripts/download-reference-video.ps1 自动尝试下载。若抖音阻止自动访问，请在抖音客户端中保存后手动复制到这里。不要把本说明文件重命名为 mp4。

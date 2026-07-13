@@ -1,0 +1,634 @@
+{
+  "$schema": "./timeline-analysis.schema.json",
+  "media": {
+    "duration": 112.033333,
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 44100,
+    "audioChannels": 2
+  },
+  "sourcePolicy": {
+    "usage": "internal effect analysis only",
+    "reuseVideoFrames": false,
+    "reuseAudio": false,
+    "assetStrategy": "Generate the first painting and its independent layers with GPT; do not extract publishable assets from the reference video."
+  },
+  "analysis": {
+    "intervalFrameRate": 2,
+    "intervalFrameCount": 224,
+    "sceneThreshold": 0.22,
+    "detectedChanges": [14.33, 34.07, 34.77, 59.77, 67.97, 78.03, 78.13, 104.07],
+    "estimatedActionTimingError": 0.25
+  },
+  "motionEstimates": [
+    {
+      "layer": "upper-paper-curtain",
+      "start": 0,
+      "end": 4.5,
+      "translation": { "yPercentHeight": -55 },
+      "rotationDegrees": 0,
+      "scale": [1, 1],
+      "opacity": [1, 1],
+      "ease": "power3.inOut",
+      "occludes": ["desk-background", "example-cards"]
+    },
+    {
+      "layer": "lower-paper-curtain",
+      "start": 0,
+      "end": 4.5,
+      "translation": { "yPercentHeight": 55 },
+      "rotationDegrees": 0,
+      "scale": [1, 1],
+      "opacity": [1, 1],
+      "ease": "power3.inOut",
+      "occludes": ["desk-background", "example-cards"]
+    },
+    {
+      "layer": "left-example-card",
+      "start": 5.2,
+      "end": 6,
+      "translation": { "xPercentWidth": [-14, 0] },
+      "rotationDegrees": [-4, -2],
+      "scale": [0.96, 1],
+      "opacity": [0.4, 1],
+      "ease": "power3.out",
+      "occludedBy": ["center-example-card"]
+    },
+    {
+      "layer": "right-example-card",
+      "start": 6.4,
+      "end": 7.2,
+      "translation": { "xPercentWidth": [14, 0] },
+      "rotationDegrees": [4, 2],
+      "scale": [0.96, 1],
+      "opacity": [0.4, 1],
+      "ease": "power3.out",
+      "occludedBy": ["center-example-card"]
+    },
+    {
+      "layer": "center-example-card",
+      "start": 7.2,
+      "end": 8.2,
+      "translation": { "yPercentHeight": [16, 0] },
+      "rotationDegrees": [1, 0],
+      "scale": [0.94, 1],
+      "opacity": [0.5, 1],
+      "ease": "power3.out",
+      "occludes": ["left-example-card", "right-example-card"]
+    },
+    {
+      "layer": "left-people-group",
+      "start": 14.55,
+      "end": 15.35,
+      "translation": { "xPercentWidth": [-12, 0] },
+      "rotationDegrees": [-1, 0],
+      "scale": [0.96, 1],
+      "opacity": [0.3, 1],
+      "ease": "power3.out",
+      "occludedBy": ["table"]
+    },
+    {
+      "layer": "right-people-group",
+      "start": 14.55,
+      "end": 15.35,
+      "translation": { "xPercentWidth": [12, 0] },
+      "rotationDegrees": [1, 0],
+      "scale": [0.96, 1],
+      "opacity": [0.3, 1],
+      "ease": "power3.out",
+      "occludedBy": ["table"]
+    },
+    {
+      "layer": "central-figure",
+      "start": 14.8,
+      "end": 15.8,
+      "translation": { "yPercentHeight": [-18, 0] },
+      "rotationDegrees": [0, 0],
+      "scale": [0.92, 1],
+      "opacity": [0.4, 1],
+      "ease": "back.out(1.15)",
+      "occludedBy": ["table"]
+    },
+    {
+      "layer": "main-wave-base",
+      "start": 35.5,
+      "end": 41.5,
+      "translation": { "xPercentWidth": [-4, 0], "yPercentHeight": [10, 0] },
+      "rotationDegrees": [-2, 0],
+      "scale": [0.96, 1],
+      "opacity": [1, 1],
+      "ease": "power3.out",
+      "occludes": ["distant-water"],
+      "occludedBy": ["dark-wave-ridge", "foam-crest"]
+    },
+    {
+      "layer": "dark-wave-ridge",
+      "start": 36,
+      "end": 41,
+      "translation": { "xPercentWidth": [-6, 0], "yPercentHeight": [14, 0] },
+      "rotationDegrees": [-3, 0],
+      "scale": [0.94, 1],
+      "opacity": [0.85, 1],
+      "ease": "power3.out",
+      "occludes": ["main-wave-base"]
+    },
+    {
+      "layer": "foam-crest",
+      "start": 35.5,
+      "end": 41.5,
+      "translation": { "xPercentWidth": [-3, 0], "yPercentHeight": [18, 0] },
+      "rotationDegrees": [2, 0],
+      "scale": [0.9, 1],
+      "opacity": [0.7, 1],
+      "ease": "back.out(1.2)",
+      "occludes": ["main-wave-base", "dark-wave-ridge"]
+    },
+    {
+      "layer": "portrait-eyes",
+      "start": 67.97,
+      "end": 78.03,
+      "translation": { "xPixelsAt1920": [-1, 3] },
+      "rotationDegrees": [0, 0],
+      "scale": [1, 1],
+      "opacity": [1, 1],
+      "ease": "sine.inOut",
+      "confidence": 0.58
+    },
+    {
+      "layer": "pearl-highlight",
+      "start": 67.97,
+      "end": 78.03,
+      "translation": {},
+      "rotationDegrees": [0, 0],
+      "scale": [0.98, 1.03],
+      "opacity": [0.8, 1],
+      "ease": "sine.inOut",
+      "confidence": 0.63
+    }
+  ],
+  "examplePaintings": [
+    {
+      "order": 1,
+      "title": "最后的晚餐",
+      "confidence": 0.99,
+      "purpose": "Group staging and architectural depth reference only"
+    },
+    {
+      "order": 2,
+      "title": "神奈川冲浪里",
+      "confidence": 0.99,
+      "purpose": "Curved paper-layer compression and restoration reference only"
+    },
+    {
+      "order": 3,
+      "title": "戴珍珠耳环的少女",
+      "confidence": 0.99,
+      "purpose": "Restrained gaze and highlight motion reference only"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "s00-paper-intro",
+      "start": 0,
+      "end": 4.5,
+      "painting": null,
+      "confidence": 0.92,
+      "observations": [
+        "Warm off-white torn paper covers most of the wooden desk.",
+        "The upper and lower paper edges open around an irregular tear.",
+        "Title and subtitle overlays sit above the paper scene."
+      ],
+      "inferences": [
+        "Use two transparent torn-paper DOM layers moving vertically.",
+        "Do not reuse the reference title, subtitle, hands or audio."
+      ],
+      "layers": [
+        {
+          "id": "desk-background",
+          "role": "background",
+          "motion": "static",
+          "z": 0
+        },
+        {
+          "id": "upper-paper-curtain",
+          "role": "transition",
+          "entryDirection": "top",
+          "z": 90
+        },
+        {
+          "id": "lower-paper-curtain",
+          "role": "transition",
+          "entryDirection": "bottom",
+          "z": 91
+        }
+      ]
+    },
+    {
+      "id": "s01-card-layout",
+      "start": 4.5,
+      "end": 8,
+      "painting": null,
+      "confidence": 0.9,
+      "observations": [
+        "Three example cards enter from the left, right and bottom.",
+        "Cards use small rotation differences and soft short shadows.",
+        "Human hands place the cards in the reference performance."
+      ],
+      "inferences": [
+        "Replace hand placement with staggered autonomous card motion.",
+        "Use DOM layers with 8 to 18 percent travel and about plus or minus 2 degrees rotation."
+      ],
+      "layers": [
+        {
+          "id": "left-card",
+          "role": "example-card",
+          "entryDirection": "left",
+          "z": 20
+        },
+        {
+          "id": "right-card",
+          "role": "example-card",
+          "entryDirection": "right",
+          "z": 21
+        },
+        {
+          "id": "center-card",
+          "role": "example-card",
+          "entryDirection": "bottom",
+          "z": 22
+        }
+      ]
+    },
+    {
+      "id": "s02-supper-tabletop-depth",
+      "start": 8,
+      "end": 14.33,
+      "painting": "最后的晚餐",
+      "confidence": 0.94,
+      "observations": [
+        "The central rectangular frame expands into a box-like room.",
+        "Ceiling, side walls, outer frame and surrounding paper move outward while the table group remains visually central.",
+        "Layer shadows become more visible as the frame opens."
+      ],
+      "inferences": [
+        "Separate the room background, ceiling, two side walls, table group and frame.",
+        "Use CSS 3D transforms and GSAP; a 3D engine is unnecessary.",
+        "Avoid the reference video's hard cut by keeping the website transition continuous."
+      ],
+      "layers": [
+        {
+          "id": "room-background",
+          "role": "background",
+          "motionStart": 9.75,
+          "motionEnd": 13.75,
+          "motion": "scale outward",
+          "z": 0
+        },
+        {
+          "id": "left-wall",
+          "role": "architecture",
+          "motionStart": 9.75,
+          "motionEnd": 13.75,
+          "motion": "translate left with slight rotateY",
+          "z": 10
+        },
+        {
+          "id": "right-wall",
+          "role": "architecture",
+          "motionStart": 9.75,
+          "motionEnd": 13.75,
+          "motion": "translate right with slight rotateY",
+          "z": 11
+        },
+        {
+          "id": "ceiling",
+          "role": "architecture",
+          "motionStart": 9.75,
+          "motionEnd": 13.75,
+          "motion": "translate up and scale",
+          "z": 12
+        },
+        {
+          "id": "table-group",
+          "role": "subject",
+          "motion": "mostly stable during frame expansion",
+          "z": 30
+        },
+        {
+          "id": "outer-frame",
+          "role": "foreground-frame",
+          "motionStart": 9.75,
+          "motionEnd": 13.75,
+          "motion": "expand toward all edges",
+          "z": 80
+        }
+      ]
+    },
+    {
+      "id": "s03-supper-group-assembly",
+      "start": 14.33,
+      "end": 34.07,
+      "painting": "最后的晚餐",
+      "confidence": 0.93,
+      "observations": [
+        "The empty room and long table appear before all people are assembled.",
+        "Left and right person groups enter from opposite sides.",
+        "The central figure descends from above after the side groups begin entering.",
+        "The table occludes the lower bodies.",
+        "The assembled image then holds while a question label is shown."
+      ],
+      "inferences": [
+        "Split the people into left group, right group and central figure at minimum.",
+        "Stagger the groups by about 0.15 to 0.3 seconds.",
+        "Use horizontal travel near 12 percent for side groups and vertical travel near 18 percent for the central figure."
+      ],
+      "layers": [
+        {
+          "id": "room",
+          "role": "background",
+          "motion": "static",
+          "z": 0
+        },
+        {
+          "id": "left-people-group",
+          "role": "subject-group",
+          "motionStart": 14.55,
+          "motionEnd": 15.35,
+          "entryDirection": "left",
+          "z": 30
+        },
+        {
+          "id": "right-people-group",
+          "role": "subject-group",
+          "motionStart": 14.55,
+          "motionEnd": 15.35,
+          "entryDirection": "right",
+          "z": 31
+        },
+        {
+          "id": "central-figure",
+          "role": "primary-subject",
+          "motionStart": 14.8,
+          "motionEnd": 15.8,
+          "entryDirection": "top",
+          "z": 40
+        },
+        {
+          "id": "table",
+          "role": "foreground",
+          "motion": "static",
+          "occludes": ["left-people-group", "right-people-group", "central-figure"],
+          "z": 50
+        }
+      ]
+    },
+    {
+      "id": "s04-paper-wipe-to-wave",
+      "start": 34.07,
+      "end": 34.77,
+      "painting": null,
+      "confidence": 0.98,
+      "observations": [
+        "A torn warm-white paper layer covers the group scene.",
+        "The next painting appears after the cover."
+      ],
+      "inferences": [
+        "Use a reusable paper-wipe transition component driven by the scene manifest."
+      ],
+      "layers": [
+        {
+          "id": "paper-wipe",
+          "role": "transition",
+          "entryDirection": "bottom",
+          "z": 100
+        }
+      ]
+    },
+    {
+      "id": "s05-wave-collapse-and-restore",
+      "start": 34.77,
+      "end": 59.77,
+      "painting": "神奈川冲浪里",
+      "confidence": 0.95,
+      "observations": [
+        "The main wave begins collapsing around 35.5 seconds.",
+        "Blue and off-white wave layers flatten into long low strips while Mount Fuji and distant water remain visible.",
+        "The low strips pause briefly, then rebuild from lower dark layers toward the high foam crest.",
+        "The image is substantially restored by about 41.5 seconds.",
+        "A red arrow is an explanatory overlay rather than an artwork layer."
+      ],
+      "inferences": [
+        "Create four to six transparent wave layers plus fixed sky, mountain, water and boat layers.",
+        "Use translateY, small translateX, rotation and stagger rather than destructive bitmap stretching.",
+        "Restore layers with 0.12 to 0.25 second staggering; allow only the top foam a small rebound."
+      ],
+      "layers": [
+        {
+          "id": "sky",
+          "role": "background",
+          "motion": "static",
+          "z": 0
+        },
+        {
+          "id": "mountain-and-distant-water",
+          "role": "midground-reference",
+          "motion": "mostly static",
+          "z": 5
+        },
+        {
+          "id": "boats",
+          "role": "midground-subject",
+          "motionStart": 35.5,
+          "motionEnd": 41.5,
+          "motion": "small movement with neighboring wave layers",
+          "z": 10,
+          "confidence": 0.72
+        },
+        {
+          "id": "lower-foreground-wave",
+          "role": "foreground",
+          "motion": "small downward shift",
+          "z": 20
+        },
+        {
+          "id": "main-wave-base",
+          "role": "subject",
+          "motionStart": 35.5,
+          "motionEnd": 41.5,
+          "motion": "collapse down and slightly left, then restore",
+          "z": 30
+        },
+        {
+          "id": "dark-wave-ridge",
+          "role": "subject",
+          "motionStart": 36,
+          "motionEnd": 41,
+          "motion": "compress to a long strip, then rise",
+          "z": 40
+        },
+        {
+          "id": "foam-crest",
+          "role": "front-subject",
+          "motionStart": 35.5,
+          "motionEnd": 41.5,
+          "motion": "collapse early and restore late with a slight rebound",
+          "z": 50
+        }
+      ]
+    },
+    {
+      "id": "s06-paper-wipe-to-portrait",
+      "start": 59.77,
+      "end": 67.97,
+      "painting": null,
+      "confidence": 0.94,
+      "observations": [
+        "Torn paper covers the wave and returns the composition to the desk frame.",
+        "The portrait scene is prepared behind the cover."
+      ],
+      "inferences": [
+        "Reuse the same paper-wipe system with different timing rather than creating a new transition type."
+      ],
+      "layers": [
+        {
+          "id": "paper-wipe",
+          "role": "transition",
+          "entryDirection": "top",
+          "z": 100
+        }
+      ]
+    },
+    {
+      "id": "s07-portrait-restraint",
+      "start": 67.97,
+      "end": 78.03,
+      "painting": "戴珍珠耳环的少女",
+      "confidence": 0.72,
+      "observations": [
+        "The portrait, frame and body position remain mostly stable.",
+        "Possible gaze, eyelid and pearl-highlight changes are too small to quantify confidently at the sampled frame rates.",
+        "No large-scale portrait disassembly is visible.",
+        "The portrait fades near the end of the scene."
+      ],
+      "inferences": [
+        "Keep the portrait stable and limit eye travel to 1 to 3 pixels at a 1920 by 1080 viewport.",
+        "Use a small opacity pulse on the pearl highlight if desired.",
+        "Do not add lip sync, a blink sequence or full-face drifting without stronger evidence."
+      ],
+      "layers": [
+        {
+          "id": "dark-background",
+          "role": "background",
+          "motion": "static",
+          "z": 0
+        },
+        {
+          "id": "torso",
+          "role": "subject",
+          "motion": "static or minimal parallax",
+          "z": 10
+        },
+        {
+          "id": "face-planes",
+          "role": "primary-subject",
+          "motion": "mostly static",
+          "z": 20
+        },
+        {
+          "id": "eyes",
+          "role": "micro-motion",
+          "motion": "possible restrained horizontal movement",
+          "z": 30,
+          "confidence": 0.58
+        },
+        {
+          "id": "headscarf",
+          "role": "subject",
+          "motion": "mostly static",
+          "z": 40
+        },
+        {
+          "id": "pearl-highlight",
+          "role": "micro-highlight",
+          "motion": "possible short opacity pulse",
+          "z": 50,
+          "confidence": 0.63
+        },
+        {
+          "id": "frame",
+          "role": "foreground-frame",
+          "motion": "static",
+          "z": 80
+        }
+      ]
+    },
+    {
+      "id": "s08-crossfade-to-summary",
+      "start": 78.03,
+      "end": 78.13,
+      "painting": null,
+      "confidence": 0.99,
+      "observations": [
+        "Portrait and desk-card compositions overlap briefly in a crossfade."
+      ],
+      "inferences": [
+        "A short opacity crossfade is sufficient."
+      ],
+      "layers": []
+    },
+    {
+      "id": "s09-three-card-summary",
+      "start": 78.13,
+      "end": 104.07,
+      "painting": null,
+      "confidence": 0.98,
+      "observations": [
+        "Three example cards are arranged on the overhead desk.",
+        "A heading and three question strips appear sequentially.",
+        "The scene primarily communicates the author's explanatory framework."
+      ],
+      "inferences": [
+        "The website may borrow the information hierarchy but must use original copy and layout.",
+        "Do not reproduce the reference subtitle design."
+      ],
+      "layers": [
+        {
+          "id": "summary-cards",
+          "role": "navigation-reference",
+          "motion": "mostly static",
+          "z": 20
+        },
+        {
+          "id": "question-strips",
+          "role": "explanation",
+          "motion": "sequential reveal",
+          "z": 60
+        }
+      ]
+    },
+    {
+      "id": "s10-outro-strip",
+      "start": 104.07,
+      "end": 112.033333,
+      "painting": null,
+      "confidence": 0.98,
+      "observations": [
+        "A wide paper strip covers the center of the three-card composition and holds to the end."
+      ],
+      "inferences": [
+        "Do not reproduce the original call-to-action; use the website's own navigation if an outro is needed."
+      ],
+      "layers": [
+        {
+          "id": "outro-paper-strip",
+          "role": "outro-overlay",
+          "entryDirection": "center-horizontal",
+          "z": 100
+        }
+      ]
+    }
+  ]
+}

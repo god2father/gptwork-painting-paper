@@ -1,0 +1,12 @@
+{
+  "platform": "Douyin",
+  "author": "虎鲸碎碎念",
+  "title": "我用一个剪纸 Skill，拆开了 3 幅世界名画",
+  "shareUrl": "https://v.douyin.com/hf-LFsv2UOU/",
+  "awemeId": "7661842516941911154",
+  "localVideo": "reference/reference-video.mp4",
+  "usage": "internal reference analysis only",
+  "downloadStatus": "available-locally",
+  "downloadNote": "Local file verified with FFprobe on 2026-07-13; acquisition method was not recorded.",
+  "assetPolicy": "Use the video only as an effect reference. Generate the final painting and independent layers with GPT; do not extract publishable assets from this video."
+}
