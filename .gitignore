@@ -19,6 +19,9 @@ test-results/
 # Local Git worktrees
 .worktrees/
 
+# Python cache
+__pycache__/
+
 # Local secrets
 .env
 .env.*
