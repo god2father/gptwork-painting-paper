@@ -10,6 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from scripts.validate_painting_assets import EXPECTED_LAYERS, validate_assets
+from scripts.extract_painting_layers import extract_layers
+from scripts.build_layer_preview import build_preview
 
 
 def create_fixture(root: Path, size: tuple[int, int] = (4, 5)) -> None:
@@ -65,6 +67,43 @@ class ValidatePaintingAssetsTest(unittest.TestCase):
             record.write_text("{}", encoding="utf-8")
             problems = validate_assets(root, expected_size=(4, 5))
             self.assertTrue(any("generation.json" in problem for problem in problems))
+
+
+class ExtractPaintingLayersTest(unittest.TestCase):
+    def test_extracts_all_registered_alpha_layers(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            originals = root / "assets" / "originals" / "painting-01"
+            originals.mkdir(parents=True)
+            Image.new("RGB", (64, 80), "#c58b55").save(originals / "original.png")
+
+            outputs = extract_layers(root)
+
+            self.assertEqual([path.name for path in outputs], list(EXPECTED_LAYERS))
+            for path in outputs:
+                with Image.open(path) as image:
+                    self.assertEqual(image.size, (64, 80))
+                    self.assertIn("A", image.getbands())
+                    alpha = image.getchannel("A")
+                    self.assertIsNotNone(alpha.getbbox())
+                    self.assertEqual(alpha.getpixel((0, 0)), 0)
+
+
+class BuildLayerPreviewTest(unittest.TestCase):
+    def test_builds_masks_and_preview(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            create_fixture(root)
+            layers = root / "assets" / "layers" / "painting-01"
+            (layers / "layer-preview.png").unlink()
+            output = build_preview(root, tile_size=(40, 50))
+            self.assertTrue(output.is_file())
+            with Image.open(output) as preview:
+                self.assertEqual(preview.size, (160, 200))
+            for filename in EXPECTED_LAYERS:
+                mask = layers / "masks" / f"{Path(filename).stem}.png"
+                with Image.open(mask) as image:
+                    self.assertEqual(image.mode, "L")
 
 
 if __name__ == "__main__":
