@@ -16,6 +16,9 @@ dist/
 playwright-report/
 test-results/
 
+# Local Git worktrees
+.worktrees/
+
 # Local secrets
 .env
 .env.*
