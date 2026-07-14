@@ -68,9 +68,26 @@ function layer(value: unknown, index: number): PaintingLayer {
     rotateY: number(selection3d.rotateY, `layers[${index}].selection3d.rotateY`),
     scale: number(selection3d.scale, `layers[${index}].selection3d.scale`),
     foldAngle: number(selection3d.foldAngle, `layers[${index}].selection3d.foldAngle`),
+    mesh: (() => {
+      const mesh = record(selection3d.mesh, `layers[${index}].selection3d.mesh`)
+      return {
+        segmentsX: number(mesh.segmentsX, `layers[${index}].selection3d.mesh.segmentsX`),
+        segmentsY: number(mesh.segmentsY, `layers[${index}].selection3d.mesh.segmentsY`),
+        maxBend: number(mesh.maxBend, `layers[${index}].selection3d.mesh.maxBend`),
+        maxLift: number(mesh.maxLift, `layers[${index}].selection3d.mesh.maxLift`),
+        maxTwist: number(mesh.maxTwist, `layers[${index}].selection3d.mesh.maxTwist`),
+        damping: number(mesh.damping, `layers[${index}].selection3d.mesh.damping`),
+      }
+    })(),
   }
   if (selected.z <= 0 || selected.scale <= 0 || selected.foldAngle <= 0) {
     throw new Error(`layers[${index}].selection3d must be positive`)
+  }
+  if (!Number.isInteger(selected.mesh.segmentsX) || !Number.isInteger(selected.mesh.segmentsY)
+    || selected.mesh.segmentsX < 2 || selected.mesh.segmentsY < 2
+    || selected.mesh.maxBend <= 0 || selected.mesh.maxLift <= 0 || selected.mesh.maxTwist < 0
+    || selected.mesh.damping <= 0 || selected.mesh.damping >= 1) {
+    throw new Error(`layers[${index}].selection3d.mesh has invalid values`)
   }
   const assembled = {
     start: number(assembly.start, `layers[${index}].assembly.start`),

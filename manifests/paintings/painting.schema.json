@@ -99,13 +99,26 @@
         "shadow": { "type": "number", "minimum": 0, "maximum": 1 },
         "selection3d": {
           "type": "object",
-          "required": ["z", "rotateX", "rotateY", "scale", "foldAngle"],
+          "required": ["z", "rotateX", "rotateY", "scale", "foldAngle", "mesh"],
           "properties": {
             "z": { "type": "number", "exclusiveMinimum": 0 },
             "rotateX": { "type": "number", "minimum": -14, "maximum": 14 },
             "rotateY": { "type": "number", "minimum": -14, "maximum": 14 },
             "scale": { "type": "number", "exclusiveMinimum": 0 },
-            "foldAngle": { "const": 45 }
+            "foldAngle": { "const": 45 },
+            "mesh": {
+              "type": "object",
+              "required": ["segmentsX", "segmentsY", "maxBend", "maxLift", "maxTwist", "damping"],
+              "properties": {
+                "segmentsX": { "type": "integer", "minimum": 2 },
+                "segmentsY": { "type": "integer", "minimum": 2 },
+                "maxBend": { "type": "number", "exclusiveMinimum": 0, "maximum": 70 },
+                "maxLift": { "type": "number", "exclusiveMinimum": 0 },
+                "maxTwist": { "type": "number", "minimum": 0, "maximum": 15 },
+                "damping": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 }
+              },
+              "additionalProperties": false
+            }
           },
           "additionalProperties": false
         },
