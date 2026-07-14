@@ -90,7 +90,7 @@ button { color: inherit; }
   cursor: pointer;
   transform-origin: 50% 50%;
   transform-style: preserve-3d;
-  filter: drop-shadow(calc(2px + 4px * var(--layer-shadow)) calc(3px + 5px * var(--layer-shadow)) calc(2px + 4px * var(--layer-shadow)) rgba(28,18,10,.32));
+  filter: drop-shadow(calc(2px + 5px * var(--layer-lift, 0)) calc(3px + 7px * var(--layer-lift, 0)) calc(2px + 5px * var(--layer-lift, 0)) rgba(28,18,10,.32));
   will-change: transform, filter;
 }
 .stage-layer::before {
