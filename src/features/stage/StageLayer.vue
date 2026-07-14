@@ -7,6 +7,7 @@ const props = defineProps<{
   layer: PaintingLayer
   canvas: Size
   selected: boolean
+  meshActive: boolean
 }>()
 
 const emit = defineEmits<{
@@ -26,9 +27,6 @@ const buttonStyle = computed(() => ({
   '--select-rotate-y': `${props.layer.selection3d.rotateY}deg`,
   '--select-scale': props.layer.selection3d.scale,
   '--select-base-z': `${props.layer.selection3d.z * 0.25}px`,
-  '--fold-plane-z': `${props.layer.selection3d.z * 0.62}px`,
-  '--fold-crease-z': `${props.layer.selection3d.z * 0.62 + 3}px`,
-  '--fold-angle': `${props.layer.selection3d.foldAngle}deg`,
 }))
 
 const imageStyle = computed(() => ({
@@ -42,7 +40,7 @@ const imageStyle = computed(() => ({
 <template>
   <button
     class="stage-layer"
-    :class="{ 'stage-layer--selected': selected }"
+    :class="{ 'stage-layer--selected': selected, 'stage-layer--mesh-active': meshActive }"
     :style="buttonStyle"
     type="button"
     :aria-label="`查看图层：${layer.name}`"
@@ -51,16 +49,8 @@ const imageStyle = computed(() => ({
     data-motion-layer
     @click="emit('select', layer.id)"
   >
-    <span class="stage-layer__parallax" aria-hidden="true">
-      <span class="stage-layer__facet stage-layer__facet--top">
-        <img class="stage-layer__image" :src="resolveAssetUrl(layer.src)" alt="" :style="imageStyle" draggable="false" @error="emit('error', layer.id)" />
-      </span>
-      <span class="stage-layer__facet stage-layer__facet--bottom">
-        <img class="stage-layer__image" :src="resolveAssetUrl(layer.src)" alt="" :style="imageStyle" draggable="false" @error="emit('error', layer.id)" />
-      </span>
-      <span class="stage-layer__crease">
-        <img class="stage-layer__image" :src="resolveAssetUrl(layer.src)" alt="" :style="imageStyle" draggable="false" />
-      </span>
+    <span class="stage-layer__visual" aria-hidden="true">
+      <img class="stage-layer__image" :src="resolveAssetUrl(layer.src)" alt="" :style="imageStyle" draggable="false" @error="emit('error', layer.id)" />
     </span>
   </button>
 </template>

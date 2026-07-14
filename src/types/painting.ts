@@ -32,6 +32,16 @@ export interface SelectionTransform3D {
   rotateY: number
   scale: number
   foldAngle: number
+  mesh: PaperMeshConfig
+}
+
+export interface PaperMeshConfig {
+  segmentsX: number
+  segmentsY: number
+  maxBend: number
+  maxLift: number
+  maxTwist: number
+  damping: number
 }
 
 export interface AssemblyMotion {

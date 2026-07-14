@@ -45,12 +45,16 @@ describe('painting scene contract', () => {
 
   it('requires JSON-driven three-dimensional selection transforms', () => {
     const parsed = validatePaintingScene(scene) as unknown as {
-      layers: Array<{ selection3d: { z: number; rotateX: number; rotateY: number; scale: number; foldAngle: number } }>
+      layers: Array<{ selection3d: { z: number; rotateX: number; rotateY: number; scale: number; foldAngle: number; mesh: { segmentsX: number; segmentsY: number; maxBend: number; maxLift: number; maxTwist: number; damping: number } } }>
     }
     expect(parsed.layers.every((layer) => layer.selection3d.z > 0)).toBe(true)
     expect(parsed.layers.every((layer) => Math.abs(layer.selection3d.rotateX) <= 14)).toBe(true)
     expect(parsed.layers.every((layer) => Math.abs(layer.selection3d.rotateY) <= 14)).toBe(true)
     expect(parsed.layers.every((layer) => layer.selection3d.foldAngle === 45)).toBe(true)
+    expect(parsed.layers.every((layer) => layer.selection3d.mesh.segmentsX >= 8)).toBe(true)
+    expect(parsed.layers.every((layer) => layer.selection3d.mesh.segmentsY >= 12)).toBe(true)
+    expect(parsed.layers.every((layer) => layer.selection3d.mesh.maxLift > 0)).toBe(true)
+    expect(parsed.layers.every((layer) => layer.selection3d.mesh.damping > 0 && layer.selection3d.mesh.damping < 1)).toBe(true)
   })
 
   it('gives every paper piece a visible ordered assembly path', () => {
