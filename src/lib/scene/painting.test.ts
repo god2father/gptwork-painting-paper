@@ -3,8 +3,16 @@ import scene from '../../../manifests/paintings/painting-01.json'
 import { clampProgress, resolveAssetUrl, toStageOffset, validatePaintingScene } from './painting'
 
 describe('painting scene contract', () => {
-  it('accepts the first 12-layer scene', () => {
-    expect(validatePaintingScene(scene).layers).toHaveLength(12)
+  it('accepts the six-layer atelier scene', () => {
+    const parsed = validatePaintingScene(scene) as unknown as {
+      environment: { workspace: { src: string } }
+      chapters: Array<{ id: string; start: number; end: number }>
+      layers: Array<{ expanded: { z: number }; shadow: number }>
+    }
+    expect(parsed.layers).toHaveLength(6)
+    expect(parsed.environment.workspace.src).toBe('/assets/environment/painting-01/workspace.webp')
+    expect(parsed.chapters.map(({ id }) => id)).toEqual(['reveal', 'arrival', 'focus', 'layers', 'observe'])
+    expect(parsed.layers.every((layer) => Number.isFinite(layer.expanded.z))).toBe(true)
   })
 
   it('rejects duplicate ids', () => {
@@ -16,6 +24,23 @@ describe('painting scene contract', () => {
     const { bounds: _bounds, ...withoutBounds } = scene.layers[0] as typeof scene.layers[0] & { bounds?: unknown }
     expect(() => validatePaintingScene({ ...scene, layers: [withoutBounds, ...scene.layers.slice(1)] }))
       .toThrow('bounds')
+  })
+
+  it('rejects unordered chapter ranges', () => {
+    expect(() => validatePaintingScene({
+      ...scene,
+      chapters: [
+        { id: 'reveal', start: 0.2, end: 0.3 },
+        { id: 'arrival', start: 0.1, end: 0.4 },
+      ],
+    })).toThrow('chapters')
+  })
+
+  it('rejects shadow strength outside zero to one', () => {
+    expect(() => validatePaintingScene({
+      ...scene,
+      layers: [{ ...scene.layers[0], shadow: 2 }, ...scene.layers.slice(1)],
+    })).toThrow('shadow')
   })
 
   it('converts canvas pixels to stage pixels', () => {
@@ -30,5 +55,9 @@ describe('painting scene contract', () => {
 
   it('does not expose source or review images to the runtime bundle', () => {
     expect(() => resolveAssetUrl('/assets/originals/painting-01/original.png')).toThrow('asset not found')
+  })
+
+  it('resolves the generated workspace at runtime', () => {
+    expect(resolveAssetUrl('/assets/environment/painting-01/workspace.webp')).toMatch(/^\/?@fs|^data:|^\/assets\//)
   })
 })

@@ -11,6 +11,21 @@ export interface LayerTransform {
   opacity: number
 }
 
+export interface DepthTransform extends LayerTransform {
+  z: number
+}
+
+export interface SceneChapter {
+  id: 'reveal' | 'arrival' | 'focus' | 'layers' | 'observe'
+  start: number
+  end: number
+}
+
+export interface EnvironmentAsset {
+  src: string
+  alt: string
+}
+
 export interface PaintingLayer {
   id: string
   name: string
@@ -24,8 +39,9 @@ export interface PaintingLayer {
     width: number
     height: number
   }
-  collapsed: LayerTransform
-  expanded: LayerTransform
+  collapsed: DepthTransform
+  expanded: DepthTransform
+  shadow: number
   animation: {
     start: number
     duration: number
@@ -47,5 +63,13 @@ export interface PaintingScene {
     src: string
     alt: string
   }
+  environment: {
+    workspace: EnvironmentAsset
+  }
+  camera: {
+    collapsed: DepthTransform
+    focused: DepthTransform
+  }
+  chapters: SceneChapter[]
   layers: PaintingLayer[]
 }

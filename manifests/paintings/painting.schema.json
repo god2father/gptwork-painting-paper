@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "painting.schema.json",
   "type": "object",
-  "required": ["id", "title", "subtitle", "duration", "canvas", "background", "layers"],
+  "required": ["id", "title", "subtitle", "duration", "canvas", "background", "environment", "camera", "chapters", "layers"],
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 1 },
@@ -26,6 +26,27 @@
       },
       "additionalProperties": false
     },
+    "environment": {
+      "type": "object",
+      "required": ["workspace"],
+      "properties": { "workspace": { "$ref": "#/$defs/asset" } },
+      "additionalProperties": false
+    },
+    "camera": {
+      "type": "object",
+      "required": ["collapsed", "focused"],
+      "properties": {
+        "collapsed": { "$ref": "#/$defs/transform" },
+        "focused": { "$ref": "#/$defs/transform" }
+      },
+      "additionalProperties": false
+    },
+    "chapters": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/chapter" }
+    },
     "layers": {
       "type": "array",
       "minItems": 1,
@@ -33,12 +54,32 @@
     }
   },
   "$defs": {
+    "asset": {
+      "type": "object",
+      "required": ["src", "alt"],
+      "properties": {
+        "src": { "type": "string", "minLength": 1 },
+        "alt": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "chapter": {
+      "type": "object",
+      "required": ["id", "start", "end"],
+      "properties": {
+        "id": { "enum": ["reveal", "arrival", "focus", "layers", "observe"] },
+        "start": { "type": "number", "minimum": 0, "maximum": 1 },
+        "end": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    },
     "transform": {
       "type": "object",
-      "required": ["x", "y", "scale", "rotation", "opacity"],
+      "required": ["x", "y", "z", "scale", "rotation", "opacity"],
       "properties": {
         "x": { "type": "number" },
         "y": { "type": "number" },
+        "z": { "type": "number" },
         "scale": { "type": "number", "exclusiveMinimum": 0 },
         "rotation": { "type": "number" },
         "opacity": { "type": "number", "minimum": 0, "maximum": 1 }
@@ -47,7 +88,7 @@
     },
     "layer": {
       "type": "object",
-      "required": ["id", "name", "src", "alt", "description", "z", "bounds", "collapsed", "expanded", "animation", "parallax"],
+      "required": ["id", "name", "src", "alt", "description", "z", "shadow", "bounds", "collapsed", "expanded", "animation", "parallax"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
         "name": { "type": "string", "minLength": 1 },
@@ -55,6 +96,7 @@
         "alt": { "type": "string", "minLength": 1 },
         "description": { "type": "string", "minLength": 1 },
         "z": { "type": "number" },
+        "shadow": { "type": "number", "minimum": 0, "maximum": 1 },
         "bounds": {
           "type": "object",
           "required": ["x", "y", "width", "height"],
