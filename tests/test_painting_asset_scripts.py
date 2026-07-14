@@ -13,15 +13,27 @@ from scripts.validate_painting_assets import EXPECTED_LAYERS, validate_assets
 from scripts.extract_painting_layers import extract_layers
 from scripts.build_layer_preview import build_preview
 
+SEMANTIC_LAYERS = (
+    "layer-001-torso-collar.webp",
+    "layer-002-face-neck.webp",
+    "layer-003-blue-headscarf.webp",
+    "layer-004-yellow-wrap-tail.webp",
+    "layer-005-eyes-brows.webp",
+    "layer-006-pearl-highlight.webp",
+)
+
 
 def create_fixture(root: Path, size: tuple[int, int] = (4, 5)) -> None:
     originals = root / "assets" / "originals" / "painting-01"
+    environment = root / "assets" / "environment" / "painting-01"
     layers = root / "assets" / "layers" / "painting-01"
     masks = layers / "masks"
     originals.mkdir(parents=True)
+    environment.mkdir(parents=True)
     masks.mkdir(parents=True)
 
     Image.new("RGB", size, "#17201d").save(originals / "original.png")
+    Image.new("RGB", (16, 9), "#8d6949").save(environment / "workspace.webp")
     Image.new("RGB", size, "#17201d").save(layers / "background.webp", lossless=True)
     Image.new("RGB", size, "#eee7d7").save(layers / "layer-preview.png")
 
@@ -44,11 +56,31 @@ def create_fixture(root: Path, size: tuple[int, int] = (4, 5)) -> None:
 
 
 class ValidatePaintingAssetsTest(unittest.TestCase):
+    def test_uses_six_semantic_subject_layers(self) -> None:
+        self.assertEqual(EXPECTED_LAYERS, SEMANTIC_LAYERS)
+
     def test_complete_fixture_passes(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             create_fixture(root)
             self.assertEqual(validate_assets(root, expected_size=(4, 5)), [])
+
+    def test_missing_workspace_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            create_fixture(root)
+            (root / "assets" / "environment" / "painting-01" / "workspace.webp").unlink()
+            problems = validate_assets(root, expected_size=(4, 5))
+            self.assertTrue(any("workspace.webp" in problem for problem in problems))
+
+    def test_non_wide_workspace_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            create_fixture(root)
+            workspace = root / "assets" / "environment" / "painting-01" / "workspace.webp"
+            Image.new("RGB", (8, 8), "#8d6949").save(workspace)
+            problems = validate_assets(root, expected_size=(4, 5))
+            self.assertTrue(any("16:9" in problem for problem in problems))
 
     def test_rgb_layer_fails_alpha_check(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

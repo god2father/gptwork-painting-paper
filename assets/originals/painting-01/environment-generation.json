@@ -1,0 +1,15 @@
+{
+  "paintingId": "painting-01",
+  "generatedAt": "2026-07-14",
+  "tool": "built-in image generation",
+  "purpose": "原创俯拍纸艺工作台环境，不包含参考视频像素",
+  "prompt": "Use case: stylized-concept\nAsset type: full-screen website environment background\nPrimary request: Create a premium overhead artist workbench for an interactive handcrafted paper-art portrait.\nScene/backdrop: Warm aged oak tabletop viewed perfectly from directly above; restrained handmade paper scraps, masking tape, two graphite pencils, one metal ruler and one small ceramic ink cup placed only around the outer 15 percent of the frame; the center 65 percent must remain calm, clean and unobstructed for a portrait frame overlay.\nStyle/medium: Photoreal handcrafted editorial still life, museum-catalog quality, subtle stop-motion craft atmosphere, tactile and genuinely artistic rather than a UI mockup.\nComposition/framing: Exact wide 16:9 landscape, balanced but natural asymmetry, large clean central negative space, objects cropped naturally at the frame edges, no central picture or frame.\nLighting/mood: Soft directional daylight from upper left; every cast shadow falls gently toward lower right; warm quiet atelier mood.\nColor palette: Warm brown wood, oatmeal paper, muted charcoal, low-saturation ochre.\nMaterials/textures: Real wood grain, deckled handmade paper fibers, matte metal and graphite, no plastic shine.\nConstraints: No hands, no people, no portrait, no artwork, no picture frame in the center, no readable text, no letters, no numbers, no logos, no watermark, no dramatic depth of field, no dark vignette, no glossy 3D rendering. Keep the central area visually empty and evenly lit.",
+  "sourceOutput": "assets/originals/painting-01/workspace-original.png",
+  "finalOutput": "assets/environment/painting-01/workspace.webp",
+  "processing": "RGB WebP, quality 92, Pillow method 6",
+  "review": [
+    "中央区域无人物、画作、画框、文字或商标。",
+    "纸张和工具集中在画面边缘，保留中央构图空间。",
+    "主光从左上方进入，阴影整体落向右下方。"
+  ]
+}
