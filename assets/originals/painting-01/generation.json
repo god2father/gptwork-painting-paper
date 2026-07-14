@@ -1,0 +1,128 @@
+{
+  "paintingId": "painting-01",
+  "title": "戴珍珠耳环的少女",
+  "generatedAt": "2026-07-13",
+  "tool": "built-in image generation",
+  "assetPolicy": "effect reference only; no publishable pixels extracted from the reference video",
+  "masterPrompt": "Use case: stylized-concept\nAsset type: master artwork for an interactive museum website\nPrimary request: create a recognizable paper-collage reinterpretation of Girl with a Pearl Earring, preserving the iconic over-the-shoulder pose, direct backward gaze, blue-and-ochre headscarf, single pearl earring, warm face, brown garment, white collar, and deep green-black background\nScene/backdrop: continuous deep green-black matte paper backdrop with subtle fibers, no frame and no surrounding desk\nSubject: one head-and-shoulders young woman, face slightly left of center, scarf tail extending toward the lower right, calm expression, clear eyes and pearl\nStyle/medium: refined hand-cut paper collage combined with museum-quality art print, layered matte paper planes, restrained 2.5D depth, recognizable classical composition\nComposition/framing: 4:5 portrait canvas, generous margin around head and shoulders for layer animation, subject occupies about 72 to 80 percent of canvas height\nLighting/mood: soft light from upper left, quiet museum atmosphere, gentle tonal transitions rendered as paper shapes\nColor palette: deep green-black, ultramarine blue, warm ochre yellow, warm skin tones, brown garment, warm off-white paper edges\nMaterials/textures: subtle paper fibers, narrow warm-white cut edges, crisp facial features, no heavy grain\nConstraints: no text, no watermark, no frame, no desk, no hands, no extra person, no extra jewelry, no added props, no cast shadow outside the paper pieces, no thick sticker outline\nAvoid: plastic 3D, glossy skin, neon colors, heavy film grain, distorted eyes, duplicate pearl, modern clothing, decorative background pattern",
+  "master": {
+    "sourceOutput": "assets/generated/painting-01/master-source.png",
+    "finalOutput": "assets/originals/painting-01/original.png",
+    "normalization": "ImageOps.fit to 1536x1920 with LANCZOS"
+  },
+  "background": {
+    "prompt": "Use case: precise-object-edit\nAsset type: full background layer for an interactive paper-collage artwork\nInput images: Image 1: edit target and sole visual reference\nPrimary request: remove the entire woman, clothing, headscarf, pearl, white collar, and every subject-shaped paper edge; fill all removed areas with a seamless continuation of the same deep green-black matte paper background\nStyle/medium: preserve the exact subtle paper fiber texture and upper-left light falloff from Image 1\nComposition/framing: preserve the exact canvas, crop, viewpoint, and 4:5 framing\nConstraints: change only the subject area; no human silhouette, no ghost, no blur patch, no frame, no text, no props, no new light source, no watermark",
+    "sourceOutput": "assets/generated/painting-01/background-source.png",
+    "finalOutput": "assets/layers/painting-01/background.webp"
+  },
+  "layers": [
+    {
+      "id": "layer-001-scarf-tail",
+      "source": "assets/originals/painting-01/original.png",
+      "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+      "sourceOutput": "assets/generated/painting-01/layer-001-scarf-tail.png",
+      "finalOutput": "assets/layers/painting-01/layer-001-scarf-tail.webp",
+      "processing": "registered alpha mask; 2x antialias; lossless WebP"
+    },
+    {
+      "id": "layer-002-torso",
+      "source": "assets/originals/painting-01/original.png",
+      "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+      "sourceOutput": "assets/generated/painting-01/layer-002-torso.png",
+      "finalOutput": "assets/layers/painting-01/layer-002-torso.webp",
+      "processing": "registered alpha mask; 2x antialias; lossless WebP"
+    },
+    {
+      "id": "layer-003-neck-ear",
+      "source": "assets/originals/painting-01/original.png",
+      "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+      "sourceOutput": "assets/generated/painting-01/layer-003-neck-ear.png",
+      "finalOutput": "assets/layers/painting-01/layer-003-neck-ear.webp",
+      "processing": "registered alpha mask; 2x antialias; lossless WebP"
+    },
+    {
+      "id": "layer-004-face-base",
+      "source": "assets/originals/painting-01/original.png",
+      "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+      "sourceOutput": "assets/generated/painting-01/layer-004-face-base.png",
+      "finalOutput": "assets/layers/painting-01/layer-004-face-base.webp",
+      "processing": "registered alpha mask; 2x antialias; lossless WebP"
+    },
+    {
+      "id": "layer-005-face-shadow",
+      "source": "assets/originals/painting-01/original.png",
+      "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+      "sourceOutput": "assets/generated/painting-01/layer-005-face-shadow.png",
+      "finalOutput": "assets/layers/painting-01/layer-005-face-shadow.webp",
+      "processing": "registered alpha mask; 2x antialias; lossless WebP"
+    },
+    {
+      "id": "layer-006-face-highlight",
+      "source": "assets/originals/painting-01/original.png",
+      "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+      "sourceOutput": "assets/generated/painting-01/layer-006-face-highlight.png",
+      "finalOutput": "assets/layers/painting-01/layer-006-face-highlight.webp",
+      "processing": "registered alpha mask; 2x antialias; lossless WebP"
+    },
+    {
+      "id": "layer-007-eyes-brows",
+      "source": "assets/originals/painting-01/original.png",
+      "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+      "sourceOutput": "assets/generated/painting-01/layer-007-eyes-brows.png",
+      "finalOutput": "assets/layers/painting-01/layer-007-eyes-brows.webp",
+      "processing": "registered alpha mask; 2x antialias; lossless WebP"
+    },
+    {
+      "id": "layer-008-yellow-wrap",
+      "source": "assets/originals/painting-01/original.png",
+      "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+      "sourceOutput": "assets/generated/painting-01/layer-008-yellow-wrap.png",
+      "finalOutput": "assets/layers/painting-01/layer-008-yellow-wrap.webp",
+      "processing": "registered alpha mask; 2x antialias; lossless WebP"
+    },
+    {
+      "id": "layer-009-blue-headband",
+      "source": "assets/originals/painting-01/original.png",
+      "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+      "sourceOutput": "assets/generated/painting-01/layer-009-blue-headband.png",
+      "finalOutput": "assets/layers/painting-01/layer-009-blue-headband.webp",
+      "processing": "registered alpha mask; 2x antialias; lossless WebP"
+    },
+    {
+      "id": "layer-010-white-collar",
+      "source": "assets/originals/painting-01/original.png",
+      "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+      "sourceOutput": "assets/generated/painting-01/layer-010-white-collar.png",
+      "finalOutput": "assets/layers/painting-01/layer-010-white-collar.webp",
+      "processing": "registered alpha mask; 2x antialias; lossless WebP"
+    },
+    {
+      "id": "layer-011-pearl",
+      "source": "assets/originals/painting-01/original.png",
+      "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+      "sourceOutput": "assets/generated/painting-01/layer-011-pearl.png",
+      "finalOutput": "assets/layers/painting-01/layer-011-pearl.webp",
+      "processing": "registered alpha mask; 2x antialias; lossless WebP"
+    },
+    {
+      "id": "layer-012-pearl-highlight",
+      "source": "assets/originals/painting-01/original.png",
+      "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+      "sourceOutput": "assets/generated/painting-01/layer-012-pearl-highlight.png",
+      "finalOutput": "assets/layers/painting-01/layer-012-pearl-highlight.webp",
+      "processing": "registered alpha mask; 2x antialias; lossless WebP"
+    }
+  ],
+  "processing": {
+    "keyColor": "#00ff00",
+    "removeChromaKeyScript": "C:/Users/tc/.codex/skills/.system/imagegen/scripts/remove_chroma_key.py"
+  },
+  "review": [
+    "Visual check: master has one subject, backward gaze, one pearl, blue-and-ochre scarf, deep green-black background and safe margins.",
+    "Visual check: background contains no face, shoulder, scarf, pearl silhouette or blurred subject-shaped patch.",
+    "Visual check: layer preview recomposes into a recognizable portrait with aligned eyes, scarf, collar, garment and pearl.",
+    "Alpha check: all 12 final layers are non-empty, full-canvas, have transparent corners and matching grayscale masks.",
+    "Direct built-in edit attempts for layers 002 through 005 were rejected because registration or membership was unstable; no rejected output is consumed by the project.",
+    "Final layers are deterministic registered crops from the confirmed GPT-generated master, with deliberate overlap between base and detail layers to prevent gaps during motion."
+  ]
+}
