@@ -149,22 +149,28 @@ button { color: inherit; }
   left: 50%;
   bottom: 20px;
   z-index: 40;
-  width: min(620px, calc(100vw - 32px));
-  min-height: 58px;
-  padding: 8px 12px;
+  width: min(520px, calc(100vw - 32px));
+  min-height: 52px;
+  padding: 6px 8px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  background: rgba(238,225,199,.94);
-  box-shadow: 7px 10px 24px rgba(43,25,13,.28);
+  gap: 10px;
+  border: 1px solid rgba(70,48,30,.2);
+  background: rgba(238,225,199,.9);
+  box-shadow: 5px 8px 18px rgba(43,25,13,.22);
   transform: translateX(-50%) rotate(-.25deg);
 }
-.timeline-controls__buttons { display: flex; gap: 5px; }
 .timeline-controls button { min-width: 54px; min-height: 44px; padding: 6px 10px; border: 1px solid rgba(63,45,31,.32); background: transparent; cursor: pointer; }
+.timeline-controls__play { min-width: 44px !important; width: 44px; border-radius: 50%; font: 14px/1 ui-sans-serif, sans-serif !important; }
 .timeline-controls__range { min-width: 0; flex: 1; display: flex; align-items: center; gap: 10px; }
 .timeline-controls input { width: 100%; accent-color: #7d5a37; }
 .timeline-controls output { width: 3.2em; font: 12px ui-monospace, monospace; text-align: right; }
-.timeline-controls button:focus-visible, .timeline-controls input:focus-visible, .paper-label button:focus-visible { outline: 2px solid #34261b; outline-offset: 3px; }
+.timeline-controls__more { position: relative; }
+.timeline-controls__more summary { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgba(63,45,31,.24); cursor: pointer; list-style: none; letter-spacing: .12em; }
+.timeline-controls__more summary::-webkit-details-marker { display: none; }
+.timeline-controls__menu { position: absolute; right: 0; bottom: calc(100% + 12px); width: 150px; padding: 8px; display: grid; gap: 6px; background: #eee1c7; box-shadow: 5px 8px 20px rgba(43,25,13,.25); }
+.timeline-controls__menu button { width: 100%; }
+.timeline-controls button:focus-visible, .timeline-controls input:focus-visible, .timeline-controls summary:focus-visible, .paper-label button:focus-visible { outline: 2px solid #34261b; outline-offset: 3px; }
 
 .paper-note-enter-active, .paper-note-leave-active { transition: opacity .22s ease, transform .28s ease; }
 .paper-note-enter-from, .paper-note-leave-to { opacity: 0; transform: translateY(12px) rotate(.8deg); }
@@ -185,10 +191,7 @@ button { color: inherit; }
   .paper-label__body { display: none; }
   .atelier__layer-label { right: 16px; bottom: 118px; }
   .atelier__layer-label .paper-label__body { display: block; }
-  .timeline-controls { bottom: 10px; gap: 8px; flex-wrap: wrap; }
-  .timeline-controls__buttons { width: 100%; }
-  .timeline-controls__buttons button { flex: 1; }
-  .timeline-controls__range { width: 100%; flex-basis: 100%; }
+  .timeline-controls { bottom: 10px; gap: 6px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

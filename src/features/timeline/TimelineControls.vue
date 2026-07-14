@@ -36,18 +36,15 @@ onUnmounted(() => media?.removeEventListener('change', updateMotionPreference))
 
 <template>
   <nav class="timeline-controls" aria-label="作品拆解控制">
-    <div class="timeline-controls__buttons">
-      <button
-        type="button"
-        :aria-label="store.isPlaying ? '暂停拆解动画' : '播放拆解动画'"
-        :aria-pressed="store.isPlaying"
-        @click="togglePlayback"
-      >
-        {{ store.isPlaying ? '暂停' : '播放' }}
-      </button>
-      <button type="button" aria-label="重新播放拆解动画" @click="store.replay">重播</button>
-      <button type="button" aria-label="还原完整作品" @click="store.reset">还原</button>
-    </div>
+    <button
+      class="timeline-controls__play"
+      type="button"
+      :aria-label="store.isPlaying ? '暂停拆解动画' : '播放拆解动画'"
+      :aria-pressed="store.isPlaying"
+      @click="togglePlayback"
+    >
+      {{ store.isPlaying ? 'Ⅱ' : '▶' }}
+    </button>
     <label class="timeline-controls__range">
       <span class="sr-only">拆解进度</span>
       <input
@@ -61,5 +58,12 @@ onUnmounted(() => media?.removeEventListener('change', updateMotionPreference))
       />
       <output aria-live="polite">{{ percent }}</output>
     </label>
+    <details class="timeline-controls__more">
+      <summary aria-label="更多控制">•••</summary>
+      <div class="timeline-controls__menu">
+        <button type="button" aria-label="重新播放拆解动画" @click="store.replay">重新播放</button>
+        <button type="button" aria-label="还原完整作品" @click="store.reset">还原作品</button>
+      </div>
+    </details>
   </nav>
 </template>
