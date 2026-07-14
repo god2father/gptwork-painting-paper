@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import rawScene from '../manifests/paintings/painting-01.json'
 import { validatePaintingScene } from './lib/scene/painting'
 import { useInteractionStore } from './stores/interaction'
@@ -8,6 +8,7 @@ import ArtworkHeader from './features/gallery/ArtworkHeader.vue'
 import LayeredStage from './features/stage/LayeredStage.vue'
 import LayerInspector from './features/inspector/LayerInspector.vue'
 import { useStageMotion } from './features/stage/useStageMotion'
+import TimelineControls from './features/timeline/TimelineControls.vue'
 
 const store = useInteractionStore()
 const errors = ref<string[]>([])
@@ -32,6 +33,17 @@ function handleReady(elements: Map<string, HTMLElement>) {
 function reload() {
   window.location.reload()
 }
+
+function reportError(id: string) {
+  if (!errors.value.includes(id)) errors.value.push(id)
+}
+
+function clearWithEscape(event: KeyboardEvent) {
+  if (event.key === 'Escape') store.selectLayer(null)
+}
+
+onMounted(() => window.addEventListener('keydown', clearWithEscape))
+onUnmounted(() => window.removeEventListener('keydown', clearWithEscape))
 </script>
 
 <template>
@@ -39,8 +51,9 @@ function reload() {
     <section ref="chapter" class="story-chapter" aria-label="作品拆解章节">
       <div class="museum-grid">
         <ArtworkHeader :title="scene.title" :subtitle="scene.subtitle" />
-        <LayeredStage :scene="scene" @ready="handleReady" />
+        <LayeredStage :scene="scene" @ready="handleReady" @error="reportError" />
         <LayerInspector :layer="selectedLayer" :errors="errors" @clear="store.selectLayer(null)" />
+        <TimelineControls />
       </div>
     </section>
   </main>

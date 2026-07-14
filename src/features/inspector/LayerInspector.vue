@@ -5,6 +5,8 @@ defineProps<{
   layer: PaintingLayer | null
   errors: string[]
 }>()
+
+defineEmits<{ clear: [] }>()
 </script>
 
 <template>

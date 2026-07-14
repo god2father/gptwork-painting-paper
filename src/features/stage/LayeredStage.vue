@@ -6,7 +6,10 @@ import type { PaintingScene } from '../../types/painting'
 import StageLayer from './StageLayer.vue'
 
 const props = defineProps<{ scene: PaintingScene }>()
-const emit = defineEmits<{ ready: [elements: Map<string, HTMLElement>] }>()
+const emit = defineEmits<{
+  ready: [elements: Map<string, HTMLElement>]
+  error: [id: string]
+}>()
 const store = useInteractionStore()
 const canvas = ref<HTMLElement | null>(null)
 const failedLayers = ref<string[]>([])
@@ -14,6 +17,7 @@ const sortedLayers = computed(() => [...props.scene.layers].sort((a, b) => a.z -
 
 function reportError(id: string) {
   if (!failedLayers.value.includes(id)) failedLayers.value.push(id)
+  emit('error', id)
 }
 
 onMounted(async () => {

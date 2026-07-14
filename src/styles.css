@@ -92,6 +92,40 @@ button { color: inherit; }
 .inspector__error { color: #8d3029 !important; }
 .text-button { min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid currentColor; background: transparent; cursor: pointer; }
 
+.timeline-controls {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(14px, 2.5vw, 28px);
+  z-index: 1200;
+  width: min(680px, calc(100vw - 32px));
+  min-height: 64px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(21, 25, 21, .94);
+  color: #f4ead9;
+  box-shadow: 0 16px 38px rgba(43,36,30,.24);
+  transform: translateX(-50%);
+}
+.timeline-controls__buttons { display: flex; gap: 6px; }
+.timeline-controls button {
+  min-width: 58px;
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 1px solid rgba(244,234,217,.28);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.timeline-controls button:hover { background: rgba(244,234,217,.1); }
+.timeline-controls button:focus-visible,
+.timeline-controls input:focus-visible { outline: 2px solid #f4ead9; outline-offset: 3px; }
+.timeline-controls__range { min-width: 0; flex: 1; display: flex; align-items: center; gap: 12px; }
+.timeline-controls input { width: 100%; accent-color: #d3b87f; }
+.timeline-controls output { width: 3.2em; font: 12px ui-monospace, monospace; text-align: right; }
+
 .error-shell { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
 .error-card { width: min(520px, 100%); padding: 32px; border: 1px solid rgba(63, 51, 39, .22); background: rgba(255,255,255,.25); }
 .error-card button { min-height: 44px; margin-top: 16px; padding: 8px 18px; }
@@ -111,6 +145,10 @@ button { color: inherit; }
   .artwork { width: min(74vw, 42vh); }
   .inspector { padding: 14px 0 0; }
   .inspector p { margin-bottom: 0; }
+  .timeline-controls { bottom: 10px; min-height: 0; padding: 8px; gap: 8px; flex-wrap: wrap; }
+  .timeline-controls__buttons { width: 100%; }
+  .timeline-controls__buttons button { flex: 1; }
+  .timeline-controls__range { width: 100%; flex-basis: 100%; padding: 0 6px 4px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
