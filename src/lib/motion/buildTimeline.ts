@@ -1,6 +1,9 @@
 import { gsap } from 'gsap'
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { clampProgress } from '../scene/painting'
 import type { PaintingScene } from '../../types/painting'
+
+gsap.registerPlugin(MotionPathPlugin)
 
 export function layerProgress(progress: number, start: number, duration: number): number {
   return clampProgress((progress - start) / duration)
@@ -10,99 +13,62 @@ export function chapterProgress(progress: number, start: number, end: number): n
   return clampProgress((progress - start) / (end - start))
 }
 
+export function assemblyEnd(scene: PaintingScene): number {
+  return Math.max(...scene.layers.map((layer) => layer.assembly.start + layer.assembly.duration))
+}
+
 export function buildTimeline(
   scene: PaintingScene,
   elements: Map<string, HTMLElement>,
   stage: HTMLElement,
 ): gsap.core.Timeline {
-  const scaleX = stage.clientWidth / scene.canvas.width
-  const scaleY = stage.clientHeight / scene.canvas.height
-  const timeline = gsap.timeline({ paused: true })
   const atelier = stage.closest<HTMLElement>('.atelier')
   const camera = atelier?.querySelector<HTMLElement>('[data-motion-camera]')
   const frame = atelier?.querySelector<HTMLElement>('[data-motion-frame]')
   const wipeTop = atelier?.querySelector<HTMLElement>('[data-motion-wipe-top]')
   const wipeBottom = atelier?.querySelector<HTMLElement>('[data-motion-wipe-bottom]')
-  const chapter = (id: string) => scene.chapters.find((entry) => entry.id === id)!
+  const timeline = gsap.timeline({ paused: true })
 
-  const reveal = chapter('reveal')
-  if (wipeTop) {
-    timeline.fromTo(wipeTop, { yPercent: 0 }, {
-      yPercent: -110,
-      duration: (reveal.end - reveal.start) * scene.duration,
-      ease: 'power3.inOut',
-      immediateRender: false,
-    }, reveal.start * scene.duration)
-  }
-  if (wipeBottom) {
-    timeline.fromTo(wipeBottom, { yPercent: 0 }, {
-      yPercent: 110,
-      duration: (reveal.end - reveal.start) * scene.duration,
-      ease: 'power3.inOut',
-      immediateRender: false,
-    }, reveal.start * scene.duration)
-  }
-
-  const arrival = chapter('arrival')
+  if (wipeTop) timeline.to(wipeTop, { yPercent: -110, duration: 0.68, ease: 'power3.inOut' }, 0)
+  if (wipeBottom) timeline.to(wipeBottom, { yPercent: 110, duration: 0.68, ease: 'power3.inOut' }, 0)
+  if (camera) timeline.fromTo(camera, { scale: 0.97 }, { scale: 1, duration: 1.15, ease: 'sine.out' }, 0.18)
   if (frame) {
-    timeline.fromTo(frame, {
-      y: Math.min(window.innerHeight * 0.12, 120),
-      rotation: 1.5,
-      scale: 0.96,
-    }, {
-      y: 0,
+    timeline.fromTo(frame, { y: 70, rotation: 1.4, opacity: 0 }, {
+      y: 0, rotation: 0, opacity: 1, duration: 0.85, ease: 'power3.out', immediateRender: false,
+    }, 0.22)
+  }
+
+  const scaleX = stage.clientWidth / scene.canvas.width
+  const scaleY = stage.clientHeight / scene.canvas.height
+
+  scene.layers.forEach((layer) => {
+    const element = elements.get(layer.id)
+    if (!element) return
+    const from = { x: layer.assembly.from.x * scaleX, y: layer.assembly.from.y * scaleY }
+    const via = { x: layer.assembly.via.x * scaleX, y: layer.assembly.via.y * scaleY }
+    timeline.set(element, {
+      x: from.x,
+      y: from.y,
+      z: layer.selection3d.z * 0.25,
+      rotation: layer.assembly.from.rotation,
+      scale: layer.assembly.from.scale,
+      opacity: 0,
+    }, 0)
+    timeline.to(element, {
+      motionPath: {
+        path: [from, via, { x: 0, y: 0 }],
+        curviness: 1.35,
+        autoRotate: false,
+      },
+      z: 0,
       rotation: 0,
       scale: 1,
-      duration: (arrival.end - arrival.start) * scene.duration,
-      ease: 'power3.out',
-      immediateRender: false,
-    }, arrival.start * scene.duration)
-  }
+      opacity: 1,
+      duration: layer.assembly.duration,
+      ease: layer.assembly.ease,
+    }, layer.assembly.start)
+  })
 
-  const focus = chapter('focus')
-  if (camera) {
-    timeline.fromTo(camera, {
-      x: scene.camera.collapsed.x,
-      y: scene.camera.collapsed.y,
-      z: scene.camera.collapsed.z,
-      scale: scene.camera.collapsed.scale,
-      rotation: scene.camera.collapsed.rotation,
-    }, {
-      x: scene.camera.focused.x,
-      y: scene.camera.focused.y,
-      z: scene.camera.focused.z,
-      scale: scene.camera.focused.scale,
-      rotation: scene.camera.focused.rotation,
-      duration: (focus.end - focus.start) * scene.duration,
-      ease: 'sine.inOut',
-      immediateRender: false,
-    }, focus.start * scene.duration)
-  }
-
-  for (const layer of scene.layers) {
-    const element = elements.get(layer.id)
-    if (!element) continue
-    timeline.fromTo(element, {
-      x: layer.collapsed.x * scaleX,
-      y: layer.collapsed.y * scaleY,
-      z: layer.collapsed.z,
-      scale: layer.collapsed.scale,
-      rotation: layer.collapsed.rotation,
-      opacity: layer.collapsed.opacity,
-    }, {
-      x: layer.expanded.x * scaleX,
-      y: layer.expanded.y * scaleY,
-      z: layer.expanded.z,
-      scale: layer.expanded.scale,
-      rotation: layer.expanded.rotation,
-      opacity: layer.expanded.opacity,
-      duration: layer.animation.duration * scene.duration,
-      ease: layer.animation.ease,
-      immediateRender: false,
-      '--layer-lift': layer.shadow,
-    }, layer.animation.start * scene.duration)
-  }
-
-  timeline.set({}, {}, scene.duration)
+  timeline.set({}, {}, assemblyEnd(scene) + 0.15)
   return timeline
 }

@@ -52,12 +52,41 @@ function layer(value: unknown, index: number): PaintingLayer {
     height: number(bounds.height, `layers[${index}].bounds.height`),
   }
   const shadow = number(item.shadow, `layers[${index}].shadow`)
+  const selection3d = record(item.selection3d, `layers[${index}].selection3d`)
+  const assembly = record(item.assembly, `layers[${index}].assembly`)
+  const assemblyFrom = record(assembly.from, `layers[${index}].assembly.from`)
+  const assemblyVia = record(assembly.via, `layers[${index}].assembly.via`)
   if (start < 0 || start > 1) throw new Error(`layers[${index}].animation.start must be between 0 and 1`)
   if (duration <= 0 || duration > 1) throw new Error(`layers[${index}].animation.duration must be between 0 and 1`)
   if (parsedBounds.x < 0 || parsedBounds.y < 0 || parsedBounds.width <= 0 || parsedBounds.height <= 0) {
     throw new Error(`layers[${index}].bounds must be positive and inside the canvas origin`)
   }
   if (shadow < 0 || shadow > 1) throw new Error(`layers[${index}].shadow must be between 0 and 1`)
+  const selected = {
+    z: number(selection3d.z, `layers[${index}].selection3d.z`),
+    rotateX: number(selection3d.rotateX, `layers[${index}].selection3d.rotateX`),
+    rotateY: number(selection3d.rotateY, `layers[${index}].selection3d.rotateY`),
+    scale: number(selection3d.scale, `layers[${index}].selection3d.scale`),
+  }
+  if (selected.z <= 0 || selected.scale <= 0) throw new Error(`layers[${index}].selection3d must be positive`)
+  const assembled = {
+    start: number(assembly.start, `layers[${index}].assembly.start`),
+    duration: number(assembly.duration, `layers[${index}].assembly.duration`),
+    from: {
+      x: number(assemblyFrom.x, `layers[${index}].assembly.from.x`),
+      y: number(assemblyFrom.y, `layers[${index}].assembly.from.y`),
+      rotation: number(assemblyFrom.rotation, `layers[${index}].assembly.from.rotation`),
+      scale: number(assemblyFrom.scale, `layers[${index}].assembly.from.scale`),
+    },
+    via: {
+      x: number(assemblyVia.x, `layers[${index}].assembly.via.x`),
+      y: number(assemblyVia.y, `layers[${index}].assembly.via.y`),
+    },
+    ease: text(assembly.ease, `layers[${index}].assembly.ease`),
+  }
+  if (assembled.start < 0 || assembled.duration <= 0 || assembled.from.scale <= 0) {
+    throw new Error(`layers[${index}].assembly has an invalid timing or scale`)
+  }
   return {
     id: text(item.id, `layers[${index}].id`),
     name: text(item.name, `layers[${index}].name`),
@@ -69,6 +98,8 @@ function layer(value: unknown, index: number): PaintingLayer {
     collapsed: transform(item.collapsed, `layers[${index}].collapsed`),
     expanded: transform(item.expanded, `layers[${index}].expanded`),
     shadow,
+    selection3d: selected,
+    assembly: assembled,
     animation: { start, duration, ease: text(animation.ease, `layers[${index}].animation.ease`) },
     parallax: {
       x: number(parallax.x, `layers[${index}].parallax.x`),

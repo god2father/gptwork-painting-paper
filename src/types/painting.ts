@@ -26,6 +26,29 @@ export interface EnvironmentAsset {
   alt: string
 }
 
+export interface SelectionTransform3D {
+  z: number
+  rotateX: number
+  rotateY: number
+  scale: number
+}
+
+export interface AssemblyMotion {
+  start: number
+  duration: number
+  from: {
+    x: number
+    y: number
+    rotation: number
+    scale: number
+  }
+  via: {
+    x: number
+    y: number
+  }
+  ease: string
+}
+
 export interface PaintingLayer {
   id: string
   name: string
@@ -42,6 +65,8 @@ export interface PaintingLayer {
   collapsed: DepthTransform
   expanded: DepthTransform
   shadow: number
+  selection3d: SelectionTransform3D
+  assembly: AssemblyMotion
   animation: {
     start: number
     duration: number

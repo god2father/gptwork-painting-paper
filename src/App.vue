@@ -6,7 +6,6 @@ import { useInteractionStore } from './stores/interaction'
 import type { PaintingScene } from './types/painting'
 import WorkspaceStage from './features/stage/WorkspaceStage.vue'
 import { useStageMotion } from './features/stage/useStageMotion'
-import TimelineControls from './features/timeline/TimelineControls.vue'
 
 const store = useInteractionStore()
 const errors = ref<string[]>([])
@@ -47,7 +46,6 @@ onUnmounted(() => window.removeEventListener('keydown', clearWithEscape))
   <main v-if="scene" class="page-shell">
     <section ref="chapter" class="story-chapter" aria-label="作品拆解章节">
       <WorkspaceStage :scene="scene" @ready="handleReady" @error="reportError" />
-      <TimelineControls />
     </section>
   </main>
   <main v-else class="error-shell">

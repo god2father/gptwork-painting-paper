@@ -21,6 +21,10 @@ const buttonStyle = computed(() => ({
   height: `${props.layer.bounds.height / props.canvas.height * 100}%`,
   zIndex: props.layer.z,
   '--layer-shadow': props.layer.shadow,
+  '--select-z': `${props.layer.selection3d.z}px`,
+  '--select-rotate-x': `${props.layer.selection3d.rotateX}deg`,
+  '--select-rotate-y': `${props.layer.selection3d.rotateY}deg`,
+  '--select-scale': props.layer.selection3d.scale,
 }))
 
 const imageStyle = computed(() => ({

@@ -88,7 +88,7 @@
     },
     "layer": {
       "type": "object",
-      "required": ["id", "name", "src", "alt", "description", "z", "shadow", "bounds", "collapsed", "expanded", "animation", "parallax"],
+      "required": ["id", "name", "src", "alt", "description", "z", "shadow", "selection3d", "assembly", "bounds", "collapsed", "expanded", "animation", "parallax"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
         "name": { "type": "string", "minLength": 1 },
@@ -97,6 +97,44 @@
         "description": { "type": "string", "minLength": 1 },
         "z": { "type": "number" },
         "shadow": { "type": "number", "minimum": 0, "maximum": 1 },
+        "selection3d": {
+          "type": "object",
+          "required": ["z", "rotateX", "rotateY", "scale"],
+          "properties": {
+            "z": { "type": "number", "exclusiveMinimum": 0 },
+            "rotateX": { "type": "number", "minimum": -14, "maximum": 14 },
+            "rotateY": { "type": "number", "minimum": -14, "maximum": 14 },
+            "scale": { "type": "number", "exclusiveMinimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "assembly": {
+          "type": "object",
+          "required": ["start", "duration", "from", "via", "ease"],
+          "properties": {
+            "start": { "type": "number", "minimum": 0 },
+            "duration": { "type": "number", "exclusiveMinimum": 0 },
+            "from": {
+              "type": "object",
+              "required": ["x", "y", "rotation", "scale"],
+              "properties": {
+                "x": { "type": "number" },
+                "y": { "type": "number" },
+                "rotation": { "type": "number" },
+                "scale": { "type": "number", "exclusiveMinimum": 0 }
+              },
+              "additionalProperties": false
+            },
+            "via": {
+              "type": "object",
+              "required": ["x", "y"],
+              "properties": { "x": { "type": "number" }, "y": { "type": "number" } },
+              "additionalProperties": false
+            },
+            "ease": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        },
         "bounds": {
           "type": "object",
           "required": ["x", "y", "width", "height"],

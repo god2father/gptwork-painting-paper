@@ -483,3 +483,7 @@ Upload exact local blob bytes from `git cat-file blob`, create a tree, confirm t
 - The reference video remains read-only and outside the commit path.
 - No new runtime dependency or painting-specific position is introduced into a core component.
 - Browser screenshots and actual inspection remain mandatory completion gates.
+
+## Approved Interaction Revision
+
+The final user-approved direction replaces Tasks 4–6 interaction scope: remove scroll decomposition and timeline controls, keep a single short assembly entrance, and make direct layer selection the primary interaction. Each selected layer uses JSON-driven `selection3d` values for Z lift, X/Y rotation, and scale; clicking blank space, the selected layer again, the paper-label close action, or Escape restores it. The user owns final visual testing; implementation still runs unit tests, typecheck, and production build.

@@ -36,5 +36,9 @@ export const useInteractionStore = defineStore('interaction', () => {
     selectedLayerId.value = id
   }
 
-  return { progress, isPlaying, selectedLayerId, setProgress, play, pause, reset, replay, selectLayer }
+  function toggleLayer(id: string) {
+    selectedLayerId.value = selectedLayerId.value === id ? null : id
+  }
+
+  return { progress, isPlaying, selectedLayerId, setProgress, play, pause, reset, replay, selectLayer, toggleLayer }
 })

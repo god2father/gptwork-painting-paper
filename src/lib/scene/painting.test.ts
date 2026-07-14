@@ -43,6 +43,26 @@ describe('painting scene contract', () => {
     })).toThrow('shadow')
   })
 
+  it('requires JSON-driven three-dimensional selection transforms', () => {
+    const parsed = validatePaintingScene(scene) as unknown as {
+      layers: Array<{ selection3d: { z: number; rotateX: number; rotateY: number; scale: number } }>
+    }
+    expect(parsed.layers.every((layer) => layer.selection3d.z > 0)).toBe(true)
+    expect(parsed.layers.every((layer) => Math.abs(layer.selection3d.rotateX) <= 14)).toBe(true)
+    expect(parsed.layers.every((layer) => Math.abs(layer.selection3d.rotateY) <= 14)).toBe(true)
+  })
+
+  it('gives every paper piece a visible ordered assembly path', () => {
+    const parsed = validatePaintingScene(scene) as unknown as {
+      layers: Array<{ assembly: { start: number; duration: number; from: { x: number; y: number }; via: { x: number; y: number } } }>
+    }
+    const starts = parsed.layers.map((layer) => layer.assembly.start)
+    expect(starts).toEqual([...starts].sort((a, b) => a - b))
+    expect(new Set(starts).size).toBe(parsed.layers.length)
+    expect(parsed.layers.every((layer) => Math.hypot(layer.assembly.from.x, layer.assembly.from.y) >= 320)).toBe(true)
+    expect(parsed.layers.every((layer) => layer.assembly.duration >= 0.9)).toBe(true)
+  })
+
   it('converts canvas pixels to stage pixels', () => {
     expect(toStageOffset(192, 108, { width: 1920, height: 1080 }, { width: 960, height: 540 }))
       .toEqual({ x: 96, y: 54 })

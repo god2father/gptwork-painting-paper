@@ -27,43 +27,49 @@
   ],
   "layers": [
     {
-      "id": "layer-001-torso-collar", "name": "衣身与衣领", "src": "/assets/layers/painting-01/layer-001-torso-collar.webp", "alt": "少女的褐色衣身和暖白衣领", "description": "厚重的赭色衣身托住人物，白色衣领在暗部中划出一道呼吸。", "z": 20, "shadow": 0.36,
+      "id": "layer-001-torso-collar", "name": "衣身与衣领", "src": "/assets/layers/painting-01/layer-001-torso-collar.webp", "alt": "少女的褐色衣身和暖白衣领", "description": "厚重的赭色衣身托住人物，白色衣领在暗部中划出一道呼吸。", "z": 20, "shadow": 0.36, "selection3d": { "z": 70, "rotateX": 6, "rotateY": -8, "scale": 1.025 },
       "bounds": { "x": 288, "y": 988, "width": 955, "height": 932 },
+      "assembly": { "start": 0.85, "duration": 1.25, "from": { "x": -650, "y": 520, "rotation": -10, "scale": 0.92 }, "via": { "x": -210, "y": 120 }, "ease": "power3.out" },
       "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
       "expanded": { "x": -18, "y": 18, "z": 18, "scale": 1, "rotation": -0.8, "opacity": 1 },
       "animation": { "start": 0.43, "duration": 0.2, "ease": "power3.out" }, "parallax": { "x": 2, "y": 2 }
     },
     {
-      "id": "layer-002-face-neck", "name": "脸部与颈部", "src": "/assets/layers/painting-01/layer-002-face-neck.webp", "alt": "少女完整的脸部、耳朵和颈部", "description": "回望姿态的核心纸片保持稳定，让光线和视线始终连在一起。", "z": 40, "shadow": 0.42,
+      "id": "layer-002-face-neck", "name": "脸部与颈部", "src": "/assets/layers/painting-01/layer-002-face-neck.webp", "alt": "少女完整的脸部、耳朵和颈部", "description": "回望姿态的核心纸片保持稳定，让光线和视线始终连在一起。", "z": 40, "shadow": 0.42, "selection3d": { "z": 84, "rotateX": -5, "rotateY": 7, "scale": 1.03 },
       "bounds": { "x": 347, "y": 417, "width": 606, "height": 706 },
+      "assembly": { "start": 1.5, "duration": 1.25, "from": { "x": -560, "y": -360, "rotation": -8, "scale": 0.94 }, "via": { "x": -190, "y": -110 }, "ease": "power3.out" },
       "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
       "expanded": { "x": -6, "y": -8, "z": 30, "scale": 1, "rotation": -0.35, "opacity": 1 },
       "animation": { "start": 0.47, "duration": 0.2, "ease": "power3.out" }, "parallax": { "x": 0, "y": 0 }
     },
     {
-      "id": "layer-003-blue-headscarf", "name": "群青头巾", "src": "/assets/layers/painting-01/layer-003-blue-headscarf.webp", "alt": "覆盖少女额头的群青色头巾", "description": "群青色压住暖色脸部，是整幅肖像最安静也最醒目的色块。", "z": 60, "shadow": 0.5,
+      "id": "layer-003-blue-headscarf", "name": "群青头巾", "src": "/assets/layers/painting-01/layer-003-blue-headscarf.webp", "alt": "覆盖少女额头的群青色头巾", "description": "群青色压住暖色脸部，是整幅肖像最安静也最醒目的色块。", "z": 60, "shadow": 0.5, "selection3d": { "z": 96, "rotateX": 7, "rotateY": -9, "scale": 1.035 },
       "bounds": { "x": 367, "y": 247, "width": 686, "height": 576 },
+      "assembly": { "start": 2.15, "duration": 1.3, "from": { "x": 650, "y": -520, "rotation": 12, "scale": 0.9 }, "via": { "x": 230, "y": -160 }, "ease": "power3.out" },
       "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
       "expanded": { "x": 24, "y": -20, "z": 48, "scale": 1, "rotation": 1.4, "opacity": 1 },
       "animation": { "start": 0.52, "duration": 0.21, "ease": "power3.out" }, "parallax": { "x": 4, "y": 3 }
     },
     {
-      "id": "layer-004-yellow-wrap-tail", "name": "赭黄包布", "src": "/assets/layers/painting-01/layer-004-yellow-wrap-tail.webp", "alt": "头顶与肩后的赭黄色垂落包布", "description": "长长的暖色纸片从头顶垂到肩后，把转身的方向拉进画面深处。", "z": 50, "shadow": 0.52,
+      "id": "layer-004-yellow-wrap-tail", "name": "赭黄包布", "src": "/assets/layers/painting-01/layer-004-yellow-wrap-tail.webp", "alt": "头顶与肩后的赭黄色垂落包布", "description": "长长的暖色纸片从头顶垂到肩后，把转身的方向拉进画面深处。", "z": 50, "shadow": 0.52, "selection3d": { "z": 100, "rotateX": -6, "rotateY": 10, "scale": 1.035 },
       "bounds": { "x": 647, "y": 118, "width": 696, "height": 1395 },
+      "assembly": { "start": 2.8, "duration": 1.35, "from": { "x": 720, "y": 250, "rotation": 10, "scale": 0.92 }, "via": { "x": 260, "y": 80 }, "ease": "power3.out" },
       "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
       "expanded": { "x": 30, "y": -12, "z": 42, "scale": 1, "rotation": 1.8, "opacity": 1 },
       "animation": { "start": 0.56, "duration": 0.22, "ease": "power3.out" }, "parallax": { "x": 5, "y": 4 }
     },
     {
-      "id": "layer-005-eyes-brows", "name": "回望的双眼", "src": "/assets/layers/painting-01/layer-005-eyes-brows.webp", "alt": "少女的双眼、眼睑和眉部", "description": "两眼始终保持原有关系，只做几乎不可察觉的抬升。", "z": 70, "shadow": 0.28,
+      "id": "layer-005-eyes-brows", "name": "回望的双眼", "src": "/assets/layers/painting-01/layer-005-eyes-brows.webp", "alt": "少女的双眼、眼睑和眉部", "description": "两眼始终保持原有关系，只做几乎不可察觉的抬升。", "z": 70, "shadow": 0.28, "selection3d": { "z": 70, "rotateX": 4, "rotateY": -6, "scale": 1.04 },
       "bounds": { "x": 347, "y": 533, "width": 326, "height": 170 },
+      "assembly": { "start": 3.55, "duration": 1, "from": { "x": -500, "y": -120, "rotation": -6, "scale": 0.96 }, "via": { "x": -160, "y": -50 }, "ease": "power3.out" },
       "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
       "expanded": { "x": 2, "y": -2, "z": 58, "scale": 1, "rotation": 0, "opacity": 1 },
       "animation": { "start": 0.63, "duration": 0.14, "ease": "sine.out" }, "parallax": { "x": 0, "y": 0 }
     },
     {
-      "id": "layer-006-pearl-highlight", "name": "珍珠", "src": "/assets/layers/painting-01/layer-006-pearl-highlight.webp", "alt": "少女耳下的珍珠与高光", "description": "最小的一层在暗色背景前抬起，成为整幅画最后落下的光点。", "z": 80, "shadow": 0.58,
+      "id": "layer-006-pearl-highlight", "name": "珍珠", "src": "/assets/layers/painting-01/layer-006-pearl-highlight.webp", "alt": "少女耳下的珍珠与高光", "description": "最小的一层在暗色背景前抬起，成为整幅画最后落下的光点。", "z": 80, "shadow": 0.58, "selection3d": { "z": 110, "rotateX": -8, "rotateY": 9, "scale": 1.08 },
       "bounds": { "x": 782, "y": 827, "width": 71, "height": 106 },
+      "assembly": { "start": 4.25, "duration": 1, "from": { "x": 560, "y": 180, "rotation": 10, "scale": 0.9 }, "via": { "x": 170, "y": 60 }, "ease": "back.out(1.15)" },
       "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
       "expanded": { "x": 12, "y": 2, "z": 72, "scale": 1.04, "rotation": 1.2, "opacity": 1 },
       "animation": { "start": 0.68, "duration": 0.13, "ease": "back.out(1.2)" }, "parallax": { "x": 4, "y": 3 }

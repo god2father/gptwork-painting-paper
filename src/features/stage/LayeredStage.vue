@@ -54,13 +54,13 @@ defineExpose({ canvas, failedLayers })
         :layer="layer"
         :canvas="scene.canvas"
         :selected="store.selectedLayerId === layer.id"
-        @select="store.selectLayer"
+        @select="store.toggleLayer"
         @error="reportError"
       />
       <div class="artwork__grain" aria-hidden="true" />
     </div>
     <figcaption class="sr-only">
-      滚动、播放或拖动时间轴可以拆解作品；聚焦并点击图层可查看说明。
+      纸片会沿轨迹逐层拼合；聚焦并点击纸片可将它浮起并查看说明。
     </figcaption>
   </figure>
 </template>

@@ -29,4 +29,12 @@ describe('interaction store', () => {
     expect(store.progress).toBe(0)
     expect(store.isPlaying).toBe(true)
   })
+
+  it('toggles a selected paper layer', () => {
+    const store = useInteractionStore()
+    store.toggleLayer('layer-006-pearl-highlight')
+    expect(store.selectedLayerId).toBe('layer-006-pearl-highlight')
+    store.toggleLayer('layer-006-pearl-highlight')
+    expect(store.selectedLayerId).toBeNull()
+  })
 })

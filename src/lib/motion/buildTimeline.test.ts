@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import rawScene from '../../../manifests/paintings/painting-01.json'
 import { validatePaintingScene } from '../scene/painting'
-import { chapterProgress, layerProgress } from './buildTimeline'
+import { assemblyEnd, chapterProgress, layerProgress } from './buildTimeline'
 
 describe('layer progress', () => {
   it('maps a layer interval into zero to one', () => {
@@ -22,5 +22,9 @@ describe('atelier chapter progress', () => {
     const eyes = validatePaintingScene(rawScene).layers.find((layer) => layer.id === 'layer-005-eyes-brows')
     expect(Math.abs(eyes?.expanded.x ?? 99)).toBeLessThanOrEqual(3)
     expect(Math.abs(eyes?.expanded.y ?? 99)).toBeLessThanOrEqual(3)
+  })
+
+  it('keeps the assembly visible for several seconds', () => {
+    expect(assemblyEnd(validatePaintingScene(rawScene))).toBeGreaterThanOrEqual(5)
   })
 })

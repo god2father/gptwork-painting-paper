@@ -13,10 +13,15 @@ const emit = defineEmits<{
 }>()
 const store = useInteractionStore()
 const selectedLayer = computed(() => props.scene.layers.find((layer) => layer.id === store.selectedLayerId) ?? null)
+
+function clearFromBackdrop(event: MouseEvent) {
+  const target = event.target as HTMLElement
+  if (!target.closest('.stage-layer, .paper-label')) store.selectLayer(null)
+}
 </script>
 
 <template>
-  <section class="atelier" :aria-label="`${scene.title}纸艺工作台`">
+  <section class="atelier" :aria-label="`${scene.title}纸艺工作台`" @click="clearFromBackdrop">
     <img
       class="atelier__workspace"
       :src="resolveAssetUrl(scene.environment.workspace.src)"
