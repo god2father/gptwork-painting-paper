@@ -1,0 +1,30 @@
+{
+  "name": "painting-paper",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc -b",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:update": "playwright test --update-snapshots"
+  },
+  "dependencies": {
+    "gsap": "3.15.0",
+    "pinia": "3.0.4",
+    "vue": "3.5.39"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1",
+    "@types/node": "26.1.1",
+    "@vitejs/plugin-vue": "6.0.7",
+    "jsdom": "29.1.1",
+    "typescript": "5.9.3",
+    "vite": "8.1.4",
+    "vitest": "4.1.10",
+    "vue-tsc": "3.3.7"
+  }
+}
