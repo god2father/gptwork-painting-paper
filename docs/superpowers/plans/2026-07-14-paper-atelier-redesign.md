@@ -487,3 +487,7 @@ Upload exact local blob bytes from `git cat-file blob`, create a tree, confirm t
 ## Approved Interaction Revision
 
 The final user-approved direction replaces Tasks 4–6 interaction scope: remove scroll decomposition and timeline controls, keep a single short assembly entrance, and make direct layer selection the primary interaction. Each selected layer uses JSON-driven `selection3d` values for Z lift, X/Y rotation, and scale; clicking blank space, the selected layer again, the paper-label close action, or Escape restores it. The user owns final visual testing; implementation still runs unit tests, typecheck, and production build.
+
+## Approved Center-Hinge Fold Revision
+
+The selected paper layer uses its exact vertical center as a hinge. The left half remains the base plane while the right half rotates upward by exactly 45 degrees. The fold keeps the existing lift, crease highlight, shadow, label, toggle, backdrop-clear, and Escape behavior. Implement test-first by requiring every manifest layer to expose `foldAngle: 45`, then change only the existing facet clip paths and selected-state transforms. Verify with the focused scene/stage tests, full unit suite, typecheck, and production build; final visual judgment remains with the user.
