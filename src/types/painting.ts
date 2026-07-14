@@ -31,6 +31,7 @@ export interface SelectionTransform3D {
   rotateX: number
   rotateY: number
   scale: number
+  foldAngle: number
 }
 
 export interface AssemblyMotion {

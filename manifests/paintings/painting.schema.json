@@ -99,12 +99,13 @@
         "shadow": { "type": "number", "minimum": 0, "maximum": 1 },
         "selection3d": {
           "type": "object",
-          "required": ["z", "rotateX", "rotateY", "scale"],
+          "required": ["z", "rotateX", "rotateY", "scale", "foldAngle"],
           "properties": {
             "z": { "type": "number", "exclusiveMinimum": 0 },
             "rotateX": { "type": "number", "minimum": -14, "maximum": 14 },
             "rotateY": { "type": "number", "minimum": -14, "maximum": 14 },
-            "scale": { "type": "number", "exclusiveMinimum": 0 }
+            "scale": { "type": "number", "exclusiveMinimum": 0 },
+            "foldAngle": { "type": "number", "minimum": 12, "maximum": 32 }
           },
           "additionalProperties": false
         },

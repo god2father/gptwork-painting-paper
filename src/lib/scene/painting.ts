@@ -67,8 +67,11 @@ function layer(value: unknown, index: number): PaintingLayer {
     rotateX: number(selection3d.rotateX, `layers[${index}].selection3d.rotateX`),
     rotateY: number(selection3d.rotateY, `layers[${index}].selection3d.rotateY`),
     scale: number(selection3d.scale, `layers[${index}].selection3d.scale`),
+    foldAngle: number(selection3d.foldAngle, `layers[${index}].selection3d.foldAngle`),
   }
-  if (selected.z <= 0 || selected.scale <= 0) throw new Error(`layers[${index}].selection3d must be positive`)
+  if (selected.z <= 0 || selected.scale <= 0 || selected.foldAngle <= 0) {
+    throw new Error(`layers[${index}].selection3d must be positive`)
+  }
   const assembled = {
     start: number(assembly.start, `layers[${index}].assembly.start`),
     duration: number(assembly.duration, `layers[${index}].assembly.duration`),

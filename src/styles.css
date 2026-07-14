@@ -106,19 +106,51 @@ button { color: inherit; }
 .stage-layer__parallax {
   position: absolute;
   inset: 0;
-  overflow: hidden;
+  overflow: visible;
   transform: translate(var(--parallax-x, 0), var(--parallax-y, 0)) translateZ(0) rotateX(0) rotateY(0) scale(1);
   transform-style: preserve-3d;
   transform-origin: 50% 50%;
   transition: transform .56s cubic-bezier(.2,.8,.2,1);
   will-change: transform;
 }
+.stage-layer__facet,
+.stage-layer__crease {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  transition: transform .68s cubic-bezier(.2,.82,.2,1), filter .68s ease, opacity .5s ease;
+  will-change: transform, filter;
+}
+.stage-layer__facet--left { clip-path: polygon(0 0, 52% 0, 47% 100%, 0 100%); }
+.stage-layer__facet--right { clip-path: polygon(52% 0, 100% 0, 100% 100%, 47% 100%); }
+.stage-layer__crease {
+  z-index: 3;
+  clip-path: polygon(49% 0, 55% 0, 50% 100%, 44% 100%);
+  opacity: 0;
+  pointer-events: none;
+}
 .stage-layer__image { position: absolute; max-width: none; object-fit: fill; user-select: none; pointer-events: none; }
 .stage-layer:hover { filter: drop-shadow(4px 7px 7px rgba(28,18,10,.42)) brightness(1.035); }
 .stage-layer:focus-visible { outline: 3px solid #f2dfb8; outline-offset: 5px; }
 .stage-layer--selected { z-index: 1000 !important; filter: drop-shadow(12px 18px 14px rgba(28,18,10,.5)) brightness(1.055); }
 .stage-layer--selected .stage-layer__parallax {
-  transform: translate(var(--parallax-x, 0), var(--parallax-y, 0)) translateZ(var(--select-z)) rotateX(var(--select-rotate-x)) rotateY(var(--select-rotate-y)) scale(var(--select-scale));
+  transform: translate(var(--parallax-x, 0), var(--parallax-y, 0)) translateZ(var(--select-base-z)) rotateX(var(--select-rotate-x)) rotateY(var(--select-rotate-y)) scale(var(--select-scale));
+}
+.stage-layer--selected .stage-layer__facet--left {
+  transform: translateZ(var(--fold-left-z)) rotateY(var(--fold-angle-negative)) rotateX(3deg);
+  filter: brightness(.78) saturate(.92);
+}
+.stage-layer--selected .stage-layer__facet--right {
+  transform: translateZ(var(--fold-right-z)) rotateY(var(--fold-angle)) rotateX(-3deg);
+  filter: brightness(1.16) saturate(1.04);
+}
+.stage-layer--selected .stage-layer__crease {
+  transform: translateZ(var(--fold-crease-z));
+  opacity: .82;
+  filter: brightness(1.5) contrast(1.08) drop-shadow(-5px 0 5px rgba(20,12,7,.42));
 }
 
 .paper-label {
