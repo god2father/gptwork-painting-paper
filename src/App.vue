@@ -7,9 +7,11 @@ import type { PaintingScene } from './types/painting'
 import ArtworkHeader from './features/gallery/ArtworkHeader.vue'
 import LayeredStage from './features/stage/LayeredStage.vue'
 import LayerInspector from './features/inspector/LayerInspector.vue'
+import { useStageMotion } from './features/stage/useStageMotion'
 
 const store = useInteractionStore()
 const errors = ref<string[]>([])
+const chapter = ref<HTMLElement | null>(null)
 let sceneError = ''
 let scene: PaintingScene | undefined
 try {
@@ -19,9 +21,12 @@ try {
 }
 
 const selectedLayer = computed(() => scene?.layers.find((layer) => layer.id === store.selectedLayerId) ?? null)
+const motion = scene ? useStageMotion(scene) : null
 
-function handleReady() {
+function handleReady(elements: Map<string, HTMLElement>) {
   errors.value = []
+  const stage = chapter.value?.querySelector<HTMLElement>('[data-testid="stage-canvas"]')
+  if (chapter.value && stage) motion?.connect(chapter.value, stage, elements)
 }
 
 function reload() {
@@ -31,7 +36,7 @@ function reload() {
 
 <template>
   <main v-if="scene" class="page-shell">
-    <section class="story-chapter" aria-label="作品拆解章节">
+    <section ref="chapter" class="story-chapter" aria-label="作品拆解章节">
       <div class="museum-grid">
         <ArtworkHeader :title="scene.title" :subtitle="scene.subtitle" />
         <LayeredStage :scene="scene" @ready="handleReady" />
