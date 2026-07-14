@@ -50,7 +50,7 @@ describe('painting scene contract', () => {
     expect(parsed.layers.every((layer) => layer.selection3d.z > 0)).toBe(true)
     expect(parsed.layers.every((layer) => Math.abs(layer.selection3d.rotateX) <= 14)).toBe(true)
     expect(parsed.layers.every((layer) => Math.abs(layer.selection3d.rotateY) <= 14)).toBe(true)
-    expect(parsed.layers.every((layer) => layer.selection3d.foldAngle >= 12)).toBe(true)
+    expect(parsed.layers.every((layer) => layer.selection3d.foldAngle === 45)).toBe(true)
   })
 
   it('gives every paper piece a visible ordered assembly path', () => {

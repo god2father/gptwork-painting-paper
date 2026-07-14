@@ -124,11 +124,11 @@ button { color: inherit; }
   transition: transform .68s cubic-bezier(.2,.82,.2,1), filter .68s ease, opacity .5s ease;
   will-change: transform, filter;
 }
-.stage-layer__facet--left { clip-path: polygon(0 0, 52% 0, 47% 100%, 0 100%); }
-.stage-layer__facet--right { clip-path: polygon(52% 0, 100% 0, 100% 100%, 47% 100%); }
+.stage-layer__facet--left { clip-path: inset(0 50% 0 0); }
+.stage-layer__facet--right { clip-path: inset(0 0 0 50%); }
 .stage-layer__crease {
   z-index: 3;
-  clip-path: polygon(49% 0, 55% 0, 50% 100%, 44% 100%);
+  clip-path: inset(0 48.5%);
   opacity: 0;
   pointer-events: none;
 }
@@ -140,12 +140,12 @@ button { color: inherit; }
   transform: translate(var(--parallax-x, 0), var(--parallax-y, 0)) translateZ(var(--select-base-z)) rotateX(var(--select-rotate-x)) rotateY(var(--select-rotate-y)) scale(var(--select-scale));
 }
 .stage-layer--selected .stage-layer__facet--left {
-  transform: translateZ(var(--fold-left-z)) rotateY(var(--fold-angle-negative)) rotateX(3deg);
-  filter: brightness(.78) saturate(.92);
+  transform: translateZ(var(--fold-left-z));
+  filter: brightness(.94) saturate(.98);
 }
 .stage-layer--selected .stage-layer__facet--right {
-  transform: translateZ(var(--fold-right-z)) rotateY(var(--fold-angle)) rotateX(-3deg);
-  filter: brightness(1.16) saturate(1.04);
+  transform: translateZ(var(--fold-left-z)) rotateY(var(--fold-angle-negative));
+  filter: brightness(1.13) saturate(1.02);
 }
 .stage-layer--selected .stage-layer__crease {
   transform: translateZ(var(--fold-crease-z));

@@ -105,7 +105,7 @@
             "rotateX": { "type": "number", "minimum": -14, "maximum": 14 },
             "rotateY": { "type": "number", "minimum": -14, "maximum": 14 },
             "scale": { "type": "number", "exclusiveMinimum": 0 },
-            "foldAngle": { "type": "number", "minimum": 12, "maximum": 32 }
+            "foldAngle": { "const": 45 }
           },
           "additionalProperties": false
         },
