@@ -20,6 +20,7 @@ const buttonStyle = computed(() => ({
   width: `${props.layer.bounds.width / props.canvas.width * 100}%`,
   height: `${props.layer.bounds.height / props.canvas.height * 100}%`,
   zIndex: props.layer.z,
+  '--layer-shadow': props.layer.shadow,
 }))
 
 const imageStyle = computed(() => ({

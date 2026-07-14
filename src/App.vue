@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import rawScene from '../manifests/paintings/painting-01.json'
 import { validatePaintingScene } from './lib/scene/painting'
 import { useInteractionStore } from './stores/interaction'
 import type { PaintingScene } from './types/painting'
-import ArtworkHeader from './features/gallery/ArtworkHeader.vue'
-import LayeredStage from './features/stage/LayeredStage.vue'
-import LayerInspector from './features/inspector/LayerInspector.vue'
+import WorkspaceStage from './features/stage/WorkspaceStage.vue'
 import { useStageMotion } from './features/stage/useStageMotion'
 import TimelineControls from './features/timeline/TimelineControls.vue'
 
@@ -21,7 +19,6 @@ try {
   sceneError = error instanceof Error ? error.message : '未知配置错误'
 }
 
-const selectedLayer = computed(() => scene?.layers.find((layer) => layer.id === store.selectedLayerId) ?? null)
 const motion = scene ? useStageMotion(scene) : null
 
 function handleReady(elements: Map<string, HTMLElement>) {
@@ -49,12 +46,8 @@ onUnmounted(() => window.removeEventListener('keydown', clearWithEscape))
 <template>
   <main v-if="scene" class="page-shell">
     <section ref="chapter" class="story-chapter" aria-label="作品拆解章节">
-      <div class="museum-grid">
-        <ArtworkHeader :title="scene.title" :subtitle="scene.subtitle" />
-        <LayeredStage :scene="scene" @ready="handleReady" @error="reportError" />
-        <LayerInspector :layer="selectedLayer" :errors="errors" @clear="store.selectLayer(null)" />
-        <TimelineControls />
-      </div>
+      <WorkspaceStage :scene="scene" @ready="handleReady" @error="reportError" />
+      <TimelineControls />
     </section>
   </main>
   <main v-else class="error-shell">
