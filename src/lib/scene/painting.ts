@@ -1,6 +1,6 @@
 import type { LayerTransform, PaintingLayer, PaintingScene, Size } from '../../types/painting'
 
-const assets = import.meta.glob('/assets/**/*.{png,webp}', {
+const assets = import.meta.glob('/assets/layers/*/*.webp', {
   eager: true,
   query: '?url',
   import: 'default',
@@ -41,10 +41,20 @@ function layer(value: unknown, index: number): PaintingLayer {
   const item = record(value, `layers[${index}]`)
   const animation = record(item.animation, `layers[${index}].animation`)
   const parallax = record(item.parallax, `layers[${index}].parallax`)
+  const bounds = record(item.bounds, `layers[${index}].bounds`)
   const start = number(animation.start, `layers[${index}].animation.start`)
   const duration = number(animation.duration, `layers[${index}].animation.duration`)
+  const parsedBounds = {
+    x: number(bounds.x, `layers[${index}].bounds.x`),
+    y: number(bounds.y, `layers[${index}].bounds.y`),
+    width: number(bounds.width, `layers[${index}].bounds.width`),
+    height: number(bounds.height, `layers[${index}].bounds.height`),
+  }
   if (start < 0 || start > 1) throw new Error(`layers[${index}].animation.start must be between 0 and 1`)
   if (duration <= 0 || duration > 1) throw new Error(`layers[${index}].animation.duration must be between 0 and 1`)
+  if (parsedBounds.x < 0 || parsedBounds.y < 0 || parsedBounds.width <= 0 || parsedBounds.height <= 0) {
+    throw new Error(`layers[${index}].bounds must be positive and inside the canvas origin`)
+  }
   return {
     id: text(item.id, `layers[${index}].id`),
     name: text(item.name, `layers[${index}].name`),
@@ -52,6 +62,7 @@ function layer(value: unknown, index: number): PaintingLayer {
     alt: text(item.alt, `layers[${index}].alt`),
     description: text(item.description, `layers[${index}].description`),
     z: number(item.z, `layers[${index}].z`),
+    bounds: parsedBounds,
     collapsed: transform(item.collapsed, `layers[${index}].collapsed`),
     expanded: transform(item.expanded, `layers[${index}].expanded`),
     animation: { start, duration, ease: text(animation.ease, `layers[${index}].animation.ease`) },

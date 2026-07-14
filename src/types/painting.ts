@@ -18,6 +18,12 @@ export interface PaintingLayer {
   alt: string
   description: string
   z: number
+  bounds: {
+    x: number
+    y: number
+    width: number
+    height: number
+  }
   collapsed: LayerTransform
   expanded: LayerTransform
   animation: {

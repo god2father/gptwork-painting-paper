@@ -47,7 +47,7 @@
     },
     "layer": {
       "type": "object",
-      "required": ["id", "name", "src", "alt", "description", "z", "collapsed", "expanded", "animation", "parallax"],
+      "required": ["id", "name", "src", "alt", "description", "z", "bounds", "collapsed", "expanded", "animation", "parallax"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
         "name": { "type": "string", "minLength": 1 },
@@ -55,6 +55,17 @@
         "alt": { "type": "string", "minLength": 1 },
         "description": { "type": "string", "minLength": 1 },
         "z": { "type": "number" },
+        "bounds": {
+          "type": "object",
+          "required": ["x", "y", "width", "height"],
+          "properties": {
+            "x": { "type": "number", "minimum": 0 },
+            "y": { "type": "number", "minimum": 0 },
+            "width": { "type": "number", "exclusiveMinimum": 0 },
+            "height": { "type": "number", "exclusiveMinimum": 0 }
+          },
+          "additionalProperties": false
+        },
         "collapsed": { "$ref": "#/$defs/transform" },
         "expanded": { "$ref": "#/$defs/transform" },
         "animation": {

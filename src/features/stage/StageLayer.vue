@@ -1,0 +1,56 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { resolveAssetUrl } from '../../lib/scene/painting'
+import type { PaintingLayer, Size } from '../../types/painting'
+
+const props = defineProps<{
+  layer: PaintingLayer
+  canvas: Size
+  selected: boolean
+}>()
+
+const emit = defineEmits<{
+  select: [id: string]
+  error: [id: string]
+}>()
+
+const buttonStyle = computed(() => ({
+  left: `${props.layer.bounds.x / props.canvas.width * 100}%`,
+  top: `${props.layer.bounds.y / props.canvas.height * 100}%`,
+  width: `${props.layer.bounds.width / props.canvas.width * 100}%`,
+  height: `${props.layer.bounds.height / props.canvas.height * 100}%`,
+  zIndex: props.layer.z,
+}))
+
+const imageStyle = computed(() => ({
+  left: `${-props.layer.bounds.x / props.layer.bounds.width * 100}%`,
+  top: `${-props.layer.bounds.y / props.layer.bounds.height * 100}%`,
+  width: `${props.canvas.width / props.layer.bounds.width * 100}%`,
+  height: `${props.canvas.height / props.layer.bounds.height * 100}%`,
+}))
+</script>
+
+<template>
+  <button
+    class="stage-layer"
+    :class="{ 'stage-layer--selected': selected }"
+    :style="buttonStyle"
+    type="button"
+    :aria-label="`查看图层：${layer.name}`"
+    :aria-pressed="selected"
+    :data-layer-id="layer.id"
+    data-motion-layer
+    @click="emit('select', layer.id)"
+  >
+    <span class="stage-layer__parallax" aria-hidden="true">
+      <img
+        class="stage-layer__image"
+        :src="resolveAssetUrl(layer.src)"
+        :alt="layer.alt"
+        :style="imageStyle"
+        draggable="false"
+        @error="emit('error', layer.id)"
+      />
+    </span>
+  </button>
+</template>
