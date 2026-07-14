@@ -1,116 +1,120 @@
-# Pointer-Driven Paper Mesh Design
+# 鼠标驱动的 3D 纸张网格设计
 
-## Goal
+## 目标
 
-Replace the selected layer's fixed two-half CSS fold with a genuinely three-dimensional, pointer-driven paper deformation that recalls the reference video's continuous spatial unfolding. The existing six-piece assembly, click label, selection toggle, blank-space reset, and Escape reset remain unchanged.
+把当前“选中图层后，两半纸片固定旋转”的 CSS 效果，替换为真正连续、由鼠标驱动的 3D 纸张形变，接近参考视频中纸面向空间展开的感觉。
 
-## Confirmed Interaction
+以下现有功能保持不变：六块纸片依次拼合、点击显示标签、再次点击取消、点击空白处还原、按 `Escape` 还原。
 
-1. The portrait assembles along the existing configured paths.
-2. Clicking a paper layer selects it and shows its existing label.
-3. Only the selected layer becomes a live 3D paper mesh.
-4. The horizontal X axis through the layer center is the primary hinge. The top region stays visually anchored while the lower region curves toward the viewer.
-5. Pointer vertical movement controls bend strength. Pointer horizontal movement adds restrained twist and changes the highlight direction.
-6. Motion follows the pointer with damping rather than snapping to each event.
-7. Clicking the selected layer again, clicking blank space, pressing Escape, or closing the label restores the flat DOM layer.
+## 已确认的交互
 
-This is not a fixed 45-degree fold. Forty-five degrees is the nominal maximum bend, reached progressively across several mesh rows. The visible result must be a continuous curved surface without a hard seam.
+1. 肖像继续按照现有轨迹逐块拼合。
+2. 点击某块纸片后，选中它并显示现有标签。
+3. 只有当前选中的纸片会转换成实时 3D 网格。
+4. 纸片正中间的水平 X 轴是主要弯曲轴。上半部分保持相对稳定，下半部分向用户方向连续卷起。
+5. 鼠标上下移动控制弯曲强度；鼠标左右移动产生克制的扭转，并改变高光方向。
+6. 纸片通过缓动追随鼠标，不会直接跳到新角度。
+7. 再次点击纸片、点击空白处、按 `Escape` 或关闭标签时，纸片平滑恢复原状。
 
-## Rendering Architecture
+这不是固定的 45° 硬折叠。45° 只是最大弯曲角度的参考值，实际形变会分散到多行网格上，形成没有明显接缝的连续曲面。
 
-The assembled painting and entrance animation remain DOM + GSAP. A single transparent Three.js canvas is mounted directly over the artwork canvas and has `pointer-events: none`. It renders nothing until a layer is selected.
+## 渲染结构
 
-When selection begins:
+完整画面的拼合过程继续使用 DOM + GSAP。名画上方增加一个透明的 Three.js 画布，它不接收鼠标事件，默认不渲染任何内容。
 
-- the selected layer asset is loaded as a Three.js texture;
-- a subdivided plane is positioned over that layer's configured bounds;
-- the DOM copy remains visible until the texture is ready, then only its visual content is hidden while its accessible button and hit area remain active;
-- all unselected layers continue to render as normal DOM elements.
+选中纸片时：
 
-This hybrid boundary avoids moving the entire artwork into WebGL and keeps the existing assembly, labels, keyboard controls, and JSON scene contract intact.
+- 加载该纸片现有的透明素材作为 Three.js 纹理；
+- 按照配置中的图层范围，把细分平面准确覆盖在原纸片位置；
+- 纹理加载成功前继续显示 DOM 纸片；
+- 3D 网格准备好后，只隐藏 DOM 纸片的视觉内容，按钮和点击区域仍然保留；
+- 其他未选中的纸片继续使用原有 DOM 渲染。
 
-## Mesh and Camera
+这样不需要把整幅名画迁移到 WebGL，也不会破坏现有拼合动画、标签、键盘操作和 JSON 配置结构。
 
-- Use one `PerspectiveCamera`, positioned so one world unit maps to one stage pixel at `z = 0`.
-- Cap renderer pixel ratio at `1.5`.
-- Use one plane per selected layer with enough rows to produce a smooth curl; default `16 × 24` segments.
-- Map the layer texture across the full painting canvas and crop it to the configured layer bounds, matching the existing DOM image alignment.
-- Recompute the camera and plane placement through `ResizeObserver` when the artwork canvas changes size.
+## 网格和相机
 
-## Deformation Model
+- 使用一个 `PerspectiveCamera`，让 `z = 0` 平面上的一个世界单位对应舞台上的一个像素。
+- 渲染器像素比最高限制为 `1.5`，避免高分屏耗费过多性能。
+- 每次只创建一个选中纸片网格，默认细分为 `16 × 24`。
+- 纹理继续使用完整画布坐标，并按照图层范围裁切，确保与现有 DOM 图层完全对齐。
+- 使用 `ResizeObserver` 监听舞台尺寸变化，重新计算相机和网格位置。
 
-The original flat vertex positions are retained. Each animation frame derives new positions from those originals and the damped interaction state.
+## 纸张形变方式
 
-- Vertices in the upper half remain close to their original plane.
-- Bend influence grows smoothly from zero at the horizontal center to one at the lower edge.
-- The lower rows rotate progressively around the X axis toward positive Z, producing a continuous curl toward the camera.
-- Pointer X adds at most `±8°` of Y-axis twist; it must not replace the primary X-axis curl.
-- Pointer Y maps bend strength within a safe configured range: moving upward increases the curl toward the viewer, while moving downward relaxes it; the mesh cannot invert.
-- Release uses the same damped state so the paper settles instead of snapping flat.
+网格始终保留一份原始平面顶点。每一帧都基于原始顶点和缓动后的鼠标状态重新计算位置，避免累计误差。
 
-The deformation parameters are JSON-driven per layer. Extend `selection3d` with mesh segment counts, maximum bend, maximum lift, twist, and damping. The generic renderer must not contain painting-specific coordinates or layer IDs.
+- 上半部分的顶点基本保持原位。
+- 从水平中线开始，弯曲影响逐渐增加，到纸片下边缘达到最大值。
+- 下半部分的网格行逐步绕 X 轴朝正 Z 方向旋转，也就是向屏幕外、向用户方向卷起。
+- 鼠标 X 坐标最多增加 `±8°` 的 Y 轴扭转，但不能取代主要的 X 轴弯曲。
+- 鼠标向上移动时，纸片向用户方向卷起得更多；鼠标向下移动时逐渐放松。
+- 弯曲强度必须限制在安全范围，网格不能翻转或穿过自身。
+- 取消选中时继续使用相同的缓动状态，让纸张自然落回，而不是瞬间变平。
 
-## Material, Back, and Light
+形变参数必须由 JSON 为每个图层配置。扩展现有 `selection3d`，加入网格横纵细分数、最大弯曲角度、最大抬升高度、扭转角度和缓动系数。通用渲染器中不得出现某幅名画专用的图层 ID 或位置。
 
-- Front surface: the existing transparent layer texture.
-- Back surface: the same alpha silhouette filled with warm uncoated-paper color, so a strongly curled area reveals a plausible reverse side.
-- Lighting: one soft ambient light and one directional light whose horizontal component follows the pointer slightly.
-- Shadow: apply a soft CSS `drop-shadow` to the otherwise transparent WebGL canvas; offset and blur increase with the damped lift.
-- Do not add bevels, glossy highlights, metallic shading, or a thick plastic edge.
+## 材质、背面和光影
 
-## Component Boundaries
+- 正面：使用当前透明纸片纹理。
+- 背面：沿相同透明轮廓显示暖白色无涂布纸，卷起较大时能看到合理的纸张背面。
+- 光线：一盏柔和环境光和一盏方向光；方向光的水平位置轻微跟随鼠标。
+- 阴影：透明 WebGL 画布使用柔和 `drop-shadow`；纸片抬得越高，阴影距离和模糊程度越大。
+- 不增加塑料高光、金属反射、厚重倒角或明显的硬边。
+
+## 组件职责
 
 ### `PaperMeshOverlay.vue`
 
-Owns the transparent overlay element, receives the selected layer and scene, forwards stage-relative pointer coordinates, and reports readiness or texture failure. It does not own selection state.
+负责透明 3D 画布，接收当前选中的纸片和场景配置，把舞台内的鼠标位置传递给渲染逻辑，并报告准备完成或纹理加载失败。它不负责保存选中状态。
 
 ### `usePaperMesh.ts`
 
-Owns the Three.js renderer, camera, texture, meshes, resize handling, animation frame, and disposal. It exposes select, updatePointer, resize, and clear operations.
+负责 Three.js 渲染器、相机、纹理、网格、尺寸监听、动画循环和资源释放。对外提供选择纸片、更新鼠标位置、调整尺寸和清除网格等操作。
 
 ### `paperDeformation.ts`
 
-Contains pure deformation calculations used by the renderer and unit tests. Given flat vertex coordinates and damped interaction values, it returns the updated position. It has no DOM, Vue, or Three.js dependency.
+只保存纯粹的网格形变计算。输入原始顶点和缓动后的交互状态，输出新顶点位置。它不依赖 DOM、Vue 或 Three.js，方便做精确单元测试。
 
-### Existing stage components
+### 现有舞台组件
 
-`WorkspaceStage` and `LayeredStage` continue to own pointer events and selection presentation. `StageLayer` returns to one visual image rather than duplicating the texture into two CSS facets.
+`WorkspaceStage` 和 `LayeredStage` 继续负责鼠标事件和选中状态展示。`StageLayer` 恢复成单张图片，不再复制成上下两个 CSS 折面。
 
-## Failure and Fallback
+## 失败和降级处理
 
-- WebGL unavailable: keep the normal DOM layer selected with the current label and a restrained static Z-lift; do not show a broken canvas.
-- Texture load failure: leave the DOM layer visible, emit the existing asset error, and dispose partial WebGL resources.
-- Context loss: restore the DOM layer immediately and allow a later selection to retry.
-- Reduced motion: use a static shallow lift with no pointer-following animation.
-- Touch devices: selection uses a centered preset curl; pointer twist is omitted.
+- 浏览器不支持 WebGL：保留普通 DOM 纸片和标签，只做克制的静态抬升，不显示损坏画布。
+- 纹理加载失败：DOM 纸片保持可见，沿用现有素材错误提示，同时释放未完成的 WebGL 资源。
+- WebGL 上下文丢失：立刻恢复 DOM 纸片，之后再次选择时允许重新创建。
+- 用户开启“减少动态效果”：只做静态浅层抬升，不持续跟随鼠标。
+- 触屏设备：点击后使用居中的预设弯曲，不执行鼠标扭转。
 
-## Performance and Lifecycle
+## 性能和生命周期
 
-- One renderer, one active mesh, and one animation loop maximum.
-- Start the loop only while a mesh is active or settling.
-- Pause when the page is hidden.
-- Dispose textures, geometry, materials, and renderer listeners on layer change and component unmount.
-- Do not render inactive layers in WebGL.
+- 全程最多一个渲染器、一个活动网格和一个动画循环。
+- 只有网格处于活动或复位过程中时才运行动画循环。
+- 页面不可见时暂停渲染。
+- 切换图层或组件卸载时，释放纹理、网格、材质和事件监听。
+- 未选中的纸片不进入 WebGL。
 
-## Accessibility
+## 无障碍
 
-- Existing layer buttons, accessible names, focus styling, `aria-pressed`, labels, and Escape behavior remain.
-- Keyboard activation selects the mesh using the centered preset pointer position.
-- The WebGL canvas is decorative and `aria-hidden="true"`.
-- No interaction depends exclusively on hover.
+- 保留现有纸片按钮、中文可访问名称、焦点样式、`aria-pressed`、标签和 `Escape` 操作。
+- 使用键盘激活纸片时，采用居中的预设鼠标位置显示 3D 弯曲。
+- WebGL 画布只承担装饰效果，设置 `aria-hidden="true"`。
+- 核心选择与还原操作不能只依赖鼠标悬停。
 
-## Validation
+## 验证方式
 
-- Unit-test the deformation function: upper anchor stability, positive-Z lower curl, maximum bend clamping, and pointer twist limits.
-- Component-test that the overlay exists once, selected DOM visuals hide only after mesh readiness, and clearing selection restores them.
-- Keep the existing selection, stage rendering, scene validation, and assembly tests passing.
-- Run `npm test`, `npm run typecheck`, and `npm run build`.
-- The user performs final visual judgment in the browser, checking continuous curvature, pointer response, paper back visibility, shadow/highlight coherence, and smooth restoration.
+- 单元测试形变计算：上半部分稳定、下半部分朝正 Z 方向卷起、最大角度限制、鼠标扭转限制。
+- 组件测试：页面只存在一个 3D 画布；网格准备好后才隐藏 DOM 纸片；取消选中后恢复 DOM 纸片。
+- 保证现有选择、舞台渲染、场景校验和拼合动画测试继续通过。
+- 运行 `npm test`、`npm run typecheck` 和 `npm run build`。
+- 最终视觉判断由用户在浏览器中完成，重点检查连续曲面、鼠标响应、纸张背面、阴影与高光，以及还原时的自然程度。
 
-## Explicit Non-Goals
+## 明确不做
 
-- No physics engine, cloth simulation, or collision detection.
-- No conversion of the complete stage or assembly animation to WebGL.
-- No gyroscope interaction.
-- No simultaneous deformation of multiple layers.
-- No reuse or redistribution of frames from the reference video.
+- 不引入物理引擎、布料模拟或碰撞检测。
+- 不把完整舞台或拼合动画迁移到 WebGL。
+- 不增加陀螺仪交互。
+- 不同时变形多块纸片。
+- 不复制或发布参考视频中的任何画面。
