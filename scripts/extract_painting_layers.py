@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageChops, ImageDraw
 
 from scripts.validate_painting_assets import EXPECTED_LAYERS
 
@@ -54,6 +54,29 @@ REGIONS = {
     ),
 }
 
+LAYER_GROUPS = {
+    "layer-001-torso-collar.webp": (
+        "layer-002-torso.webp",
+        "layer-010-white-collar.webp",
+    ),
+    "layer-002-face-neck.webp": (
+        "layer-003-neck-ear.webp",
+        "layer-004-face-base.webp",
+        "layer-005-face-shadow.webp",
+        "layer-006-face-highlight.webp",
+    ),
+    "layer-003-blue-headscarf.webp": ("layer-009-blue-headband.webp",),
+    "layer-004-yellow-wrap-tail.webp": (
+        "layer-001-scarf-tail.webp",
+        "layer-008-yellow-wrap.webp",
+    ),
+    "layer-005-eyes-brows.webp": ("layer-007-eyes-brows.webp",),
+    "layer-006-pearl-highlight.webp": (
+        "layer-011-pearl.webp",
+        "layer-012-pearl-highlight.webp",
+    ),
+}
+
 
 def _scaled(values: tuple[int, ...], size: tuple[int, int]) -> tuple[int, ...]:
     sx = size[0] / REFERENCE_SIZE[0]
@@ -85,7 +108,9 @@ def extract_layers(root: Path) -> list[Path]:
     original = Image.open(original_path).convert("RGBA")
     outputs: list[Path] = []
     for filename in EXPECTED_LAYERS:
-        alpha = _mask_for(filename, original.size)
+        alpha = Image.new("L", original.size, 0)
+        for source in LAYER_GROUPS[filename]:
+            alpha = ImageChops.lighter(alpha, _mask_for(source, original.size))
         layer = original.copy()
         layer.putalpha(alpha)
 

@@ -5,18 +5,12 @@ from pathlib import Path
 from PIL import Image
 
 EXPECTED_LAYERS = (
-    "layer-001-scarf-tail.webp",
-    "layer-002-torso.webp",
-    "layer-003-neck-ear.webp",
-    "layer-004-face-base.webp",
-    "layer-005-face-shadow.webp",
-    "layer-006-face-highlight.webp",
-    "layer-007-eyes-brows.webp",
-    "layer-008-yellow-wrap.webp",
-    "layer-009-blue-headband.webp",
-    "layer-010-white-collar.webp",
-    "layer-011-pearl.webp",
-    "layer-012-pearl-highlight.webp",
+    "layer-001-torso-collar.webp",
+    "layer-002-face-neck.webp",
+    "layer-003-blue-headscarf.webp",
+    "layer-004-yellow-wrap-tail.webp",
+    "layer-005-eyes-brows.webp",
+    "layer-006-pearl-highlight.webp",
 )
 
 
@@ -27,12 +21,14 @@ def validate_assets(
     originals = root / "assets" / "originals" / "painting-01"
     layers = root / "assets" / "layers" / "painting-01"
     masks = layers / "masks"
+    workspace = root / "assets" / "environment" / "painting-01" / "workspace.webp"
 
     required = (
         originals / "original.png",
         originals / "generation.json",
         layers / "background.webp",
         layers / "layer-preview.png",
+        workspace,
     )
     for path in required:
         if not path.is_file() or path.stat().st_size == 0:
@@ -44,6 +40,13 @@ def validate_assets(
         with Image.open(path) as image:
             if image.size != expected_size:
                 problems.append(f"wrong size: {path.relative_to(root)} = {image.size}")
+
+    if workspace.is_file():
+        with Image.open(workspace) as image:
+            if abs(image.width / image.height - 16 / 9) > 1 / image.height:
+                problems.append(
+                    f"workspace must be 16:9: {workspace.relative_to(root)} = {image.size}"
+                )
 
     record_path = originals / "generation.json"
     if record_path.is_file():

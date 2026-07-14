@@ -117,6 +117,19 @@
     "keyColor": "#00ff00",
     "removeChromaKeyScript": "C:/Users/tc/.codex/skills/.system/imagegen/scripts/remove_chroma_key.py"
   },
+  "semanticGrouping": {
+    "source": "the twelve registered masks above",
+    "implementation": "scripts/extract_painting_layers.py:LAYER_GROUPS",
+    "outputs": [
+      "layer-001-torso-collar.webp",
+      "layer-002-face-neck.webp",
+      "layer-003-blue-headscarf.webp",
+      "layer-004-yellow-wrap-tail.webp",
+      "layer-005-eyes-brows.webp",
+      "layer-006-pearl-highlight.webp"
+    ],
+    "processing": "source alpha masks combined with ImageChops.lighter; pixels copied from the registered GPT master"
+  },
   "review": [
     "Visual check: master has one subject, backward gaze, one pearl, blue-and-ochre scarf, deep green-black background and safe margins.",
     "Visual check: background contains no face, shoulder, scarf, pearl silhouette or blurred subject-shaped patch.",
