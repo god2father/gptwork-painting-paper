@@ -124,11 +124,11 @@ button { color: inherit; }
   transition: transform .68s cubic-bezier(.2,.82,.2,1), filter .68s ease, opacity .5s ease;
   will-change: transform, filter;
 }
-.stage-layer__facet--left { clip-path: inset(0 50% 0 0); }
-.stage-layer__facet--right { clip-path: inset(0 0 0 50%); }
+.stage-layer__facet--top { clip-path: inset(0 0 50% 0); }
+.stage-layer__facet--bottom { clip-path: inset(50% 0 0); }
 .stage-layer__crease {
   z-index: 3;
-  clip-path: inset(0 48.5%);
+  clip-path: inset(48.5% 0);
   opacity: 0;
   pointer-events: none;
 }
@@ -139,18 +139,18 @@ button { color: inherit; }
 .stage-layer--selected .stage-layer__parallax {
   transform: translate(var(--parallax-x, 0), var(--parallax-y, 0)) translateZ(var(--select-base-z)) rotateX(var(--select-rotate-x)) rotateY(var(--select-rotate-y)) scale(var(--select-scale));
 }
-.stage-layer--selected .stage-layer__facet--left {
-  transform: translateZ(var(--fold-left-z));
+.stage-layer--selected .stage-layer__facet--top {
+  transform: translateZ(var(--fold-plane-z));
   filter: brightness(.94) saturate(.98);
 }
-.stage-layer--selected .stage-layer__facet--right {
-  transform: translateZ(var(--fold-left-z)) rotateY(var(--fold-angle-negative));
+.stage-layer--selected .stage-layer__facet--bottom {
+  transform: translateZ(var(--fold-plane-z)) rotateX(var(--fold-angle));
   filter: brightness(1.13) saturate(1.02);
 }
 .stage-layer--selected .stage-layer__crease {
   transform: translateZ(var(--fold-crease-z));
   opacity: .82;
-  filter: brightness(1.5) contrast(1.08) drop-shadow(-5px 0 5px rgba(20,12,7,.42));
+  filter: brightness(1.5) contrast(1.08) drop-shadow(0 -5px 5px rgba(20,12,7,.42));
 }
 
 .paper-label {
