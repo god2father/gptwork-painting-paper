@@ -27,8 +27,7 @@ const buttonStyle = computed(() => ({
   '--select-scale': props.layer.selection3d.scale,
   '--select-base-z': `${props.layer.selection3d.z * 0.25}px`,
   '--fold-left-z': `${props.layer.selection3d.z * 0.62}px`,
-  '--fold-right-z': `${props.layer.selection3d.z}px`,
-  '--fold-crease-z': `${props.layer.selection3d.z + 3}px`,
+  '--fold-crease-z': `${props.layer.selection3d.z * 0.62 + 3}px`,
   '--fold-angle': `${props.layer.selection3d.foldAngle}deg`,
   '--fold-angle-negative': `${-props.layer.selection3d.foldAngle}deg`,
 }))
