@@ -26,6 +26,18 @@ export interface EnvironmentAsset {
   alt: string
 }
 
+export interface ReliefConfig {
+  colorMap: string
+  depthMap: string
+  segmentsX: number
+  segmentsY: number
+  depthScale: number
+  tiltX: number
+  tiltY: number
+  damping: number
+  transitionDuration: number
+}
+
 export interface SelectionTransform3D {
   z: number
   rotateX: number
@@ -99,6 +111,7 @@ export interface PaintingScene {
     src: string
     alt: string
   }
+  relief: ReliefConfig
   environment: {
     workspace: EnvironmentAsset
   }

@@ -8,7 +8,7 @@ import WorkspaceStage from './WorkspaceStage.vue'
 
 describe('WorkspaceStage', () => {
   it('renders one overhead atelier instead of a three-column viewer', async () => {
-    const app = createSSRApp({ render: () => h(WorkspaceStage, { scene: validatePaintingScene(rawScene) }) })
+    const app = createSSRApp({ render: () => h(WorkspaceStage, { scene: validatePaintingScene(rawScene), assembled: false }) })
     app.use(createPinia())
     const html = await renderToString(app)
     expect(html).toContain('暖色木桌上的纸张、铅笔和裁切工具')
@@ -17,7 +17,8 @@ describe('WorkspaceStage', () => {
     expect(html).toContain('data-motion-wipe-top')
     expect(html).toContain('data-motion-wipe-bottom')
     expect(html.match(/data-layer-id=/g)).toHaveLength(6)
-    expect(html.match(/data-testid="paper-mesh-overlay"/g)).toHaveLength(1)
+    expect(html.match(/data-testid="portrait-relief-overlay"/g)).toHaveLength(1)
+    expect(html).not.toContain('paper-mesh-overlay')
     expect(html.match(/stage-layer__visual/g)).toHaveLength(6)
     expect(html.match(/stage-layer__image/g)).toHaveLength(6)
     expect(html).not.toContain('stage-layer__facet')

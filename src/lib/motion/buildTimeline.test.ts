@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import rawScene from '../../../manifests/paintings/painting-01.json'
 import { validatePaintingScene } from '../scene/painting'
-import { assemblyEnd, chapterProgress, layerProgress } from './buildTimeline'
+import { assemblyEnd, buildTimeline, chapterProgress, layerProgress } from './buildTimeline'
 
 describe('layer progress', () => {
   it('maps a layer interval into zero to one', () => {
@@ -26,5 +26,13 @@ describe('atelier chapter progress', () => {
 
   it('keeps the assembly visible for several seconds', () => {
     expect(assemblyEnd(validatePaintingScene(rawScene))).toBeGreaterThanOrEqual(5)
+  })
+
+  it('reports when the assembly timeline completes', () => {
+    let completed = 0
+    const stage = { clientWidth: 420, clientHeight: 525, closest: () => null } as unknown as HTMLElement
+    const timeline = buildTimeline(validatePaintingScene(rawScene), new Map(), stage, () => { completed += 1 })
+    timeline.progress(1)
+    expect(completed).toBe(1)
   })
 })

@@ -6,7 +6,7 @@ import type { PaintingScene } from '../../types/painting'
 import PaperLabel from './PaperLabel.vue'
 import PortraitFrame from './PortraitFrame.vue'
 
-const props = defineProps<{ scene: PaintingScene }>()
+const props = defineProps<{ scene: PaintingScene; assembled: boolean }>()
 const emit = defineEmits<{
   ready: [elements: Map<string, HTMLElement>]
   error: [id: string]
@@ -32,7 +32,7 @@ function clearFromBackdrop(event: MouseEvent) {
     <div class="atelier__shade" aria-hidden="true" />
     <div class="atelier__camera" data-motion-camera>
       <div class="atelier__paper-bed">
-        <PortraitFrame :scene="scene" @ready="emit('ready', $event)" @error="emit('error', $event)" />
+        <PortraitFrame :scene="scene" :assembled="assembled" @ready="emit('ready', $event)" @error="emit('error', $event)" />
       </div>
     </div>
     <PaperLabel class="atelier__work-label" kind="work" :title="scene.title" :body="scene.subtitle" />

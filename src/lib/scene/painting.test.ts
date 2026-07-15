@@ -6,13 +6,26 @@ describe('painting scene contract', () => {
   it('accepts the six-layer atelier scene', () => {
     const parsed = validatePaintingScene(scene) as unknown as {
       environment: { workspace: { src: string } }
+      relief: { colorMap: string; depthMap: string; segmentsX: number; segmentsY: number; depthScale: number }
       chapters: Array<{ id: string; start: number; end: number }>
       layers: Array<{ expanded: { z: number }; shadow: number }>
     }
     expect(parsed.layers).toHaveLength(6)
     expect(parsed.environment.workspace.src).toBe('/assets/environment/painting-01/workspace.webp')
+    expect(parsed.relief.colorMap).toBe('/assets/layers/painting-01/relief-color.webp')
+    expect(parsed.relief.depthMap).toBe('/assets/layers/painting-01/relief-depth.webp')
+    expect(parsed.relief.segmentsX).toBeGreaterThanOrEqual(80)
+    expect(parsed.relief.segmentsY).toBeGreaterThanOrEqual(100)
+    expect(parsed.relief.depthScale).toBeGreaterThan(0)
     expect(parsed.chapters.map(({ id }) => id)).toEqual(['reveal', 'arrival', 'focus', 'layers', 'observe'])
     expect(parsed.layers.every((layer) => Number.isFinite(layer.expanded.z))).toBe(true)
+  })
+
+  it('rejects an invalid relief depth scale', () => {
+    expect(() => validatePaintingScene({
+      ...scene,
+      relief: { ...scene.relief, depthScale: 0 },
+    })).toThrow('relief')
   })
 
   it('rejects duplicate ids', () => {

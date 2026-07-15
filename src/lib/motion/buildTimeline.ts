@@ -21,13 +21,14 @@ export function buildTimeline(
   scene: PaintingScene,
   elements: Map<string, HTMLElement>,
   stage: HTMLElement,
+  onComplete?: () => void,
 ): gsap.core.Timeline {
   const atelier = stage.closest<HTMLElement>('.atelier')
   const camera = atelier?.querySelector<HTMLElement>('[data-motion-camera]')
   const frame = atelier?.querySelector<HTMLElement>('[data-motion-frame]')
   const wipeTop = atelier?.querySelector<HTMLElement>('[data-motion-wipe-top]')
   const wipeBottom = atelier?.querySelector<HTMLElement>('[data-motion-wipe-bottom]')
-  const timeline = gsap.timeline({ paused: true })
+  const timeline = gsap.timeline({ paused: true, onComplete })
 
   if (wipeTop) timeline.to(wipeTop, { yPercent: -110, duration: 0.68, ease: 'power3.inOut' }, 0)
   if (wipeBottom) timeline.to(wipeBottom, { yPercent: 110, duration: 0.68, ease: 'power3.inOut' }, 0)

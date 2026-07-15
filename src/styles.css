@@ -110,26 +110,28 @@ button { color: inherit; }
   transform: translate(var(--parallax-x, 0), var(--parallax-y, 0)) translateZ(0) rotateX(0) rotateY(0) scale(1);
   transform-style: preserve-3d;
   transform-origin: 50% 50%;
-  transition: transform .56s cubic-bezier(.2,.8,.2,1), opacity .18s ease;
+  transition: transform .56s cubic-bezier(.2,.8,.2,1), opacity var(--relief-transition, .8s) ease;
   will-change: transform, opacity;
 }
 .stage-layer__image { position: absolute; max-width: none; object-fit: fill; user-select: none; pointer-events: none; }
 .stage-layer:hover { filter: drop-shadow(4px 7px 7px rgba(28,18,10,.42)) brightness(1.035); }
 .stage-layer:focus-visible { outline: 3px solid #f2dfb8; outline-offset: 5px; }
 .stage-layer--selected { z-index: 1000 !important; filter: drop-shadow(12px 18px 14px rgba(28,18,10,.5)) brightness(1.055); }
-.stage-layer--selected .stage-layer__visual {
-  transform: translate(var(--parallax-x, 0), var(--parallax-y, 0)) translateZ(var(--select-base-z)) rotateX(var(--select-rotate-x)) rotateY(var(--select-rotate-y)) scale(var(--select-scale));
-}
-.stage-layer--mesh-active .stage-layer__visual { opacity: 0; }
 
-.paper-mesh-overlay {
+.artwork__canvas--relief-active .stage-layer__visual { opacity: 0; }
+
+.portrait-relief-overlay {
   position: absolute;
   inset: 0;
   z-index: 998;
   width: 100%;
   height: 100%;
+  opacity: 0;
   pointer-events: none;
+  filter: drop-shadow(8px 12px 12px rgba(25, 14, 7, .42));
+  transition: opacity var(--relief-transition, .8s) ease;
 }
+.portrait-relief-overlay--active { opacity: 1; }
 
 .paper-label {
   position: absolute;

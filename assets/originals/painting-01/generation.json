@@ -130,6 +130,16 @@
     ],
     "processing": "source alpha masks combined with ImageChops.lighter; pixels copied from the registered GPT master"
   },
+  "relief": {
+    "generatedAt": "2026-07-15",
+    "tool": "built-in image generation edit",
+    "prompt": "Use case: precise-object-edit. Asset type: registered grayscale displacement map for a browser 3D portrait relief. Convert the exact portrait into a smooth orthographic height map while preserving the exact canvas, crop, silhouette, pose, proportions and feature positions. Pure white is closest; pure black is farthest. Keep the background flat and dark; torso at medium depth; collar, scarf and face progressively closer; nose, lips and pearl locally closest. Continuous sculpted bas-relief, monochrome only, no cast shadows, texture, outlines, text, frame, added anatomy or duplicate features.",
+    "input": "assets/originals/painting-01/original.png",
+    "sourceOutput": "assets/generated/painting-01/relief-depth-source.png",
+    "colorOutput": "assets/layers/painting-01/relief-color.webp",
+    "depthOutput": "assets/layers/painting-01/relief-depth.webp",
+    "processing": "color master normalized to 1536x1920 RGB WebP; GPT depth guide fitted to the same canvas; registered semantic masks and the GPT-master luminance enforce exact alignment; low-frequency GPT depth blended at 8 percent; Gaussian smoothing and grayscale WebP normalization"
+  },
   "review": [
     "Visual check: master has one subject, backward gaze, one pearl, blue-and-ochre scarf, deep green-black background and safe margins.",
     "Visual check: background contains no face, shoulder, scarf, pearl silhouette or blurred subject-shaped patch.",
