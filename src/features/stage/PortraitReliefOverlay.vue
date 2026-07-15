@@ -43,9 +43,11 @@ onMounted(async () => {
   }
   resizeObserver = new ResizeObserver(() => relief.resize())
   resizeObserver.observe(stage)
+  const breezeLayer = props.scene.layers.find((layer) => layer.ambient?.kind === 'breeze' && layer.ambient.region)
   loaded.value = await relief.load(
     resolveAssetUrl(props.scene.relief.colorMap),
     resolveAssetUrl(props.scene.relief.depthMap),
+    breezeLayer ? resolveAssetUrl(breezeLayer.src) : undefined,
   )
   emit('ready', loaded.value)
   if (!loaded.value) emit('error', 'relief')

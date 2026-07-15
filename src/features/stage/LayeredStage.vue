@@ -73,13 +73,15 @@ defineExpose({ canvas, failedLayers })
         :layer="layer"
         :canvas="scene.canvas"
         :selected="store.selectedLayerId === layer.id"
+        :exploded="store.isExploded"
+        :ambient-active="reliefActive && !store.isExploded && !store.selectedLayerId"
         @select="store.toggleLayer"
         @error="reportError"
       />
       <PortraitReliefOverlay
         ref="reliefOverlay"
         :scene="scene"
-        :active="assembled"
+        :active="assembled && !store.isExploded"
         @ready="reliefReady = $event"
         @error="reportError"
       />

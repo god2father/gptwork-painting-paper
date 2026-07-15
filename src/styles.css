@@ -20,7 +20,7 @@ button { color: inherit; }
   top: 0;
   width: 100%;
   height: 100svh;
-  overflow: hidden;
+  overflow: clip;
   isolation: isolate;
   background: #795234;
 }
@@ -116,9 +116,68 @@ button { color: inherit; }
 .stage-layer__image { position: absolute; max-width: none; object-fit: fill; user-select: none; pointer-events: none; }
 .stage-layer:hover { filter: drop-shadow(4px 7px 7px rgba(28,18,10,.42)) brightness(1.035); }
 .stage-layer:focus-visible { outline: 3px solid #f2dfb8; outline-offset: 5px; }
+.stage-layer--ambient-sparkle:focus-visible {
+  outline: 0;
+  filter: drop-shadow(0 0 8px rgba(255,231,176,.9)) brightness(1.15);
+}
 .stage-layer--selected { z-index: 1000 !important; filter: drop-shadow(12px 18px 14px rgba(28,18,10,.5)) brightness(1.055); }
 
 .artwork__canvas--relief-active .stage-layer__visual { opacity: 0; }
+.artwork__canvas--relief-active .stage-layer--selected {
+  filter: drop-shadow(14px 22px 15px rgba(17,10,6,.62)) brightness(1.06);
+}
+.artwork__canvas--relief-active .stage-layer--selected .stage-layer__visual {
+  opacity: 1;
+  transform: translate(var(--parallax-x, 0), var(--parallax-y, 0)) translateZ(86px) rotateX(-2deg) scale(1.045);
+}
+.stage-layer--ambient-sparkle::before { width: max(100%, 60px); height: max(100%, 60px); }
+.artwork__canvas--relief-active .stage-layer--ambient-active.stage-layer--ambient-breeze {
+  z-index: 999 !important;
+}
+.artwork__canvas--relief-active .stage-layer--ambient-active.stage-layer--ambient-breeze:not(.stage-layer--ambient-mesh) .stage-layer__visual {
+  opacity: 1;
+  animation: headwrap-breeze var(--ambient-duration) ease-in-out var(--ambient-delay) infinite alternate;
+}
+.artwork__canvas--relief-active .stage-layer--ambient-active.stage-layer--ambient-sparkle {
+  z-index: 1000 !important;
+}
+.artwork__canvas--relief-active .stage-layer--ambient-active.stage-layer--ambient-sparkle .stage-layer__visual { opacity: 1; }
+.artwork__canvas--relief-active .stage-layer--ambient-active.stage-layer--ambient-sparkle::after {
+  content: "";
+  position: absolute;
+  left: var(--sparkle-left, 50%);
+  top: var(--sparkle-top, 50%);
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  pointer-events: none;
+  background:
+    linear-gradient(transparent 47%, rgba(255,248,209,.94) 49% 51%, transparent 53%),
+    linear-gradient(90deg, transparent 47%, rgba(255,248,209,.94) 49% 51%, transparent 53%),
+    radial-gradient(circle, rgba(255,255,239,.98) 0 8%, rgba(255,229,164,.55) 22%, transparent 58%);
+  filter: drop-shadow(0 0 7px rgba(255,225,155,.9));
+  animation: pearl-sparkle var(--ambient-duration) ease-in-out var(--ambient-delay) infinite;
+}
+.artwork__canvas--relief-active .stage-layer--exploded {
+  filter: drop-shadow(12px 18px 13px rgba(17,10,6,.58)) brightness(1.035);
+}
+.artwork__canvas--relief-active .stage-layer--exploded .stage-layer__visual {
+  opacity: 1;
+  transform:
+    translate(var(--parallax-x, 0), var(--parallax-y, 0))
+    translate(var(--explode-x), var(--explode-y))
+    translateZ(var(--explode-z))
+    rotate(var(--explode-rotation))
+    scale(1.035);
+}
+.artwork__canvas--relief-active .stage-layer--exploded.stage-layer--selected .stage-layer__visual {
+  transform:
+    translate(var(--parallax-x, 0), var(--parallax-y, 0))
+    translate(var(--explode-x), var(--explode-y))
+    translateZ(calc(var(--explode-z) + 48px))
+    rotate(var(--explode-rotation))
+    scale(1.075);
+}
 
 .portrait-relief-overlay {
   position: absolute;
@@ -132,6 +191,17 @@ button { color: inherit; }
   transition: opacity var(--relief-transition, .8s) ease;
 }
 .portrait-relief-overlay--active { opacity: 1; }
+
+@keyframes headwrap-breeze {
+  from { transform: translate(var(--parallax-x, 0), var(--parallax-y, 0)) translate(0, 0) rotate(0); }
+  to { transform: translate(var(--parallax-x, 0), var(--parallax-y, 0)) translate(var(--ambient-x), var(--ambient-y)) rotate(var(--ambient-rotation)); }
+}
+
+@keyframes pearl-sparkle {
+  0%, 58%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(.4) rotate(0); }
+  68% { opacity: 1; transform: translate(-50%, -50%) scale(1.12) rotate(22deg); }
+  80% { opacity: .25; transform: translate(-50%, -50%) scale(.72) rotate(38deg); }
+}
 
 .paper-label {
   position: absolute;
@@ -150,7 +220,10 @@ button { color: inherit; }
 .paper-label h2 { font-size: 24px; }
 .paper-label__body { margin: 12px 0 0; font-size: 14px; line-height: 1.8; color: #62503e; }
 .paper-label button { min-height: 44px; margin-top: 10px; padding: 8px 0; border: 0; border-bottom: 1px solid currentColor; background: transparent; cursor: pointer; }
+.paper-label button:disabled { cursor: wait; opacity: .48; }
 .atelier__work-label { left: clamp(20px, 4vw, 72px); top: clamp(20px, 5vh, 54px); transform: rotate(-1.2deg); }
+.atelier__intro-label { right: clamp(20px, 4vw, 68px); top: clamp(22px, 5vh, 56px); transform: rotate(.65deg); }
+.atelier__explode-label { left: clamp(22px, 5vw, 78px); bottom: clamp(26px, 6vh, 58px); transform: rotate(.7deg); }
 .atelier__layer-label { right: clamp(18px, 5vw, 80px); bottom: clamp(92px, 12vh, 138px); transform: rotate(.8deg); }
 
 .atelier__wipe {
@@ -188,6 +261,18 @@ button { color: inherit; }
   .atelier__work-label { top: 18px; left: 16px; width: min(250px, calc(100vw - 32px)); padding: 15px 18px; }
   .paper-label h1 { font-size: 24px; }
   .paper-label__body { display: none; }
+  .atelier__intro-label { top: 112px; right: 16px; width: min(260px, calc(100vw - 32px)); padding: 14px 17px; }
+  .atelier__intro-label h2 { font-size: 19px; }
+  .atelier__intro-label .paper-label__body {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 1.6;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+  .atelier__explode-label { left: 16px; bottom: 22px; width: 170px; padding: 14px 17px; }
+  .atelier__explode-label h2 { font-size: 19px; }
   .atelier__layer-label { right: 16px; bottom: 118px; }
   .atelier__layer-label .paper-label__body { display: block; }
 }
@@ -196,4 +281,6 @@ button { color: inherit; }
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .001ms !important; animation-duration: .001ms !important; }
   .stage-layer__visual { transform: none !important; }
   .stage-layer--selected { outline: 3px solid #f2dfb8; outline-offset: 4px; }
+  .stage-layer--ambient-breeze .stage-layer__visual { animation: none !important; }
+  .stage-layer--ambient-sparkle::after { display: none; }
 }

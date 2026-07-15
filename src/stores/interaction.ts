@@ -6,6 +6,7 @@ export const useInteractionStore = defineStore('interaction', () => {
   const progress = ref(0)
   const isPlaying = ref(false)
   const selectedLayerId = ref<string | null>(null)
+  const isExploded = ref(false)
 
   function setProgress(value: number, manual = false) {
     progress.value = clampProgress(value)
@@ -25,6 +26,7 @@ export const useInteractionStore = defineStore('interaction', () => {
     progress.value = 0
     isPlaying.value = false
     selectedLayerId.value = null
+    isExploded.value = false
   }
 
   function replay() {
@@ -40,5 +42,9 @@ export const useInteractionStore = defineStore('interaction', () => {
     selectedLayerId.value = selectedLayerId.value === id ? null : id
   }
 
-  return { progress, isPlaying, selectedLayerId, setProgress, play, pause, reset, replay, selectLayer, toggleLayer }
+  function toggleExploded() {
+    isExploded.value = !isExploded.value
+  }
+
+  return { progress, isPlaying, selectedLayerId, isExploded, setProgress, play, pause, reset, replay, selectLayer, toggleLayer, toggleExploded }
 })

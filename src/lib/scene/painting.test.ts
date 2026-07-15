@@ -8,17 +8,20 @@ describe('painting scene contract', () => {
       environment: { workspace: { src: string } }
       relief: { colorMap: string; depthMap: string; segmentsX: number; segmentsY: number; depthScale: number }
       chapters: Array<{ id: string; start: number; end: number }>
-      layers: Array<{ expanded: { z: number }; shadow: number }>
+      layers: Array<{ id: string; src: string; expanded: { z: number }; shadow: number; ambient?: { kind: string } }>
     }
     expect(parsed.layers).toHaveLength(6)
     expect(parsed.environment.workspace.src).toBe('/assets/environment/painting-01/workspace.webp')
-    expect(parsed.relief.colorMap).toBe('/assets/layers/painting-01/relief-color.webp')
-    expect(parsed.relief.depthMap).toBe('/assets/layers/painting-01/relief-depth.webp')
+    expect(parsed.relief.colorMap).toBe('/assets/layers/painting-01/relief-color-no-pearl-v2.webp')
+    expect(parsed.relief.depthMap).toBe('/assets/layers/painting-01/relief-depth-no-pearl-v2.webp')
+    expect(parsed.layers.find((layer) => layer.id === 'layer-002-face-neck')?.src).toBe('/assets/layers/painting-01/layer-002-face-neck.webp')
     expect(parsed.relief.segmentsX).toBeGreaterThanOrEqual(80)
     expect(parsed.relief.segmentsY).toBeGreaterThanOrEqual(100)
     expect(parsed.relief.depthScale).toBeGreaterThan(0)
     expect(parsed.chapters.map(({ id }) => id)).toEqual(['reveal', 'arrival', 'focus', 'layers', 'observe'])
     expect(parsed.layers.every((layer) => Number.isFinite(layer.expanded.z))).toBe(true)
+    expect(parsed.layers.filter((layer) => layer.ambient?.kind === 'breeze')).toHaveLength(2)
+    expect(parsed.layers.find((layer) => layer.id === 'layer-006-pearl-highlight')?.ambient?.kind).toBe('sparkle')
   })
 
   it('rejects an invalid relief depth scale', () => {

@@ -36,6 +36,17 @@ function clearFromBackdrop(event: MouseEvent) {
       </div>
     </div>
     <PaperLabel class="atelier__work-label" kind="work" :title="scene.title" :body="scene.subtitle" />
+    <PaperLabel class="atelier__intro-label" kind="intro" title="作品介绍" :body="scene.introduction" />
+    <PaperLabel
+      class="atelier__explode-label"
+      kind="action"
+      title="拆解画面"
+      body="让所有可点击纸片沿各自的轨迹同时离开原位。"
+      :action-label="store.isExploded ? '收拢全部图层' : '炸开全部图层'"
+      :pressed="store.isExploded"
+      :disabled="!assembled"
+      @action="store.toggleExploded"
+    />
     <Transition name="paper-note">
       <PaperLabel
         v-if="selectedLayer"

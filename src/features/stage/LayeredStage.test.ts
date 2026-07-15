@@ -25,12 +25,39 @@ describe('LayeredStage', () => {
         layer: scene.layers[0]!,
         canvas: scene.canvas,
         selected: true,
+        exploded: true,
       }),
     })
     const html = await renderToString(app)
     expect(html).not.toContain('stage-layer--mesh-active')
     expect(html).toContain('aria-pressed="true"')
     expect(html).toContain(`aria-label="查看图层：${scene.layers[0]!.name}"`)
+    expect(html).toContain('stage-layer--exploded')
+    expect(html).toContain('--explode-x')
     expect(html.match(/stage-layer__image/g)).toHaveLength(1)
+  })
+
+  it('renders the pearl earring as its own sparkling button', async () => {
+    const scene = validatePaintingScene(rawScene)
+    const pearl = scene.layers.find((layer) => layer.id === 'layer-006-pearl-highlight')!
+    const app = createSSRApp({ render: () => h(StageLayer, { layer: pearl, canvas: scene.canvas, selected: false, ambientActive: true }) })
+    const html = await renderToString(app)
+    expect(html).toContain('stage-layer--ambient-sparkle')
+    expect(html).toContain('stage-layer--ambient-active')
+    expect(html).toContain('aria-label="查看图层：珍珠耳环"')
+    expect(html).toContain('--ambient-duration')
+    expect(html).toContain('--sparkle-left:44%')
+    expect(html).toContain('--sparkle-top:63%')
+    expect(html).not.toContain('--relief-left')
+    expect(html).not.toContain('--relief-top')
+  })
+
+  it('marks only the lower ochre tail for mesh-based breeze motion', async () => {
+    const scene = validatePaintingScene(rawScene)
+    const wrap = scene.layers.find((layer) => layer.id === 'layer-004-yellow-wrap-tail')!
+    const app = createSSRApp({ render: () => h(StageLayer, { layer: wrap, canvas: scene.canvas, selected: false, ambientActive: true }) })
+    const html = await renderToString(app)
+    expect(html).toContain('stage-layer--ambient-mesh')
+    expect(html).toContain('--ambient-x:18px')
   })
 })

@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageDraw
+from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 from scripts.validate_painting_assets import EXPECTED_LAYERS
 
@@ -46,11 +46,25 @@ REGIONS = {
         ("polygon", (550, 1110, 620, 1030, 760, 1010, 940, 1000, 1070, 1050, 980, 1090, 820, 1110, 700, 1160, 610, 1240, 540, 1280)),
     ),
     "layer-011-pearl.webp": (
-        ("ellipse", (785, 845, 850, 930)),
-        ("polygon", (807, 830, 823, 830, 827, 855, 804, 855)),
+        (
+            "polygon",
+            (
+                880, 920, 897, 924, 909, 936, 915, 952, 914, 975,
+                905, 994, 890, 1007, 871, 1004, 856, 994, 847, 976,
+                846, 954, 853, 936, 865, 925,
+            ),
+        ),
+        (
+            "polygon",
+            (
+                875, 876, 883, 878, 882, 889, 885, 897, 882, 907,
+                884, 919, 879, 925, 873, 919, 874, 909, 872, 900,
+                875, 891, 872, 883,
+            ),
+        ),
     ),
     "layer-012-pearl-highlight.webp": (
-        ("ellipse", (790, 865, 820, 900)),
+        ("ellipse", (860, 942, 892, 979)),
     ),
 }
 
@@ -104,19 +118,34 @@ def extract_layers(root: Path) -> list[Path]:
     layers = root / "assets" / "layers" / "painting-01"
     generated.mkdir(parents=True, exist_ok=True)
     layers.mkdir(parents=True, exist_ok=True)
+    masks = layers / "masks"
+    masks.mkdir(parents=True, exist_ok=True)
 
     original = Image.open(original_path).convert("RGBA")
+    fill_path = layers / "relief-color-no-pearl-v2.webp"
+    no_pearl_fill = Image.open(fill_path).convert("RGBA") if fill_path.is_file() else original
+    pearl_alpha = ImageChops.lighter(
+        _mask_for("layer-011-pearl.webp", original.size),
+        _mask_for("layer-012-pearl-highlight.webp", original.size),
+    )
+    fill_alpha = pearl_alpha.filter(ImageFilter.MaxFilter(29)).filter(
+        ImageFilter.GaussianBlur(5)
+    )
+    base_without_pearl = Image.composite(no_pearl_fill, original, fill_alpha)
+
     outputs: list[Path] = []
     for filename in EXPECTED_LAYERS:
         alpha = Image.new("L", original.size, 0)
         for source in LAYER_GROUPS[filename]:
             alpha = ImageChops.lighter(alpha, _mask_for(source, original.size))
-        layer = original.copy()
+        source = original if filename == "layer-006-pearl-highlight.webp" else base_without_pearl
+        layer = source.copy()
         layer.putalpha(alpha)
 
         keyed = Image.new("RGB", original.size, "#00ff00")
-        keyed.paste(original.convert("RGB"), mask=alpha)
+        keyed.paste(source.convert("RGB"), mask=alpha)
         keyed.save(generated / f"{Path(filename).stem}.png", optimize=True)
+        alpha.save(masks / f"{Path(filename).stem}.png", optimize=True)
 
         output = layers / filename
         layer.save(output, "WEBP", lossless=True, quality=100)

@@ -3,11 +3,13 @@ import { computed } from 'vue'
 import { resolveAssetUrl } from '../../lib/scene/painting'
 import type { PaintingLayer, Size } from '../../types/painting'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   layer: PaintingLayer
   canvas: Size
   selected: boolean
-}>()
+  exploded?: boolean
+  ambientActive?: boolean
+}>(), { exploded: false, ambientActive: false })
 
 const emit = defineEmits<{
   select: [id: string]
@@ -21,7 +23,27 @@ const buttonStyle = computed(() => ({
   height: `${props.layer.bounds.height / props.canvas.height * 100}%`,
   zIndex: props.layer.z,
   '--layer-shadow': props.layer.shadow,
+  '--explode-x': `${props.layer.expanded.x / props.layer.bounds.width * 150}%`,
+  '--explode-y': `${props.layer.expanded.y / props.layer.bounds.height * 150}%`,
+  '--explode-z': `${props.layer.selection3d.z * 1.15}px`,
+  '--explode-rotation': `${props.layer.expanded.rotation * 1.15}deg`,
+  ...(props.layer.ambient ? {
+    '--ambient-x': `${props.layer.ambient.x}px`,
+    '--ambient-y': `${props.layer.ambient.y}px`,
+    '--ambient-rotation': `${props.layer.ambient.rotation}deg`,
+    '--ambient-duration': `${props.layer.ambient.duration}s`,
+    '--ambient-delay': `${props.layer.ambient.delay}s`,
+    ...(props.layer.ambient.kind === 'sparkle' && props.layer.ambient.anchor ? {
+      '--sparkle-left': `${props.layer.ambient.anchor.x}%`,
+      '--sparkle-top': `${props.layer.ambient.anchor.y}%`,
+    } : {}),
+  } : {}),
 }))
+
+const ambientClass = computed(() => [
+  props.layer.ambient ? `stage-layer--ambient-${props.layer.ambient.kind}` : '',
+  props.layer.ambient?.region ? 'stage-layer--ambient-mesh' : '',
+])
 
 const imageStyle = computed(() => ({
   left: `${-props.layer.bounds.x / props.layer.bounds.width * 100}%`,
@@ -34,7 +56,7 @@ const imageStyle = computed(() => ({
 <template>
   <button
     class="stage-layer"
-    :class="{ 'stage-layer--selected': selected }"
+    :class="[{ 'stage-layer--selected': selected, 'stage-layer--exploded': exploded, 'stage-layer--ambient-active': ambientActive && layer.ambient }, ambientClass]"
     :style="buttonStyle"
     type="button"
     :aria-label="`查看图层：${layer.name}`"

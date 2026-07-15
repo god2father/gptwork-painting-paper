@@ -72,6 +72,25 @@ export interface AssemblyMotion {
   ease: string
 }
 
+export interface AmbientMotion {
+  kind: 'breeze' | 'sparkle'
+  x: number
+  y: number
+  rotation: number
+  duration: number
+  delay: number
+  anchor?: {
+    x: number
+    y: number
+  }
+  region?: {
+    x: number
+    y: number
+    width: number
+    height: number
+  }
+}
+
 export interface PaintingLayer {
   id: string
   name: string
@@ -90,6 +109,7 @@ export interface PaintingLayer {
   shadow: number
   selection3d: SelectionTransform3D
   assembly: AssemblyMotion
+  ambient?: AmbientMotion
   animation: {
     start: number
     duration: number
@@ -105,6 +125,7 @@ export interface PaintingScene {
   id: string
   title: string
   subtitle: string
+  introduction: string
   duration: number
   canvas: Size
   background: {
