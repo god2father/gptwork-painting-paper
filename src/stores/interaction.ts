@@ -7,6 +7,7 @@ export const useInteractionStore = defineStore('interaction', () => {
   const isPlaying = ref(false)
   const selectedLayerId = ref<string | null>(null)
   const isExploded = ref(false)
+  const orientationEnabled = ref(false)
 
   function setProgress(value: number, manual = false) {
     progress.value = clampProgress(value)
@@ -46,5 +47,9 @@ export const useInteractionStore = defineStore('interaction', () => {
     isExploded.value = !isExploded.value
   }
 
-  return { progress, isPlaying, selectedLayerId, isExploded, setProgress, play, pause, reset, replay, selectLayer, toggleLayer, toggleExploded }
+  function enableOrientation() {
+    orientationEnabled.value = true
+  }
+
+  return { progress, isPlaying, selectedLayerId, isExploded, orientationEnabled, setProgress, play, pause, reset, replay, selectLayer, toggleLayer, toggleExploded, enableOrientation }
 })
