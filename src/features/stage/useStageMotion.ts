@@ -25,10 +25,14 @@ export function useStageMotion(scene: PaintingScene) {
     resizeObserver.observe(stage)
   }
 
-  onUnmounted(() => {
+  function disconnect() {
     timeline?.kill()
+    timeline = null
     resizeObserver?.disconnect()
-  })
+    resizeObserver = null
+  }
 
-  return { connect }
+  onUnmounted(disconnect)
+
+  return { connect, disconnect }
 }

@@ -91,6 +91,28 @@ export interface AmbientMotion {
   }
 }
 
+export interface AmbientHighlight {
+  x: number
+  y: number
+  size: number
+  duration: number
+  delay: number
+  parallax: {
+    x: number
+    y: number
+  }
+}
+
+export interface ArchiveConfig {
+  artist: string
+  year: string
+  englishTitle: string
+  accession: string
+  paperColor: string
+  stampColor: string
+  inkColor: string
+}
+
 export interface PaintingLayer {
   id: string
   name: string
@@ -127,6 +149,8 @@ export interface PaintingScene {
   subtitle: string
   introduction: string
   duration: number
+  archive: ArchiveConfig
+  ambientHighlight?: AmbientHighlight
   canvas: Size
   background: {
     src: string

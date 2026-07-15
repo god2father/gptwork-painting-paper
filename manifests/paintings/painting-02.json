@@ -1,0 +1,93 @@
+{
+  "id": "painting-02",
+  "title": "阿尔诺芬妮夫妇像",
+  "subtitle": "一间房、两个人与无数被折进纸层的象征。",
+  "introduction": "扬·凡·艾克于 1434 年创作《阿尔诺芬妮夫妇像》。画中人物立于私人居室，牵手姿态、凸面镜、吊灯、红色床幔与小狗共同构成精密而含蓄的视觉叙事。原作以油彩绘于木板，现藏于伦敦国家美术馆。",
+  "duration": 9.5,
+  "archive": { "artist": "扬·凡·艾克", "year": "1434", "englishTitle": "The Arnolfini Portrait", "accession": "PAPER STUDY · 002", "paperColor": "#d3bd91", "stampColor": "#692b24", "inkColor": "#30241b" },
+  "ambientHighlight": { "x": 51.7, "y": 28.7, "size": 13.2, "duration": 4.6, "delay": -1.3, "parallax": { "x": 4, "y": 3 } },
+  "canvas": { "width": 1200, "height": 2000 },
+  "background": {
+    "src": "/assets/layers/painting-02/background.webp",
+    "alt": "带红色床幔、凸面镜和吊灯的十五世纪室内空间"
+  },
+  "relief": {
+    "colorMap": "/assets/layers/painting-02/relief-color.webp",
+    "depthMap": "/assets/layers/painting-02/relief-depth.webp",
+    "segmentsX": 100,
+    "segmentsY": 166,
+    "depthScale": 58,
+    "tiltX": 5,
+    "tiltY": 8,
+    "damping": 0.1,
+    "transitionDuration": 0.8
+  },
+  "environment": {
+    "workspace": {
+      "src": "/assets/environment/painting-01/workspace.webp",
+      "alt": "暖色木桌上的纸张、铅笔和裁切工具"
+    }
+  },
+  "camera": {
+    "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+    "focused": { "x": 0, "y": 0, "z": 42, "scale": 1.08, "rotation": 0, "opacity": 1 }
+  },
+  "chapters": [
+    { "id": "reveal", "start": 0, "end": 0.12 },
+    { "id": "arrival", "start": 0.12, "end": 0.28 },
+    { "id": "focus", "start": 0.28, "end": 0.42 },
+    { "id": "layers", "start": 0.42, "end": 0.82 },
+    { "id": "observe", "start": 0.82, "end": 1 }
+  ],
+  "layers": [
+    {
+      "id": "layer-001-man-robes", "name": "男子与深色长袍", "src": "/assets/layers/painting-02/layer-001-man-robes.webp", "alt": "画面左侧身穿深色长袍的男子", "description": "宽大的黑褐色长袍把男子塑造成沉静而垂直的暗色支柱。", "z": 25, "shadow": 0.46, "selection3d": { "z": 82, "rotateX": 0, "rotateY": 0, "scale": 1.025, "foldAngle": 45, "mesh": { "segmentsX": 16, "segmentsY": 28, "maxBend": 48, "maxLift": 96, "maxTwist": 8, "damping": 0.14 } },
+      "bounds": { "x": 47, "y": 436, "width": 646, "height": 1362 },
+      "assembly": { "start": 0.9, "duration": 1.35, "from": { "x": -620, "y": 390, "rotation": -9, "scale": 0.92 }, "via": { "x": -230, "y": 110 }, "ease": "power3.out" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": -16, "y": 12, "z": 24, "scale": 1, "rotation": -0.7, "opacity": 1 },
+      "animation": { "start": 0.43, "duration": 0.2, "ease": "power3.out" }, "parallax": { "x": 2, "y": 2 }
+    },
+    {
+      "id": "layer-002-woman-gown", "name": "女子与绿色长裙", "src": "/assets/layers/painting-02/layer-002-woman-gown.webp", "alt": "画面右侧身穿绿色长裙的女子", "description": "层层展开的绿色裙褶占据画面右侧，并在地面形成沉重而华丽的纸面波纹。", "z": 30, "shadow": 0.5, "selection3d": { "z": 92, "rotateX": 0, "rotateY": 0, "scale": 1.025, "foldAngle": 45, "mesh": { "segmentsX": 16, "segmentsY": 28, "maxBend": 52, "maxLift": 108, "maxTwist": 8, "damping": 0.14 } },
+      "bounds": { "x": 587, "y": 533, "width": 613, "height": 1467 },
+      "assembly": { "start": 1.55, "duration": 1.4, "from": { "x": 680, "y": 430, "rotation": 9, "scale": 0.91 }, "via": { "x": 240, "y": 140 }, "ease": "power3.out" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": 18, "y": 14, "z": 30, "scale": 1, "rotation": 0.8, "opacity": 1 },
+      "animation": { "start": 0.48, "duration": 0.21, "ease": "power3.out" }, "parallax": { "x": 3, "y": 2 }
+    },
+    {
+      "id": "layer-003-man-portrait", "name": "男子的帽子与面容", "src": "/assets/layers/painting-02/layer-003-man-portrait.webp", "alt": "男子的宽檐帽、面容与抬起的手", "description": "宽檐帽压低画面重心，苍白的面容和抬起的手从深色衣袍中浮出。", "z": 45, "shadow": 0.38, "selection3d": { "z": 88, "rotateX": 0, "rotateY": 0, "scale": 1.04, "foldAngle": 45, "mesh": { "segmentsX": 14, "segmentsY": 20, "maxBend": 44, "maxLift": 92, "maxTwist": 7, "damping": 0.14 } },
+      "bounds": { "x": 172, "y": 208, "width": 336, "height": 535 },
+      "assembly": { "start": 2.35, "duration": 1.15, "from": { "x": -520, "y": -430, "rotation": -11, "scale": 0.93 }, "via": { "x": -180, "y": -130 }, "ease": "power3.out" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": -8, "y": -10, "z": 42, "scale": 1, "rotation": -0.4, "opacity": 1 },
+      "animation": { "start": 0.54, "duration": 0.18, "ease": "power3.out" }, "parallax": { "x": 1, "y": 1 }
+    },
+    {
+      "id": "layer-004-woman-portrait", "name": "女子的头饰与面容", "src": "/assets/layers/painting-02/layer-004-woman-portrait.webp", "alt": "女子的白色头饰与面容", "description": "白色头饰围住安静的面孔，使她在红色床幔和绿色长裙之间成为最轻的一层。", "z": 50, "shadow": 0.36, "selection3d": { "z": 92, "rotateX": 0, "rotateY": 0, "scale": 1.04, "foldAngle": 45, "mesh": { "segmentsX": 14, "segmentsY": 18, "maxBend": 44, "maxLift": 96, "maxTwist": 7, "damping": 0.14 } },
+      "bounds": { "x": 772, "y": 328, "width": 291, "height": 395 },
+      "assembly": { "start": 3.05, "duration": 1.15, "from": { "x": 540, "y": -380, "rotation": 10, "scale": 0.94 }, "via": { "x": 180, "y": -120 }, "ease": "power3.out" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": 8, "y": -8, "z": 46, "scale": 1, "rotation": 0.45, "opacity": 1 },
+      "animation": { "start": 0.59, "duration": 0.18, "ease": "power3.out" }, "parallax": { "x": 1, "y": 1 }
+    },
+    {
+      "id": "layer-005-joined-hands", "name": "相握的双手", "src": "/assets/layers/painting-02/layer-005-joined-hands.webp", "alt": "画面中央相握的双手", "description": "两人的手在画面中心相遇，是人物关系和整幅构图的连接点。", "z": 65, "shadow": 0.3, "selection3d": { "z": 106, "rotateX": 0, "rotateY": 0, "scale": 1.06, "foldAngle": 45, "mesh": { "segmentsX": 12, "segmentsY": 12, "maxBend": 40, "maxLift": 112, "maxTwist": 6, "damping": 0.14 } },
+      "bounds": { "x": 562, "y": 708, "width": 211, "height": 165 },
+      "assembly": { "start": 3.8, "duration": 1, "from": { "x": 0, "y": -520, "rotation": 7, "scale": 0.9 }, "via": { "x": 40, "y": -160 }, "ease": "back.out(1.15)" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": 0, "y": -4, "z": 62, "scale": 1.02, "rotation": 0, "opacity": 1 },
+      "animation": { "start": 0.65, "duration": 0.14, "ease": "back.out(1.15)" }, "parallax": { "x": 2, "y": 2 }
+    },
+    {
+      "id": "layer-006-dog", "name": "前景的小狗", "src": "/assets/layers/painting-02/layer-006-dog.webp", "alt": "画面前景中央的小狗", "description": "小狗站在人物脚边，以蓬松而温暖的纸片纹理打破室内的庄重秩序。", "z": 60, "shadow": 0.48, "selection3d": { "z": 100, "rotateX": 0, "rotateY": 0, "scale": 1.06, "foldAngle": 45, "mesh": { "segmentsX": 14, "segmentsY": 16, "maxBend": 46, "maxLift": 106, "maxTwist": 8, "damping": 0.14 } },
+      "ambient": { "kind": "breeze", "x": 2.2, "y": 1.2, "rotation": 0.8, "duration": 3.6, "delay": -0.9, "region": { "x": 34, "y": 76, "width": 31, "height": 13 } },
+      "bounds": { "x": 402, "y": 1513, "width": 371, "height": 440 },
+      "assembly": { "start": 4.45, "duration": 1.1, "from": { "x": -120, "y": 560, "rotation": -6, "scale": 0.9 }, "via": { "x": -50, "y": 180 }, "ease": "back.out(1.12)" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": -4, "y": 14, "z": 54, "scale": 1.02, "rotation": -0.4, "opacity": 1 },
+      "animation": { "start": 0.7, "duration": 0.15, "ease": "back.out(1.1)" }, "parallax": { "x": 3, "y": 2 }
+    }
+  ]
+}

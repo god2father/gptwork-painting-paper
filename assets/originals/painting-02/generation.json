@@ -1,0 +1,37 @@
+{
+  "paintingId": "painting-02",
+  "title": "阿尔诺芬妮夫妇像",
+  "generatedAt": "2026-07-15",
+  "tool": "built-in image generation",
+  "sourceReference": "Jan van Eyck, The Arnolfini Portrait, 1434; public-domain composition reference",
+  "assetPolicy": "GPT-generated paper-collage reinterpretation; no pixels copied from the linked page",
+  "masterPromptSummary": "A recognizable hand-cut paper-collage reinterpretation preserving the left man in dark robes, right woman in an emerald gown, joined hands, convex mirror, chandelier, red bed and small dog.",
+  "master": {
+    "sourceOutput": "assets/generated/painting-02/master-source.png",
+    "finalOutput": "assets/originals/painting-02/original.png",
+    "normalization": "resized to 1200x2000 with LANCZOS"
+  },
+  "background": {
+    "sourceOutput": "assets/generated/painting-02/background-source.png",
+    "finalOutput": "assets/layers/painting-02/background.webp",
+    "processing": "built-in precise object removal followed by registered 1200x2000 normalization"
+  },
+  "layers": {
+    "source": "assets/originals/painting-02/original.png",
+    "maskDefinition": "scripts/extract_painting_02_layers.py:LAYER_REGIONS",
+    "processing": "registered 2x-antialiased alpha masks; full-canvas lossless WebP",
+    "outputs": [
+      "assets/layers/painting-02/layer-001-man-robes.webp",
+      "assets/layers/painting-02/layer-002-woman-gown.webp",
+      "assets/layers/painting-02/layer-003-man-portrait.webp",
+      "assets/layers/painting-02/layer-004-woman-portrait.webp",
+      "assets/layers/painting-02/layer-005-joined-hands.webp",
+      "assets/layers/painting-02/layer-006-dog.webp"
+    ]
+  },
+  "relief": {
+    "colorOutput": "assets/layers/painting-02/relief-color.webp",
+    "depthOutput": "assets/layers/painting-02/relief-depth.webp",
+    "processing": "registered master color plus deterministic luminance depth with semantic layer boosts"
+  }
+}

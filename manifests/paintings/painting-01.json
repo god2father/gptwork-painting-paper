@@ -4,6 +4,7 @@
   "subtitle": "一幅在纸层之间呼吸的回望。",
   "introduction": "《戴珍珠耳环的少女》约作于 1665 年，是约翰内斯·维米尔最具代表性的肖像之一。少女回首时欲言又止的神情，与深色背景中的蓝黄头巾和珍珠高光，共同形成安静而强烈的凝视。",
   "duration": 9,
+  "archive": { "artist": "约翰内斯·维米尔", "year": "约 1665", "englishTitle": "Girl with a Pearl Earring", "accession": "PAPER STUDY · 001", "paperColor": "#d8c6a3", "stampColor": "#702f29", "inkColor": "#33261d" },
   "canvas": { "width": 1536, "height": 1920 },
   "background": {
     "src": "/assets/layers/painting-01/background.webp",

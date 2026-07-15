@@ -60,4 +60,14 @@ describe('LayeredStage', () => {
     expect(html).toContain('stage-layer--ambient-mesh')
     expect(html).toContain('--ambient-x:18px')
   })
+
+  it('renders the Arnolfini mirror glint from scene configuration', async () => {
+    const rawArnolfini = (await import('../../../manifests/paintings/painting-02.json')).default
+    const app = createSSRApp({ render: () => h(LayeredStage, { scene: validatePaintingScene(rawArnolfini), assembled: true }) })
+    app.use(createPinia())
+    const html = await renderToString(app)
+    expect(html).toContain('artwork__ambient-highlight')
+    expect(html).toContain('left:51.7%')
+    expect(html).toContain('--highlight-duration:4.6s')
+  })
 })

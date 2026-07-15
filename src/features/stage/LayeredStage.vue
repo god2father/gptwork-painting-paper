@@ -14,10 +14,18 @@ const emit = defineEmits<{
 const store = useInteractionStore()
 const canvas = ref<HTMLElement | null>(null)
 const failedLayers = ref<string[]>([])
+const layerElements = new Map<string, HTMLElement>()
 const sortedLayers = computed(() => [...props.scene.layers].sort((a, b) => a.z - b.z))
 const reliefOverlay = ref<InstanceType<typeof PortraitReliefOverlay> | null>(null)
 const reliefReady = ref(false)
 const reliefActive = computed(() => props.assembled && reliefReady.value)
+const highlightStyle = computed(() => props.scene.ambientHighlight ? {
+  left: `${props.scene.ambientHighlight.x}%`,
+  top: `${props.scene.ambientHighlight.y}%`,
+  width: `${props.scene.ambientHighlight.size}%`,
+  '--highlight-duration': `${props.scene.ambientHighlight.duration}s`,
+  '--highlight-delay': `${props.scene.ambientHighlight.delay}s`,
+} : {})
 
 function reportError(id: string) {
   if (!failedLayers.value.includes(id)) failedLayers.value.push(id)
@@ -29,21 +37,33 @@ function updatePointer(event: PointerEvent) {
   if (!rect) return
   const x = (event.clientX - rect.left) / rect.width * 2 - 1
   const y = (event.clientY - rect.top) / rect.height * 2 - 1
+  updateLayerParallax(x, y)
   reliefOverlay.value?.updatePointer(x, y)
 }
 
 function relaxPointer() {
+  updateLayerParallax(0, 0)
   reliefOverlay.value?.updatePointer(0, 0)
+}
+
+function updateLayerParallax(x: number, y: number) {
+  props.scene.layers.forEach((layer) => {
+    const element = layerElements.get(layer.id)
+    element?.style.setProperty('--parallax-x', `${x * layer.parallax.x}px`)
+    element?.style.setProperty('--parallax-y', `${y * layer.parallax.y}px`)
+  })
+  const highlight = props.scene.ambientHighlight
+  canvas.value?.style.setProperty('--highlight-parallax-x', `${x * (highlight?.parallax.x ?? 0)}px`)
+  canvas.value?.style.setProperty('--highlight-parallax-y', `${y * (highlight?.parallax.y ?? 0)}px`)
 }
 
 onMounted(async () => {
   await nextTick()
-  const elements = new Map<string, HTMLElement>()
   canvas.value?.querySelectorAll<HTMLElement>('[data-layer-id]').forEach((element) => {
     const id = element.dataset.layerId
-    if (id) elements.set(id, element)
+    if (id) layerElements.set(id, element)
   })
-  emit('ready', elements)
+  emit('ready', layerElements)
 })
 
 defineExpose({ canvas, failedLayers })
@@ -84,6 +104,13 @@ defineExpose({ canvas, failedLayers })
         :active="assembled && !store.isExploded"
         @ready="reliefReady = $event"
         @error="reportError"
+      />
+      <span
+        v-if="scene.ambientHighlight"
+        class="artwork__ambient-highlight"
+        :class="{ 'artwork__ambient-highlight--active': reliefActive && !store.isExploded && !store.selectedLayerId }"
+        :style="highlightStyle"
+        aria-hidden="true"
       />
       <div class="artwork__grain" aria-hidden="true" />
     </div>

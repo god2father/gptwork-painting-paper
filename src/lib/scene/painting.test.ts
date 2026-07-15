@@ -1,16 +1,32 @@
 import { describe, expect, it } from 'vitest'
 import scene from '../../../manifests/paintings/painting-01.json'
+import arnolfiniScene from '../../../manifests/paintings/painting-02.json'
 import { clampProgress, resolveAssetUrl, toStageOffset, validatePaintingScene } from './painting'
 
 describe('painting scene contract', () => {
+  it('accepts the six-layer Arnolfini scene', () => {
+    const parsed = validatePaintingScene(arnolfiniScene)
+    expect(parsed.title).toBe('阿尔诺芬妮夫妇像')
+    expect(parsed.canvas).toEqual({ width: 1200, height: 2000 })
+    expect(parsed.layers).toHaveLength(6)
+    expect(parsed.layers.map((layer) => layer.id)).toContain('layer-006-dog')
+    expect(parsed.archive).toMatchObject({ artist: '扬·凡·艾克', year: '1434', englishTitle: 'The Arnolfini Portrait' })
+    expect(parsed.ambientHighlight).toMatchObject({ x: 51.7, y: 28.7, size: 13.2 })
+    expect(parsed.layers.find((layer) => layer.id === 'layer-006-dog')?.ambient?.region)
+      .toEqual({ x: 34, y: 76, width: 31, height: 13 })
+  })
+
   it('accepts the six-layer atelier scene', () => {
     const parsed = validatePaintingScene(scene) as unknown as {
+      archive: { accession: string; englishTitle: string }
       environment: { workspace: { src: string } }
       relief: { colorMap: string; depthMap: string; segmentsX: number; segmentsY: number; depthScale: number }
       chapters: Array<{ id: string; start: number; end: number }>
       layers: Array<{ id: string; src: string; expanded: { z: number }; shadow: number; ambient?: { kind: string } }>
     }
     expect(parsed.layers).toHaveLength(6)
+    expect(parsed.archive.accession).toBe('PAPER STUDY · 001')
+    expect(parsed.archive.englishTitle).toBe('Girl with a Pearl Earring')
     expect(parsed.environment.workspace.src).toBe('/assets/environment/painting-01/workspace.webp')
     expect(parsed.relief.colorMap).toBe('/assets/layers/painting-01/relief-color-no-pearl-v2.webp')
     expect(parsed.relief.depthMap).toBe('/assets/layers/painting-01/relief-depth-no-pearl-v2.webp')
