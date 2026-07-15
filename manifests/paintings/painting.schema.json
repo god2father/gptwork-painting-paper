@@ -2,12 +2,15 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "painting.schema.json",
   "type": "object",
-  "required": ["id", "title", "subtitle", "duration", "canvas", "background", "relief", "environment", "camera", "chapters", "layers"],
+  "required": ["id", "title", "subtitle", "introduction", "duration", "archive", "canvas", "background", "relief", "environment", "camera", "chapters", "layers"],
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 1 },
     "subtitle": { "type": "string", "minLength": 1 },
+    "introduction": { "type": "string", "minLength": 1 },
     "duration": { "type": "number", "exclusiveMinimum": 0 },
+    "archive": { "$ref": "#/$defs/archive" },
+    "ambientHighlight": { "$ref": "#/$defs/ambientHighlight" },
     "canvas": {
       "type": "object",
       "required": ["width", "height"],
@@ -70,6 +73,20 @@
     }
   },
   "$defs": {
+    "archive": {
+      "type": "object",
+      "required": ["artist", "year", "englishTitle", "accession", "paperColor", "stampColor", "inkColor"],
+      "properties": {
+        "artist": { "type": "string", "minLength": 1 },
+        "year": { "type": "string", "minLength": 1 },
+        "englishTitle": { "type": "string", "minLength": 1 },
+        "accession": { "type": "string", "minLength": 1 },
+        "paperColor": { "type": "string", "minLength": 1 },
+        "stampColor": { "type": "string", "minLength": 1 },
+        "inkColor": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
     "asset": {
       "type": "object",
       "required": ["src", "alt"],
@@ -165,6 +182,7 @@
           },
           "additionalProperties": false
         },
+        "ambient": { "$ref": "#/$defs/ambient" },
         "bounds": {
           "type": "object",
           "required": ["x", "y", "width", "height"],
@@ -188,6 +206,57 @@
           },
           "additionalProperties": false
         },
+        "parallax": {
+          "type": "object",
+          "required": ["x", "y"],
+          "properties": { "x": { "type": "number" }, "y": { "type": "number" } },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "ambient": {
+      "type": "object",
+      "required": ["kind", "x", "y", "rotation", "duration", "delay"],
+      "properties": {
+        "kind": { "enum": ["breeze", "sparkle"] },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "rotation": { "type": "number" },
+        "duration": { "type": "number", "exclusiveMinimum": 0 },
+        "delay": { "type": "number" },
+        "anchor": {
+          "type": "object",
+          "required": ["x", "y"],
+          "properties": {
+            "x": { "type": "number", "minimum": 0, "maximum": 100 },
+            "y": { "type": "number", "minimum": 0, "maximum": 100 }
+          },
+          "additionalProperties": false
+        },
+        "region": {
+          "type": "object",
+          "required": ["x", "y", "width", "height"],
+          "properties": {
+            "x": { "type": "number", "minimum": 0, "maximum": 100 },
+            "y": { "type": "number", "minimum": 0, "maximum": 100 },
+            "width": { "type": "number", "exclusiveMinimum": 0, "maximum": 100 },
+            "height": { "type": "number", "exclusiveMinimum": 0, "maximum": 100 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "ambientHighlight": {
+      "type": "object",
+      "required": ["x", "y", "size", "duration", "delay", "parallax"],
+      "properties": {
+        "x": { "type": "number", "minimum": 0, "maximum": 100 },
+        "y": { "type": "number", "minimum": 0, "maximum": 100 },
+        "size": { "type": "number", "exclusiveMinimum": 0, "maximum": 30 },
+        "duration": { "type": "number", "exclusiveMinimum": 0 },
+        "delay": { "type": "number" },
         "parallax": {
           "type": "object",
           "required": ["x", "y"],

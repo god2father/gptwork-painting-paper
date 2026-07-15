@@ -37,4 +37,12 @@ describe('interaction store', () => {
     store.toggleLayer('layer-006-pearl-highlight')
     expect(store.selectedLayerId).toBeNull()
   })
+
+  it('toggles and resets the exploded layer view', () => {
+    const store = useInteractionStore()
+    store.toggleExploded()
+    expect(store.isExploded).toBe(true)
+    store.reset()
+    expect(store.isExploded).toBe(false)
+  })
 })

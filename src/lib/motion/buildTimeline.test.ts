@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import rawScene from '../../../manifests/paintings/painting-01.json'
 import { validatePaintingScene } from '../scene/painting'
-import { assemblyEnd, buildTimeline, chapterProgress, layerProgress } from './buildTimeline'
+import { assemblyEnd, buildTimeline, chapterProgress, layerProgress, openingOffset } from './buildTimeline'
 
 describe('layer progress', () => {
   it('maps a layer interval into zero to one', () => {
@@ -26,6 +26,11 @@ describe('atelier chapter progress', () => {
 
   it('keeps the assembly visible for several seconds', () => {
     expect(assemblyEnd(validatePaintingScene(rawScene))).toBeGreaterThanOrEqual(5)
+  })
+
+  it('delays assembly until the opening paper cut has cleared', () => {
+    expect(openingOffset(true)).toBe(1.62)
+    expect(openingOffset(false)).toBe(0)
   })
 
   it('reports when the assembly timeline completes', () => {

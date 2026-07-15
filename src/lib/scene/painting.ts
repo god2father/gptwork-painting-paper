@@ -56,6 +56,37 @@ function layer(value: unknown, index: number): PaintingLayer {
   const assembly = record(item.assembly, `layers[${index}].assembly`)
   const assemblyFrom = record(assembly.from, `layers[${index}].assembly.from`)
   const assemblyVia = record(assembly.via, `layers[${index}].assembly.via`)
+  const ambient = item.ambient === undefined ? undefined : (() => {
+    const motion = record(item.ambient, `layers[${index}].ambient`)
+    const kind = text(motion.kind, `layers[${index}].ambient.kind`)
+    const anchor = motion.anchor === undefined ? undefined : record(motion.anchor, `layers[${index}].ambient.anchor`)
+    const region = motion.region === undefined ? undefined : record(motion.region, `layers[${index}].ambient.region`)
+    const parsed = {
+      kind: kind as 'breeze' | 'sparkle',
+      x: number(motion.x, `layers[${index}].ambient.x`),
+      y: number(motion.y, `layers[${index}].ambient.y`),
+      rotation: number(motion.rotation, `layers[${index}].ambient.rotation`),
+      duration: number(motion.duration, `layers[${index}].ambient.duration`),
+      delay: number(motion.delay, `layers[${index}].ambient.delay`),
+      anchor: anchor ? {
+        x: number(anchor.x, `layers[${index}].ambient.anchor.x`),
+        y: number(anchor.y, `layers[${index}].ambient.anchor.y`),
+      } : undefined,
+      region: region ? {
+        x: number(region.x, `layers[${index}].ambient.region.x`),
+        y: number(region.y, `layers[${index}].ambient.region.y`),
+        width: number(region.width, `layers[${index}].ambient.region.width`),
+        height: number(region.height, `layers[${index}].ambient.region.height`),
+      } : undefined,
+    }
+    if (!['breeze', 'sparkle'].includes(kind) || parsed.duration <= 0
+      || (parsed.anchor && (parsed.anchor.x < 0 || parsed.anchor.x > 100 || parsed.anchor.y < 0 || parsed.anchor.y > 100))
+      || (parsed.region && (parsed.region.x < 0 || parsed.region.y < 0 || parsed.region.width <= 0 || parsed.region.height <= 0
+        || parsed.region.x + parsed.region.width > 100 || parsed.region.y + parsed.region.height > 100))) {
+      throw new Error(`layers[${index}].ambient has invalid values`)
+    }
+    return parsed
+  })()
   if (start < 0 || start > 1) throw new Error(`layers[${index}].animation.start must be between 0 and 1`)
   if (duration <= 0 || duration > 1) throw new Error(`layers[${index}].animation.duration must be between 0 and 1`)
   if (parsedBounds.x < 0 || parsedBounds.y < 0 || parsedBounds.width <= 0 || parsedBounds.height <= 0) {
@@ -120,6 +151,7 @@ function layer(value: unknown, index: number): PaintingLayer {
     shadow,
     selection3d: selected,
     assembly: assembled,
+    ambient,
     animation: { start, duration, ease: text(animation.ease, `layers[${index}].animation.ease`) },
     parallax: {
       x: number(parallax.x, `layers[${index}].parallax.x`),
@@ -142,9 +174,30 @@ export function validatePaintingScene(value: unknown): PaintingScene {
   const canvas = record(item.canvas, 'canvas')
   const background = record(item.background, 'background')
   const relief = record(item.relief, 'relief')
+  const archive = record(item.archive, 'archive')
   const environment = record(item.environment, 'environment')
   const workspace = record(environment.workspace, 'environment.workspace')
   const camera = record(item.camera, 'camera')
+  const ambientHighlight = item.ambientHighlight === undefined ? undefined : (() => {
+    const highlight = record(item.ambientHighlight, 'ambientHighlight')
+    const parallax = record(highlight.parallax, 'ambientHighlight.parallax')
+    const parsed = {
+      x: number(highlight.x, 'ambientHighlight.x'),
+      y: number(highlight.y, 'ambientHighlight.y'),
+      size: number(highlight.size, 'ambientHighlight.size'),
+      duration: number(highlight.duration, 'ambientHighlight.duration'),
+      delay: number(highlight.delay, 'ambientHighlight.delay'),
+      parallax: {
+        x: number(parallax.x, 'ambientHighlight.parallax.x'),
+        y: number(parallax.y, 'ambientHighlight.parallax.y'),
+      },
+    }
+    if (parsed.x < 0 || parsed.x > 100 || parsed.y < 0 || parsed.y > 100
+      || parsed.size <= 0 || parsed.size > 30 || parsed.duration <= 0) {
+      throw new Error('ambientHighlight has invalid values')
+    }
+    return parsed
+  })()
   if (!Array.isArray(item.chapters) || item.chapters.length === 0) throw new Error('chapters must be a non-empty array')
   const chapters = item.chapters.map(chapter)
   chapters.forEach((entry, index) => {
@@ -182,7 +235,18 @@ export function validatePaintingScene(value: unknown): PaintingScene {
     id: text(item.id, 'id'),
     title: text(item.title, 'title'),
     subtitle: text(item.subtitle, 'subtitle'),
+    introduction: text(item.introduction, 'introduction'),
     duration,
+    archive: {
+      artist: text(archive.artist, 'archive.artist'),
+      year: text(archive.year, 'archive.year'),
+      englishTitle: text(archive.englishTitle, 'archive.englishTitle'),
+      accession: text(archive.accession, 'archive.accession'),
+      paperColor: text(archive.paperColor, 'archive.paperColor'),
+      stampColor: text(archive.stampColor, 'archive.stampColor'),
+      inkColor: text(archive.inkColor, 'archive.inkColor'),
+    },
+    ambientHighlight,
     canvas: { width, height },
     background: { src: text(background.src, 'background.src'), alt: text(background.alt, 'background.alt') },
     relief: parsedRelief,

@@ -35,7 +35,11 @@ export function usePortraitRelief() {
   let backingMaterial: MeshStandardMaterial | null = null
   let colorTexture: Texture | null = null
   let depthTexture: Texture | null = null
+  let breezeMaskTexture: Texture | null = null
   let depthImage: HTMLImageElement | null = null
+  let breezeMaskImage: HTMLImageElement | null = null
+  let basePositions: Float32Array | null = null
+  let breezeWeights: Float32Array | null = null
   let frame = 0
   let active = false
   let ready = false
@@ -76,12 +80,17 @@ export function usePortraitRelief() {
     reliefMaterial = null
     backingGeometry = null
     backingMaterial = null
+    basePositions = null
+    breezeWeights = null
     if (disposeTextures) {
       colorTexture?.dispose()
       depthTexture?.dispose()
+      breezeMaskTexture?.dispose()
       colorTexture = null
       depthTexture = null
+      breezeMaskTexture = null
       depthImage = null
+      breezeMaskImage = null
     }
   }
 
@@ -102,19 +111,41 @@ export function usePortraitRelief() {
     const height = stage.clientHeight
     const config = painting.relief
     const depth = sampleDepth(depthImage)
+    const breezeLayer = painting.layers.find((layer) => layer.ambient?.kind === 'breeze' && layer.ambient.region)
+    const breezeMotion = breezeLayer?.ambient
+    const breezeMask = breezeMaskImage ? sampleDepth(breezeMaskImage) : null
     reliefGeometry = new PlaneGeometry(width, height, config.segmentsX, config.segmentsY)
     const positions = reliefGeometry.attributes.position
     const uvs = reliefGeometry.attributes.uv
+    breezeWeights = new Float32Array(positions.count)
     for (let index = 0; index < positions.count; index += 1) {
       const pixelX = Math.round(uvs.getX(index) * (depth.width - 1))
       const pixelY = Math.round((1 - uvs.getY(index)) * (depth.height - 1))
       const grayscale = depth.data[(pixelY * depth.width + pixelX) * 4]
       positions.setZ(index, depthToZ(grayscale, config.depthScale))
+      if (breezeMask && breezeMotion?.region) {
+        const maskX = Math.round(uvs.getX(index) * (breezeMask.width - 1))
+        const maskY = Math.round((1 - uvs.getY(index)) * (breezeMask.height - 1))
+        const percentX = maskX / (breezeMask.width - 1) * 100
+        const percentY = maskY / (breezeMask.height - 1) * 100
+        const region = breezeMotion.region
+        if (percentX >= region.x && percentX <= region.x + region.width
+          && percentY >= region.y && percentY <= region.y + region.height) {
+          const alpha = breezeMask.data[(maskY * breezeMask.width + maskX) * 4 + 3] / 255
+          const progress = (percentY - region.y) / region.height
+          const falloff = progress * progress * (3 - 2 * progress)
+          breezeWeights[index] = alpha * falloff
+        }
+      }
     }
     positions.needsUpdate = true
+    basePositions = new Float32Array(positions.array as ArrayLike<number>)
     reliefGeometry.computeVertexNormals()
     reliefMaterial = new MeshStandardMaterial({
       map: colorTexture,
+      emissive: new Color('#ffffff'),
+      emissiveMap: colorTexture,
+      emissiveIntensity: 0.28,
       roughness: 0.84,
       metalness: 0,
       side: FrontSide,
@@ -138,8 +169,39 @@ export function usePortraitRelief() {
     render()
   }
 
+  function resetBreeze() {
+    if (!reliefGeometry || !basePositions) return
+    reliefGeometry.attributes.position.array.set(basePositions)
+    reliefGeometry.attributes.position.needsUpdate = true
+    reliefGeometry.computeVertexNormals()
+  }
+
+  function updateBreeze(time: number) {
+    if (!active || reducedMotion || !painting || !reliefGeometry || !basePositions || !breezeWeights) return
+    const motion = painting.layers.find((layer) => layer.ambient?.kind === 'breeze' && layer.ambient.region)?.ambient
+    if (!motion?.region) return
+    const positions = reliefGeometry.attributes.position
+    const uvs = reliefGeometry.attributes.uv
+    const phase = time / 1000 * Math.PI * 2 / motion.duration + motion.delay
+    for (let index = 0; index < positions.count; index += 1) {
+      const weight = breezeWeights[index]
+      if (weight <= 0) continue
+      const wave = phase + (1 - uvs.getY(index)) * 1.15
+      const offset = index * 3
+      positions.setXYZ(
+        index,
+        basePositions[offset] + Math.sin(wave) * motion.x * weight,
+        basePositions[offset + 1] + Math.cos(wave * .82) * motion.y * weight,
+        basePositions[offset + 2] + Math.sin(wave + .9) * motion.rotation * 2.4 * weight,
+      )
+    }
+    positions.needsUpdate = true
+    reliefGeometry.computeVertexNormals()
+  }
+
   function render() {
     if (!renderer || !camera) return
+    updateBreeze(performance.now())
     if (group) {
       group.rotation.x = current.x
       group.rotation.y = current.y
@@ -161,7 +223,8 @@ export function usePortraitRelief() {
     current.y += (target.y - current.y) * damping
     render()
     const moving = Math.abs(target.x - current.x) + Math.abs(target.y - current.y) > 0.0001
-    if (moving && !reducedMotion) startFrame()
+    const breezeMoving = painting.layers.some((layer) => layer.ambient?.kind === 'breeze' && layer.ambient.region)
+    if ((moving || breezeMoving) && !reducedMotion) startFrame()
   }
 
   function mount(canvas: HTMLCanvasElement, stageElement: HTMLElement, sceneConfig: PaintingScene): boolean {
@@ -182,19 +245,22 @@ export function usePortraitRelief() {
     }
   }
 
-  async function load(colorUrl: string, depthUrl: string): Promise<boolean> {
+  async function load(colorUrl: string, depthUrl: string, breezeMaskUrl?: string): Promise<boolean> {
     if (!renderer) return false
     disposeModel(true)
     ready = false
     try {
-      const [loadedColor, loadedDepth] = await Promise.all([
+      const [loadedColor, loadedDepth, loadedBreezeMask] = await Promise.all([
         new TextureLoader().loadAsync(colorUrl),
         new TextureLoader().loadAsync(depthUrl),
+        breezeMaskUrl ? new TextureLoader().loadAsync(breezeMaskUrl) : Promise.resolve(null),
       ])
       loadedColor.colorSpace = SRGBColorSpace
       colorTexture = loadedColor
       depthTexture = loadedDepth
+      breezeMaskTexture = loadedBreezeMask
       depthImage = loadedDepth.image as HTMLImageElement
+      breezeMaskImage = loadedBreezeMask?.image as HTMLImageElement | null
       buildModel()
       return ready
     } catch {
@@ -210,6 +276,7 @@ export function usePortraitRelief() {
       target.y = 0
       current.x = 0
       current.y = 0
+      resetBreeze()
       render()
       return
     }

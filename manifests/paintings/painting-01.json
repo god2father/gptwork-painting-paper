@@ -2,15 +2,17 @@
   "id": "painting-01",
   "title": "戴珍珠耳环的少女",
   "subtitle": "一幅在纸层之间呼吸的回望。",
+  "introduction": "《戴珍珠耳环的少女》约作于 1665 年，是约翰内斯·维米尔最具代表性的肖像之一。少女回首时欲言又止的神情，与深色背景中的蓝黄头巾和珍珠高光，共同形成安静而强烈的凝视。",
   "duration": 9,
+  "archive": { "artist": "约翰内斯·维米尔", "year": "约 1665", "englishTitle": "Girl with a Pearl Earring", "accession": "PAPER STUDY · 001", "paperColor": "#d8c6a3", "stampColor": "#702f29", "inkColor": "#33261d" },
   "canvas": { "width": 1536, "height": 1920 },
   "background": {
     "src": "/assets/layers/painting-01/background.webp",
     "alt": "深绿黑色纸张背景"
   },
   "relief": {
-    "colorMap": "/assets/layers/painting-01/relief-color.webp",
-    "depthMap": "/assets/layers/painting-01/relief-depth.webp",
+    "colorMap": "/assets/layers/painting-01/relief-color-no-pearl-v2.webp",
+    "depthMap": "/assets/layers/painting-01/relief-depth-no-pearl-v2.webp",
     "segmentsX": 120,
     "segmentsY": 150,
     "depthScale": 64,
@@ -46,7 +48,7 @@
       "animation": { "start": 0.43, "duration": 0.2, "ease": "power3.out" }, "parallax": { "x": 2, "y": 2 }
     },
     {
-      "id": "layer-002-face-neck", "name": "脸部与颈部", "src": "/assets/layers/painting-01/layer-002-face-neck.webp", "alt": "少女完整的脸部、耳朵和颈部", "description": "回望姿态的核心纸片保持稳定，让光线和视线始终连在一起。", "z": 40, "shadow": 0.42, "selection3d": { "z": 84, "rotateX": 0, "rotateY": 0, "scale": 1.03, "foldAngle": 45, "mesh": { "segmentsX": 16, "segmentsY": 24, "maxBend": 48, "maxLift": 96, "maxTwist": 8, "damping": 0.14 } },
+      "id": "layer-002-face-neck", "name": "脸部与颈部", "src": "/assets/layers/painting-01/layer-002-face-neck.webp", "alt": "不含耳环的少女脸部、耳朵和颈部", "description": "回望姿态的核心纸片保持稳定，让光线和视线始终连在一起。", "z": 40, "shadow": 0.42, "selection3d": { "z": 84, "rotateX": 0, "rotateY": 0, "scale": 1.03, "foldAngle": 45, "mesh": { "segmentsX": 16, "segmentsY": 24, "maxBend": 48, "maxLift": 96, "maxTwist": 8, "damping": 0.14 } },
       "bounds": { "x": 347, "y": 417, "width": 606, "height": 706 },
       "assembly": { "start": 1.5, "duration": 1.25, "from": { "x": -560, "y": -360, "rotation": -8, "scale": 0.94 }, "via": { "x": -190, "y": -110 }, "ease": "power3.out" },
       "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
@@ -55,6 +57,7 @@
     },
     {
       "id": "layer-003-blue-headscarf", "name": "群青头巾", "src": "/assets/layers/painting-01/layer-003-blue-headscarf.webp", "alt": "覆盖少女额头的群青色头巾", "description": "群青色压住暖色脸部，是整幅肖像最安静也最醒目的色块。", "z": 60, "shadow": 0.5, "selection3d": { "z": 96, "rotateX": 0, "rotateY": 0, "scale": 1.035, "foldAngle": 45, "mesh": { "segmentsX": 16, "segmentsY": 24, "maxBend": 48, "maxLift": 110, "maxTwist": 8, "damping": 0.14 } },
+      "ambient": { "kind": "breeze", "x": 1.6, "y": 0.8, "rotation": 0.75, "duration": 4.8, "delay": -1.1 },
       "bounds": { "x": 367, "y": 247, "width": 686, "height": 576 },
       "assembly": { "start": 2.15, "duration": 1.3, "from": { "x": 650, "y": -520, "rotation": 12, "scale": 0.9 }, "via": { "x": 230, "y": -160 }, "ease": "power3.out" },
       "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
@@ -63,6 +66,7 @@
     },
     {
       "id": "layer-004-yellow-wrap-tail", "name": "赭黄包布", "src": "/assets/layers/painting-01/layer-004-yellow-wrap-tail.webp", "alt": "头顶与肩后的赭黄色垂落包布", "description": "长长的暖色纸片从头顶垂到肩后，把转身的方向拉进画面深处。", "z": 50, "shadow": 0.52, "selection3d": { "z": 100, "rotateX": 0, "rotateY": 0, "scale": 1.035, "foldAngle": 45, "mesh": { "segmentsX": 16, "segmentsY": 24, "maxBend": 48, "maxLift": 114, "maxTwist": 8, "damping": 0.14 } },
+      "ambient": { "kind": "breeze", "x": 18, "y": 5, "rotation": 2.4, "duration": 4.8, "delay": -2.3, "region": { "x": 67, "y": 40, "width": 25, "height": 44 } },
       "bounds": { "x": 647, "y": 118, "width": 696, "height": 1395 },
       "assembly": { "start": 2.8, "duration": 1.35, "from": { "x": 720, "y": 250, "rotation": 10, "scale": 0.92 }, "via": { "x": 260, "y": 80 }, "ease": "power3.out" },
       "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
@@ -78,8 +82,9 @@
       "animation": { "start": 0.63, "duration": 0.14, "ease": "sine.out" }, "parallax": { "x": 0, "y": 0 }
     },
     {
-      "id": "layer-006-pearl-highlight", "name": "珍珠", "src": "/assets/layers/painting-01/layer-006-pearl-highlight.webp", "alt": "少女耳下的珍珠与高光", "description": "最小的一层在暗色背景前抬起，成为整幅画最后落下的光点。", "z": 80, "shadow": 0.58, "selection3d": { "z": 110, "rotateX": 0, "rotateY": 0, "scale": 1.08, "foldAngle": 45, "mesh": { "segmentsX": 16, "segmentsY": 24, "maxBend": 48, "maxLift": 120, "maxTwist": 8, "damping": 0.14 } },
-      "bounds": { "x": 782, "y": 827, "width": 71, "height": 106 },
+      "id": "layer-006-pearl-highlight", "name": "珍珠耳环", "src": "/assets/layers/painting-01/layer-006-pearl-highlight.webp", "alt": "从原画独立切出的珍珠耳环与高光", "description": "独立的珍珠耳环在暗色背景前抬起，成为整幅画最后落下的光点。", "z": 80, "shadow": 0.58, "selection3d": { "z": 110, "rotateX": 0, "rotateY": 0, "scale": 1.08, "foldAngle": 45, "mesh": { "segmentsX": 16, "segmentsY": 24, "maxBend": 48, "maxLift": 120, "maxTwist": 8, "damping": 0.14 } },
+      "ambient": { "kind": "sparkle", "x": 0, "y": 0, "rotation": 0, "duration": 2.8, "delay": -0.5, "anchor": { "x": 44, "y": 63 } },
+      "bounds": { "x": 842, "y": 872, "width": 77, "height": 139 },
       "assembly": { "start": 4.25, "duration": 1, "from": { "x": 560, "y": 180, "rotation": 10, "scale": 0.9 }, "via": { "x": 170, "y": 60 }, "ease": "back.out(1.15)" },
       "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
       "expanded": { "x": 12, "y": 2, "z": 72, "scale": 1.04, "rotation": 1.2, "opacity": 1 },

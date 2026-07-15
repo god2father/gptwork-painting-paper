@@ -130,6 +130,18 @@
     ],
     "processing": "source alpha masks combined with ImageChops.lighter; pixels copied from the registered GPT master"
   },
+  "pearlSeparation": {
+    "generatedAt": "2026-07-15",
+    "source": "assets/originals/painting-01/original.png",
+    "maskDefinition": "scripts/extract_painting_layers.py:REGIONS",
+    "earringOutput": "assets/layers/painting-01/layer-006-pearl-highlight.webp",
+    "faceOutput": "assets/layers/painting-01/layer-002-face-neck.webp",
+    "registeredFillSource": "assets/layers/painting-01/relief-color-no-pearl-v2.webp",
+    "depthOutput": "assets/layers/painting-01/relief-depth-no-pearl-v2.webp",
+    "processing": "the earring layer copies the original master pixels at their actual registered coordinates; all non-earring layers use the registered no-pearl neck fill only inside the expanded earring mask; no generated replacement pearl or CSS position correction is consumed",
+    "rejectedRemovalOutput": "C:/Users/tc/.codex/generated_images/019f5a0e-47df-7561-a1ca-7d231b1cda85/exec-0acd7dcc-1532-4708-a809-7b9a8f5bddba.png",
+    "rejectedRemovalReason": "the full-image edit changed crop and subject registration, so it is not consumed by the project"
+  },
   "relief": {
     "generatedAt": "2026-07-15",
     "tool": "built-in image generation edit",
@@ -144,6 +156,8 @@
     "Visual check: master has one subject, backward gaze, one pearl, blue-and-ochre scarf, deep green-black background and safe margins.",
     "Visual check: background contains no face, shoulder, scarf, pearl silhouette or blurred subject-shaped patch.",
     "Visual check: layer preview recomposes into a recognizable portrait with aligned eyes, scarf, collar, garment and pearl.",
+    "Asset check: the interactive pearl layer uses the original master earring pixels and actual master coordinates; no generated white replacement is consumed.",
+    "Asset check: face-neck, relief color and relief depth contain no built-in pearl; the interactive pearl is the only earring source in every state.",
     "Alpha check: all 12 final layers are non-empty, full-canvas, have transparent corners and matching grayscale masks.",
     "Direct built-in edit attempts for layers 002 through 005 were rejected because registration or membership was unstable; no rejected output is consumed by the project.",
     "Final layers are deterministic registered crops from the confirmed GPT-generated master, with deliberate overlap between base and detail layers to prevent gaps during motion."

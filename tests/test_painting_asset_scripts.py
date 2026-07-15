@@ -11,6 +11,7 @@ sys.path.insert(0, str(ROOT))
 
 from scripts.validate_painting_assets import EXPECTED_LAYERS, validate_assets
 from scripts.extract_painting_layers import extract_layers
+from scripts.extract_painting_02_layers import LAYER_REGIONS as PAINTING_02_LAYERS, extract_layers as extract_painting_02_layers
 from scripts.build_layer_preview import build_preview
 
 SEMANTIC_LAYERS = (
@@ -136,6 +137,29 @@ class BuildLayerPreviewTest(unittest.TestCase):
                 mask = layers / "masks" / f"{Path(filename).stem}.png"
                 with Image.open(mask) as image:
                     self.assertEqual(image.mode, "L")
+
+
+class ExtractPainting02LayersTest(unittest.TestCase):
+    def test_extracts_six_registered_layers_and_relief_maps(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            originals = root / "assets" / "originals" / "painting-02"
+            layers = root / "assets" / "layers" / "painting-02"
+            originals.mkdir(parents=True)
+            layers.mkdir(parents=True)
+            Image.new("RGB", (120, 200), "#7d5738").save(originals / "original.png")
+            Image.new("RGB", (120, 200), "#302820").save(layers / "background.webp")
+
+            outputs = extract_painting_02_layers(root)
+
+            self.assertEqual(len(outputs), len(PAINTING_02_LAYERS))
+            self.assertTrue((layers / "relief-color.webp").is_file())
+            self.assertTrue((layers / "relief-depth.webp").is_file())
+            for path in outputs:
+                with Image.open(path) as image:
+                    self.assertEqual(image.size, (120, 200))
+                    self.assertIn("A", image.getbands())
+                    self.assertIsNotNone(image.getchannel("A").getbbox())
 
 
 if __name__ == "__main__":
