@@ -174,10 +174,10 @@ onUnmounted(() => {
       <circle :cx="connector.x1" :cy="connector.y1" r="3" />
       <circle :cx="connector.x2" :cy="connector.y2" r="4" />
     </svg>
-    <div class="atelier__wipe atelier__wipe--top atelier__wipe--static" data-motion-wipe-top-static aria-hidden="true"><span><b class="atelier__cut-mark">裁</b></span></div>
-    <div class="atelier__wipe atelier__wipe--bottom atelier__wipe--static" data-motion-wipe-bottom-static aria-hidden="true"><span><b class="atelier__cut-mark">裁</b></span></div>
-    <div class="atelier__wipe atelier__wipe--top atelier__wipe--cut" data-motion-wipe-top aria-hidden="true"><span><b class="atelier__cut-mark">裁</b></span></div>
-    <div class="atelier__wipe atelier__wipe--bottom atelier__wipe--cut" data-motion-wipe-bottom aria-hidden="true"><span><b class="atelier__cut-mark">裁</b></span></div>
+    <div class="atelier__wipe atelier__wipe--top atelier__wipe--static" data-motion-wipe-top-static aria-hidden="true"><span><b class="atelier__cut-mark">紙</b></span></div>
+    <div class="atelier__wipe atelier__wipe--bottom atelier__wipe--static" data-motion-wipe-bottom-static aria-hidden="true"><span><b class="atelier__cut-mark">紙</b></span></div>
+    <div class="atelier__wipe atelier__wipe--top atelier__wipe--cut" data-motion-wipe-top aria-hidden="true"><span><b class="atelier__cut-mark">紙</b></span></div>
+    <div class="atelier__wipe atelier__wipe--bottom atelier__wipe--cut" data-motion-wipe-bottom aria-hidden="true"><span><b class="atelier__cut-mark">紙</b></span></div>
     <div class="atelier__paper-knife" data-motion-paper-knife aria-hidden="true" />
   </section>
 </template>

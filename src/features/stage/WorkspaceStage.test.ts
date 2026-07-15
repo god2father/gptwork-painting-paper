@@ -21,7 +21,7 @@ describe('WorkspaceStage', () => {
     expect(html).toContain('data-motion-wipe-bottom-static')
     expect(html).toContain('data-motion-paper-knife')
     expect(html.match(/class="atelier__cut-mark"/g)).toHaveLength(4)
-    expect(html).toContain('>裁</b>')
+    expect(html).toContain('>紙</b>')
     expect(html.match(/data-layer-id=/g)).toHaveLength(6)
     expect(html.match(/data-testid="portrait-relief-overlay"/g)).toHaveLength(1)
     expect(html).not.toContain('paper-mesh-overlay')
