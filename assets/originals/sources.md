@@ -20,6 +20,7 @@
 | painting-01-master | 《戴珍珠耳环的少女》纸艺母版 | 2026-07-13 | built-in image generation | `assets/originals/painting-01/generation.json` | 文字提示词，无图像输入 | `assets/originals/painting-01/original.png` | 统一缩放裁切到 1536×1920 |
 | painting-01-background | 深绿黑纸张背景 | 2026-07-13 | built-in image generation edit | `assets/originals/painting-01/generation.json` | GPT 母版 | `assets/layers/painting-01/background.webp` | 移除人物后无损 WebP 标准化 |
 | painting-01-layers | 12 个透明运动图层 | 2026-07-13 | Pillow registered-mask extraction | `scripts/extract_painting_layers.py` | GPT 母版 | `assets/layers/painting-01/layer-*.webp` | 2 倍抗锯齿蒙版、全画布原位裁切、无损 WebP |
+| painting-01-relief | 肖像 3D 浅浮雕颜色与深度纹理 | 2026-07-15 | built-in image generation edit + Pillow | `assets/originals/painting-01/generation.json` | GPT 母版 | `assets/layers/painting-01/relief-color.webp`、`relief-depth.webp` | GPT 深度引导与原位语义蒙版融合，统一到 1536×1920 |
 
 ## 未采用的生成尝试
 
