@@ -45,4 +45,11 @@ describe('interaction store', () => {
     store.reset()
     expect(store.isExploded).toBe(false)
   })
+
+  it('keeps an approved orientation session while changing paintings', () => {
+    const store = useInteractionStore()
+    store.enableOrientation()
+    store.reset()
+    expect(store.orientationEnabled).toBe(true)
+  })
 })
