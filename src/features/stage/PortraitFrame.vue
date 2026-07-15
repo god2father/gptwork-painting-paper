@@ -2,7 +2,7 @@
 import type { PaintingScene } from '../../types/painting'
 import LayeredStage from './LayeredStage.vue'
 
-defineProps<{ scene: PaintingScene }>()
+defineProps<{ scene: PaintingScene; assembled: boolean }>()
 defineEmits<{
   ready: [elements: Map<string, HTMLElement>]
   error: [id: string]
@@ -11,6 +11,6 @@ defineEmits<{
 
 <template>
   <div class="portrait-frame" data-motion-frame>
-    <LayeredStage :scene="scene" @ready="$emit('ready', $event)" @error="$emit('error', $event)" />
+    <LayeredStage :scene="scene" :assembled="assembled" @ready="$emit('ready', $event)" @error="$emit('error', $event)" />
   </div>
 </template>

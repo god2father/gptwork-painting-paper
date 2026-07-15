@@ -13,9 +13,9 @@
     "depthMap": "/assets/layers/painting-01/relief-depth.webp",
     "segmentsX": 120,
     "segmentsY": 150,
-    "depthScale": 52,
-    "tiltX": 4,
-    "tiltY": 6,
+    "depthScale": 64,
+    "tiltX": 6,
+    "tiltY": 9,
     "damping": 0.1,
     "transitionDuration": 0.8
   },

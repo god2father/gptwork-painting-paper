@@ -7,7 +7,6 @@ const props = defineProps<{
   layer: PaintingLayer
   canvas: Size
   selected: boolean
-  meshActive: boolean
 }>()
 
 const emit = defineEmits<{
@@ -22,11 +21,6 @@ const buttonStyle = computed(() => ({
   height: `${props.layer.bounds.height / props.canvas.height * 100}%`,
   zIndex: props.layer.z,
   '--layer-shadow': props.layer.shadow,
-  '--select-z': `${props.layer.selection3d.z}px`,
-  '--select-rotate-x': `${props.layer.selection3d.rotateX}deg`,
-  '--select-rotate-y': `${props.layer.selection3d.rotateY}deg`,
-  '--select-scale': props.layer.selection3d.scale,
-  '--select-base-z': `${props.layer.selection3d.z * 0.25}px`,
 }))
 
 const imageStyle = computed(() => ({
@@ -40,7 +34,7 @@ const imageStyle = computed(() => ({
 <template>
   <button
     class="stage-layer"
-    :class="{ 'stage-layer--selected': selected, 'stage-layer--mesh-active': meshActive }"
+    :class="{ 'stage-layer--selected': selected }"
     :style="buttonStyle"
     type="button"
     :aria-label="`查看图层：${layer.name}`"

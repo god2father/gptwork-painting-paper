@@ -4,9 +4,9 @@ import { useInteractionStore } from '../../stores/interaction'
 import { resolveAssetUrl } from '../../lib/scene/painting'
 import type { PaintingScene } from '../../types/painting'
 import StageLayer from './StageLayer.vue'
-import PaperMeshOverlay from './PaperMeshOverlay.vue'
+import PortraitReliefOverlay from './PortraitReliefOverlay.vue'
 
-const props = defineProps<{ scene: PaintingScene }>()
+const props = defineProps<{ scene: PaintingScene; assembled: boolean }>()
 const emit = defineEmits<{
   ready: [elements: Map<string, HTMLElement>]
   error: [id: string]
@@ -15,9 +15,9 @@ const store = useInteractionStore()
 const canvas = ref<HTMLElement | null>(null)
 const failedLayers = ref<string[]>([])
 const sortedLayers = computed(() => [...props.scene.layers].sort((a, b) => a.z - b.z))
-const selectedLayer = computed(() => props.scene.layers.find((layer) => layer.id === store.selectedLayerId) ?? null)
-const meshOverlay = ref<InstanceType<typeof PaperMeshOverlay> | null>(null)
-const meshReadyId = ref<string | null>(null)
+const reliefOverlay = ref<InstanceType<typeof PortraitReliefOverlay> | null>(null)
+const reliefReady = ref(false)
+const reliefActive = computed(() => props.assembled && reliefReady.value)
 
 function reportError(id: string) {
   if (!failedLayers.value.includes(id)) failedLayers.value.push(id)
@@ -29,11 +29,11 @@ function updatePointer(event: PointerEvent) {
   if (!rect) return
   const x = (event.clientX - rect.left) / rect.width * 2 - 1
   const y = (event.clientY - rect.top) / rect.height * 2 - 1
-  meshOverlay.value?.updatePointer(x, y)
+  reliefOverlay.value?.updatePointer(x, y)
 }
 
 function relaxPointer() {
-  meshOverlay.value?.updatePointer(0, 1)
+  reliefOverlay.value?.updatePointer(0, 0)
 }
 
 onMounted(async () => {
@@ -54,7 +54,8 @@ defineExpose({ canvas, failedLayers })
     <div
       ref="canvas"
       class="artwork__canvas"
-      :style="{ aspectRatio: `${scene.canvas.width} / ${scene.canvas.height}` }"
+      :class="{ 'artwork__canvas--relief-active': reliefActive }"
+      :style="{ aspectRatio: `${scene.canvas.width} / ${scene.canvas.height}`, '--relief-transition': `${scene.relief.transitionDuration}s` }"
       data-testid="stage-canvas"
       @pointermove="updatePointer"
       @pointerleave="relaxPointer"
@@ -72,21 +73,20 @@ defineExpose({ canvas, failedLayers })
         :layer="layer"
         :canvas="scene.canvas"
         :selected="store.selectedLayerId === layer.id"
-        :mesh-active="meshReadyId === layer.id"
         @select="store.toggleLayer"
         @error="reportError"
       />
-      <PaperMeshOverlay
-        ref="meshOverlay"
+      <PortraitReliefOverlay
+        ref="reliefOverlay"
         :scene="scene"
-        :layer="selectedLayer"
-        @ready="meshReadyId = $event"
+        :active="assembled"
+        @ready="reliefReady = $event"
         @error="reportError"
       />
       <div class="artwork__grain" aria-hidden="true" />
     </div>
     <figcaption class="sr-only">
-      纸片会沿轨迹逐层拼合；聚焦并点击纸片可将它浮起并查看说明。
+      纸片会沿轨迹逐层拼合成画，完成后转为可随指针改变光影的立体浮雕；点击画面区域可查看说明。
     </figcaption>
   </figure>
 </template>

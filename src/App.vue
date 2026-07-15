@@ -9,6 +9,7 @@ import { useStageMotion } from './features/stage/useStageMotion'
 
 const store = useInteractionStore()
 const errors = ref<string[]>([])
+const assembled = ref(false)
 const chapter = ref<HTMLElement | null>(null)
 let sceneError = ''
 let scene: PaintingScene | undefined
@@ -22,8 +23,9 @@ const motion = scene ? useStageMotion(scene) : null
 
 function handleReady(elements: Map<string, HTMLElement>) {
   errors.value = []
+  assembled.value = false
   const stage = chapter.value?.querySelector<HTMLElement>('[data-testid="stage-canvas"]')
-  if (chapter.value && stage) motion?.connect(chapter.value, stage, elements)
+  if (chapter.value && stage) motion?.connect(chapter.value, stage, elements, () => { assembled.value = true })
 }
 
 function reload() {
@@ -45,7 +47,7 @@ onUnmounted(() => window.removeEventListener('keydown', clearWithEscape))
 <template>
   <main v-if="scene" class="page-shell">
     <section ref="chapter" class="story-chapter" aria-label="作品拆解章节">
-      <WorkspaceStage :scene="scene" @ready="handleReady" @error="reportError" />
+      <WorkspaceStage :scene="scene" :assembled="assembled" @ready="handleReady" @error="reportError" />
     </section>
   </main>
   <main v-else class="error-shell">

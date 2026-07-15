@@ -7,10 +7,15 @@ export function useStageMotion(scene: PaintingScene) {
   let timeline: ReturnType<typeof buildTimeline> | null = null
   let resizeObserver: ResizeObserver | null = null
 
-  function connect(_chapter: HTMLElement, stage: HTMLElement, elements: Map<string, HTMLElement>) {
+  function connect(
+    _chapter: HTMLElement,
+    stage: HTMLElement,
+    elements: Map<string, HTMLElement>,
+    onComplete?: () => void,
+  ) {
     const rebuild = () => {
       timeline?.kill()
-      timeline = buildTimeline(scene, elements, stage)
+      timeline = buildTimeline(scene, elements, stage, onComplete)
       if (reducedMotion.matches) timeline.progress(1)
       else timeline.play(0)
     }
