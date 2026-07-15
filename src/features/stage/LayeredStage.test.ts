@@ -16,6 +16,7 @@ describe('LayeredStage', () => {
     expect(html.match(/data-layer-id=/g)).toHaveLength(6)
     expect(html).toContain('查看图层：回望的双眼')
     expect(html).toContain('data-relief-active="true"')
+    expect(html).not.toContain('artwork__motion-control')
   })
 
   it('keeps the selected layer button accessible while its WebGL mesh is active', async () => {

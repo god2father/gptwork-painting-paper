@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useInteractionStore } from '../../stores/interaction'
 import { resolveAssetUrl } from '../../lib/scene/painting'
+import { paintingSwipeDirection, type PaintingSwipeDirection, type SwipePoint } from '../../lib/motion/paintingSwipe'
 import type { PaintingScene } from '../../types/painting'
 import PaperLabel from './PaperLabel.vue'
 import PortraitFrame from './PortraitFrame.vue'
@@ -10,6 +11,7 @@ const props = withDefaults(defineProps<{ scene: PaintingScene; assembled: boolea
 const emit = defineEmits<{
   ready: [elements: Map<string, HTMLElement>]
   error: [id: string]
+  swipe: [direction: PaintingSwipeDirection]
 }>()
 const store = useInteractionStore()
 const selectedLayer = computed(() => props.scene.layers.find((layer) => layer.id === store.selectedLayerId) ?? null)
@@ -24,6 +26,9 @@ const archiveStyle = computed(() => ({
 let connectorFrame = 0
 let settleTimer = 0
 let resizeObserver: ResizeObserver | null = null
+let swipePointerId: number | null = null
+let swipeStart: SwipePoint | null = null
+let suppressSwipeClick = false
 
 function clearFromBackdrop(event: MouseEvent) {
   const target = event.target as HTMLElement
@@ -55,6 +60,41 @@ function updateConnector() {
 function scheduleConnector() {
   cancelAnimationFrame(connectorFrame)
   connectorFrame = requestAnimationFrame(updateConnector)
+}
+
+function startSwipe(event: PointerEvent) {
+  if (!props.assembled || event.pointerType !== 'touch') return
+  swipePointerId = event.pointerId
+  swipeStart = { x: event.clientX, y: event.clientY, time: event.timeStamp }
+  ;(event.currentTarget as HTMLElement).setPointerCapture(event.pointerId)
+}
+
+function finishSwipe(event: PointerEvent) {
+  if (event.pointerId !== swipePointerId || !swipeStart) return
+  const target = event.currentTarget as HTMLElement
+  const direction = paintingSwipeDirection(
+    swipeStart,
+    { x: event.clientX, y: event.clientY, time: event.timeStamp },
+    target.clientHeight,
+  )
+  target.releasePointerCapture(event.pointerId)
+  swipePointerId = null
+  swipeStart = null
+  if (!direction) return
+  suppressSwipeClick = true
+  emit('swipe', direction)
+}
+
+function cancelSwipe() {
+  swipePointerId = null
+  swipeStart = null
+}
+
+function blockSwipeClick(event: MouseEvent) {
+  if (!suppressSwipeClick) return
+  suppressSwipeClick = false
+  event.preventDefault()
+  event.stopPropagation()
 }
 
 watch(() => store.selectedLayerId, async (id) => {
@@ -91,7 +131,13 @@ onUnmounted(() => {
       @error="emit('error', 'workspace')"
     />
     <div class="atelier__shade" aria-hidden="true" />
-    <div class="atelier__painting-transition">
+    <div
+      class="atelier__painting-transition"
+      @pointerdown="startSwipe"
+      @pointerup="finishSwipe"
+      @pointercancel="cancelSwipe"
+      @click.capture="blockSwipeClick"
+    >
       <div class="atelier__camera" data-motion-camera>
         <div class="atelier__paper-bed" :style="{ '--art-ratio': scene.canvas.width / scene.canvas.height }">
           <PortraitFrame :scene="scene" :assembled="assembled" @ready="emit('ready', $event)" @error="emit('error', $event)" />
