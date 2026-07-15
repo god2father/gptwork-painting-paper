@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "painting.schema.json",
   "type": "object",
-  "required": ["id", "title", "subtitle", "duration", "canvas", "background", "environment", "camera", "chapters", "layers"],
+  "required": ["id", "title", "subtitle", "duration", "canvas", "background", "relief", "environment", "camera", "chapters", "layers"],
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "title": { "type": "string", "minLength": 1 },
@@ -23,6 +23,22 @@
       "properties": {
         "src": { "type": "string", "minLength": 1 },
         "alt": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "relief": {
+      "type": "object",
+      "required": ["colorMap", "depthMap", "segmentsX", "segmentsY", "depthScale", "tiltX", "tiltY", "damping", "transitionDuration"],
+      "properties": {
+        "colorMap": { "type": "string", "minLength": 1 },
+        "depthMap": { "type": "string", "minLength": 1 },
+        "segmentsX": { "type": "integer", "minimum": 8 },
+        "segmentsY": { "type": "integer", "minimum": 8 },
+        "depthScale": { "type": "number", "exclusiveMinimum": 0 },
+        "tiltX": { "type": "number", "minimum": -10, "maximum": 10 },
+        "tiltY": { "type": "number", "minimum": -10, "maximum": 10 },
+        "damping": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 },
+        "transitionDuration": { "type": "number", "exclusiveMinimum": 0 }
       },
       "additionalProperties": false
     },

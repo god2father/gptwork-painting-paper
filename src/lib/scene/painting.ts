@@ -141,6 +141,7 @@ export function validatePaintingScene(value: unknown): PaintingScene {
   const item = record(value, 'scene')
   const canvas = record(item.canvas, 'canvas')
   const background = record(item.background, 'background')
+  const relief = record(item.relief, 'relief')
   const environment = record(item.environment, 'environment')
   const workspace = record(environment.workspace, 'environment.workspace')
   const camera = record(item.camera, 'camera')
@@ -159,7 +160,24 @@ export function validatePaintingScene(value: unknown): PaintingScene {
   const width = number(canvas.width, 'canvas.width')
   const height = number(canvas.height, 'canvas.height')
   const duration = number(item.duration, 'duration')
+  const parsedRelief = {
+    colorMap: text(relief.colorMap, 'relief.colorMap'),
+    depthMap: text(relief.depthMap, 'relief.depthMap'),
+    segmentsX: number(relief.segmentsX, 'relief.segmentsX'),
+    segmentsY: number(relief.segmentsY, 'relief.segmentsY'),
+    depthScale: number(relief.depthScale, 'relief.depthScale'),
+    tiltX: number(relief.tiltX, 'relief.tiltX'),
+    tiltY: number(relief.tiltY, 'relief.tiltY'),
+    damping: number(relief.damping, 'relief.damping'),
+    transitionDuration: number(relief.transitionDuration, 'relief.transitionDuration'),
+  }
   if (width <= 0 || height <= 0 || duration <= 0) throw new Error('canvas and duration must be positive')
+  if (!Number.isInteger(parsedRelief.segmentsX) || !Number.isInteger(parsedRelief.segmentsY)
+    || parsedRelief.segmentsX < 8 || parsedRelief.segmentsY < 8
+    || parsedRelief.depthScale <= 0 || Math.abs(parsedRelief.tiltX) > 10 || Math.abs(parsedRelief.tiltY) > 10
+    || parsedRelief.damping <= 0 || parsedRelief.damping >= 1 || parsedRelief.transitionDuration <= 0) {
+    throw new Error('relief has invalid values')
+  }
   return {
     id: text(item.id, 'id'),
     title: text(item.title, 'title'),
@@ -167,6 +185,7 @@ export function validatePaintingScene(value: unknown): PaintingScene {
     duration,
     canvas: { width, height },
     background: { src: text(background.src, 'background.src'), alt: text(background.alt, 'background.alt') },
+    relief: parsedRelief,
     environment: {
       workspace: {
         src: text(workspace.src, 'environment.workspace.src'),

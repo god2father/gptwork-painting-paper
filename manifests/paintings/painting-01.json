@@ -8,6 +8,17 @@
     "src": "/assets/layers/painting-01/background.webp",
     "alt": "深绿黑色纸张背景"
   },
+  "relief": {
+    "colorMap": "/assets/layers/painting-01/relief-color.webp",
+    "depthMap": "/assets/layers/painting-01/relief-depth.webp",
+    "segmentsX": 120,
+    "segmentsY": 150,
+    "depthScale": 52,
+    "tiltX": 4,
+    "tiltY": 6,
+    "damping": 0.1,
+    "transitionDuration": 0.8
+  },
   "environment": {
     "workspace": {
       "src": "/assets/environment/painting-01/workspace.webp",
