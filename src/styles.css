@@ -337,8 +337,9 @@ button { color: inherit; }
 .paper-label__metadata dd { margin: 0; color: var(--archive-ink); font-size: 13px; font-weight: 600; text-align: right; text-shadow: 0 1px rgba(255,241,207,.35); }
 .paper-label__stamp { width: fit-content; margin: 13px 0 0 auto; padding: 5px 8px 4px; border: 2px solid color-mix(in srgb, var(--archive-stamp) 88%, transparent); color: color-mix(in srgb, var(--archive-stamp) 92%, #2f1110); font: 700 10px/1 ui-monospace, monospace; letter-spacing: .1em; text-shadow: 0 1px rgba(255,229,196,.24); transform: rotate(-2deg); }
 
-.paper-label--intro { width: 58px; padding: 0; overflow: visible; clip-path: none; border-radius: 3px; transition: width .38s cubic-bezier(.2,.75,.2,1); perspective: 900px; }
-.paper-label--intro:has(details[open]) { width: min(330px, calc(100vw - 32px)); }
+.paper-label--intro { --intro-open-width: min(330px, calc(100vw - 32px)); width: 58px; padding: 0; overflow: hidden; clip-path: none; border-radius: 3px; transition: width .38s cubic-bezier(.2,.75,.2,1); perspective: 900px; }
+.paper-label--intro:has(details[open]) { width: var(--intro-open-width); }
+.paper-label__details[open] { width: var(--intro-open-width); }
 .paper-label__details summary { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; min-height: 178px; padding: 15px 12px; border-left: 5px solid #a47d45; list-style: none; background: linear-gradient(90deg, rgba(81,54,27,.13), transparent 18%), var(--archive-paper); box-shadow: inset 2px 0 rgba(255,240,204,.28); cursor: pointer; }
 .paper-label__details summary::-webkit-details-marker { display: none; }
 .paper-label__details summary strong { writing-mode: vertical-rl; font-size: 21px; letter-spacing: .12em; }
@@ -490,8 +491,7 @@ button { color: inherit; }
   .paper-label__body { display: none; }
   .paper-label__metadata { gap: 5px 10px; margin-top: 10px; }
   .paper-label__metadata dd { font-size: 11px; }
-  .atelier__intro-label { top: 104px; right: 14px; width: 52px; padding: 0; }
-  .atelier__intro-label:has(details[open]) { width: min(280px, calc(100vw - 28px)); }
+  .atelier__intro-label { --intro-open-width: min(280px, calc(100vw - 28px)); top: 104px; right: 14px; width: 52px; padding: 0; }
   .paper-label__details summary { min-height: 154px; padding-inline: 9px; }
   .atelier__intro-label .paper-label__body {
     display: block;
