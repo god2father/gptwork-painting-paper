@@ -22,13 +22,6 @@ const reliefReady = ref(false)
 const reliefActive = computed(() => props.assembled && reliefReady.value)
 const orientationSupported = ref(false)
 const orientationStatus = ref<'idle' | 'requesting' | 'active' | 'denied'>('idle')
-const orientationLabel = computed(() => orientationStatus.value === 'active'
-  ? '体感已开启 · 点按校准'
-  : orientationStatus.value === 'requesting'
-    ? '正在请求体感权限…'
-    : orientationStatus.value === 'denied'
-      ? '体感未授权 · 点击重试'
-      : '开启体感交互')
 let orientationOrigin: OrientationOrigin | null = null
 let orientationListening = false
 let orientationFrame = 0
@@ -97,6 +90,7 @@ function scheduleOrientation(x: number, y: number) {
 
 function handleOrientation(event: DeviceOrientationEvent) {
   if (event.beta === null || event.gamma === null) return
+  if (!store.orientationEnabled) store.enableOrientation()
   const angle = screen.orientation?.angle ?? 0
   if (!orientationOrigin || orientationOrigin.angle !== angle) {
     orientationOrigin = { beta: event.beta, gamma: event.gamma, angle }
@@ -114,17 +108,17 @@ function startOrientation() {
   orientationStatus.value = 'active'
 }
 
-async function enableOrientation() {
-  if (orientationStatus.value === 'active') {
-    orientationOrigin = null
-    scheduleOrientation(0, 0)
-    return
+function orientationConstructor() {
+  return window.DeviceOrientationEvent as typeof DeviceOrientationEvent & {
+    requestPermission?: () => Promise<'granted' | 'denied'>
   }
+}
+
+async function requestOrientationFromGesture() {
+  if (!props.assembled || !orientationSupported.value || orientationStatus.value !== 'idle') return
   orientationStatus.value = 'requesting'
   try {
-    const orientationEvent = window.DeviceOrientationEvent as typeof DeviceOrientationEvent & {
-      requestPermission?: () => Promise<'granted' | 'denied'>
-    }
+    const orientationEvent = orientationConstructor()
     const permission = typeof orientationEvent.requestPermission === 'function'
       ? await orientationEvent.requestPermission()
       : 'granted'
@@ -132,7 +126,6 @@ async function enableOrientation() {
       orientationStatus.value = 'denied'
       return
     }
-    store.enableOrientation()
     startOrientation()
   } catch {
     orientationStatus.value = 'denied'
@@ -144,7 +137,12 @@ onMounted(async () => {
   orientationSupported.value = 'DeviceOrientationEvent' in window
     && window.matchMedia('(pointer: coarse)').matches
     && !reducedMotion
-  if (orientationSupported.value && store.orientationEnabled) startOrientation()
+  if (orientationSupported.value) {
+    if (store.orientationEnabled) startOrientation()
+    else if (typeof orientationConstructor().requestPermission !== 'function') {
+      startOrientation()
+    }
+  }
   await nextTick()
   canvas.value?.querySelectorAll<HTMLElement>('[data-layer-id]').forEach((element) => {
     const id = element.dataset.layerId
@@ -169,6 +167,7 @@ defineExpose({ canvas, failedLayers })
       :class="{ 'artwork__canvas--relief-active': reliefActive }"
       :style="{ aspectRatio: `${scene.canvas.width} / ${scene.canvas.height}`, '--relief-transition': `${scene.relief.transitionDuration}s` }"
       data-testid="stage-canvas"
+      @click="requestOrientationFromGesture"
       @pointermove="updatePointer"
       @pointerleave="relaxPointer"
     >
@@ -206,17 +205,6 @@ defineExpose({ canvas, failedLayers })
       />
       <div class="artwork__grain" aria-hidden="true" />
     </div>
-    <button
-      v-if="orientationSupported && assembled"
-      class="artwork__motion-control"
-      type="button"
-      :aria-pressed="orientationStatus === 'active'"
-      :disabled="orientationStatus === 'requesting'"
-      @click.stop="enableOrientation"
-    >
-      <span aria-hidden="true">◉</span>
-      {{ orientationLabel }}
-    </button>
     <figcaption class="sr-only">
       纸片会沿轨迹逐层拼合成画，完成后转为可随指针或手机倾斜改变光影的立体浮雕；点击画面区域可查看说明。
     </figcaption>

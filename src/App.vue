@@ -7,6 +7,7 @@ import { useInteractionStore } from './stores/interaction'
 import type { PaintingScene } from './types/painting'
 import WorkspaceStage from './features/stage/WorkspaceStage.vue'
 import { useStageMotion } from './features/stage/useStageMotion'
+import type { PaintingSwipeDirection } from './lib/motion/paintingSwipe'
 
 const store = useInteractionStore()
 const errors = ref<string[]>([])
@@ -43,6 +44,11 @@ function switchPainting(index: number) {
   assembled.value = false
   openingPlayed.value = true
   activeIndex.value = index
+}
+
+function switchFromSwipe(direction: PaintingSwipeDirection) {
+  const step = direction === 'next' ? 1 : -1
+  switchPainting((activeIndex.value + step + scenes.length) % scenes.length)
 }
 
 function reload() {
@@ -82,7 +88,7 @@ onUnmounted(() => window.removeEventListener('keydown', clearWithEscape))
     </nav>
     <Transition name="painting-swap" :duration="950">
       <section ref="chapter" :key="scene.id" class="story-chapter" aria-label="作品拆解章节">
-        <WorkspaceStage :scene="scene" :assembled="assembled" :opening="!openingPlayed" @ready="handleReady" @error="reportError" />
+        <WorkspaceStage :scene="scene" :assembled="assembled" :opening="!openingPlayed" @ready="handleReady" @error="reportError" @swipe="switchFromSwipe" />
       </section>
     </Transition>
   </main>
