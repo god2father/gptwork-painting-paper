@@ -1,0 +1,101 @@
+{
+  "id": "painting-03",
+  "title": "神奈川冲浪里",
+  "subtitle": "浪尖悬在富士山与舟人之上，蓝色纸层凝住海啸般的一瞬。",
+  "introduction": "葛饰北斋约于 1831 年创作《神奈川冲浪里》，它是《富岳三十六景》中最著名的一图。巨浪以爪状泡沫俯压三艘押送船，远处富士山在浪谷之间显得异常安静。作品将舶来的普鲁士蓝与日本浮世绘的平面节奏结合，形成跨越时代的视觉象征。",
+  "duration": 9.5,
+  "archive": { "artist": "葛饰北斋", "year": "约 1831", "englishTitle": "The Great Wave off Kanagawa", "accession": "PAPER STUDY · 003", "paperColor": "#d7c59d", "stampColor": "#7c2d25", "inkColor": "#243343" },
+  "canvas": { "width": 1536, "height": 1024 },
+  "background": {
+    "src": "/assets/layers/painting-03/background.webp",
+    "alt": "暖色和纸天空与平静的蓝灰色远海"
+  },
+  "relief": {
+    "colorMap": "/assets/layers/painting-03/relief-color.webp",
+    "depthMap": "/assets/layers/painting-03/relief-depth.webp",
+    "segmentsX": 150,
+    "segmentsY": 100,
+    "depthScale": 68,
+    "tiltX": 5,
+    "tiltY": 8,
+    "damping": 0.1,
+    "transitionDuration": 0.8
+  },
+  "environment": {
+    "workspace": {
+      "src": "/assets/environment/painting-01/workspace.webp",
+      "alt": "暖色木桌上的纸张、铅笔和裁切工具"
+    }
+  },
+  "camera": {
+    "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+    "focused": { "x": 0, "y": 0, "z": 42, "scale": 1.06, "rotation": 0, "opacity": 1 }
+  },
+  "chapters": [
+    { "id": "reveal", "start": 0, "end": 0.12 },
+    { "id": "arrival", "start": 0.12, "end": 0.28 },
+    { "id": "focus", "start": 0.28, "end": 0.42 },
+    { "id": "layers", "start": 0.42, "end": 0.82 },
+    { "id": "observe", "start": 0.82, "end": 1 }
+  ],
+  "layers": [
+    {
+      "id": "layer-001-distant-sea", "name": "远处海面", "src": "/assets/layers/painting-03/layer-001-distant-sea.webp", "alt": "富士山周围的远处蓝色海面", "description": "低矮的远海横向铺开，为前景巨浪留下安静而稳定的空间基线。", "z": 15, "shadow": 0.24, "selection3d": { "z": 70, "rotateX": 0, "rotateY": 0, "scale": 1.02, "foldAngle": 45, "mesh": { "segmentsX": 24, "segmentsY": 10, "maxBend": 34, "maxLift": 76, "maxTwist": 5, "damping": 0.14 } },
+      "bounds": { "x": 297, "y": 346, "width": 1239, "height": 462 },
+      "assembly": { "start": 0.75, "duration": 1.1, "from": { "x": 610, "y": -300, "rotation": 5, "scale": 0.94 }, "via": { "x": 210, "y": -80 }, "ease": "power3.out" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": 0, "y": -8, "z": 18, "scale": 1, "rotation": 0.2, "opacity": 1 },
+      "animation": { "start": 0.43, "duration": 0.17, "ease": "power3.out" }, "parallax": { "x": 1, "y": 1 }
+    },
+    {
+      "id": "layer-002-fuji", "name": "远景富士山", "src": "/assets/layers/painting-03/layer-002-fuji.webp", "alt": "浪谷之间小而安静的富士山", "description": "富士山位于浪谷最深处，稳定的三角形与翻卷海浪形成静与动的对照。", "z": 22, "shadow": 0.28, "selection3d": { "z": 78, "rotateX": 0, "rotateY": 0, "scale": 1.06, "foldAngle": 45, "mesh": { "segmentsX": 12, "segmentsY": 10, "maxBend": 38, "maxLift": 82, "maxTwist": 5, "damping": 0.14 } },
+      "bounds": { "x": 508, "y": 605, "width": 211, "height": 152 },
+      "assembly": { "start": 1.3, "duration": 1, "from": { "x": -460, "y": -380, "rotation": -8, "scale": 0.9 }, "via": { "x": -150, "y": -120 }, "ease": "back.out(1.1)" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": -4, "y": -8, "z": 28, "scale": 1.02, "rotation": -0.3, "opacity": 1 },
+      "animation": { "start": 0.48, "duration": 0.15, "ease": "back.out(1.1)" }, "parallax": { "x": 1, "y": 1 }
+    },
+    {
+      "id": "layer-003-boats", "name": "两侧押送船", "src": "/assets/layers/painting-03/layer-003-boats.webp", "alt": "巨浪两侧的两艘狭长木船与舟人", "description": "两侧押送船沿浪谷斜向前行，弯腰的舟人把巨浪的尺度和危险变得具体。", "z": 38, "shadow": 0.42, "selection3d": { "z": 92, "rotateX": 0, "rotateY": 0, "scale": 1.035, "foldAngle": 45, "mesh": { "segmentsX": 24, "segmentsY": 12, "maxBend": 42, "maxLift": 96, "maxTwist": 7, "damping": 0.14 } },
+      "bounds": { "x": 24, "y": 442, "width": 1489, "height": 325 },
+      "assembly": { "start": 1.95, "duration": 1.25, "from": { "x": -680, "y": 310, "rotation": -7, "scale": 0.91 }, "via": { "x": -240, "y": 90 }, "ease": "power3.out" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": -10, "y": 10, "z": 34, "scale": 1, "rotation": -0.45, "opacity": 1 },
+      "animation": { "start": 0.54, "duration": 0.18, "ease": "power3.out" }, "parallax": { "x": 2, "y": 2 }
+    },
+    {
+      "id": "layer-007-center-boat", "name": "前景押送船", "src": "/assets/layers/painting-03/layer-007-center-boat.webp", "alt": "前景浪谷中随水起伏的狭长木船", "description": "最靠近观者的押送船随浪谷轻轻起伏，舟人压低身体迎向巨浪。", "z": 40, "shadow": 0.44, "selection3d": { "z": 96, "rotateX": 0, "rotateY": 0, "scale": 1.045, "foldAngle": 45, "mesh": { "segmentsX": 18, "segmentsY": 10, "maxBend": 44, "maxLift": 100, "maxTwist": 7, "damping": 0.14 } },
+      "ambient": { "kind": "breeze", "x": 0.8, "y": 4.5, "rotation": 0.45, "duration": 3.8, "delay": -1.1 },
+      "bounds": { "x": 250, "y": 779, "width": 599, "height": 176 },
+      "assembly": { "start": 2.25, "duration": 1.1, "from": { "x": -520, "y": 420, "rotation": -8, "scale": 0.9 }, "via": { "x": -170, "y": 130 }, "ease": "back.out(1.1)" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": -6, "y": 12, "z": 38, "scale": 1.01, "rotation": -0.5, "opacity": 1 },
+      "animation": { "start": 0.56, "duration": 0.16, "ease": "back.out(1.1)" }, "parallax": { "x": 3, "y": 2 }
+    },
+    {
+      "id": "layer-004-left-wave", "name": "左侧前浪", "src": "/assets/layers/painting-03/layer-004-left-wave.webp", "alt": "画面左下方层叠推进的蓝色前浪", "description": "左侧前浪像成排切开的纸带向画内推进，把视线带向船队与富士山。", "z": 44, "shadow": 0.46, "selection3d": { "z": 96, "rotateX": 0, "rotateY": 0, "scale": 1.035, "foldAngle": 45, "mesh": { "segmentsX": 22, "segmentsY": 16, "maxBend": 48, "maxLift": 104, "maxTwist": 8, "damping": 0.14 } },
+      "bounds": { "x": 0, "y": 378, "width": 898, "height": 646 },
+      "assembly": { "start": 2.65, "duration": 1.3, "from": { "x": -720, "y": 480, "rotation": -10, "scale": 0.9 }, "via": { "x": -270, "y": 150 }, "ease": "power3.out" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": -13, "y": 12, "z": 42, "scale": 1, "rotation": -0.7, "opacity": 1 },
+      "animation": { "start": 0.59, "duration": 0.2, "ease": "power3.out" }, "parallax": { "x": 3, "y": 2 }
+    },
+    {
+      "id": "layer-005-main-wave", "name": "中央巨浪", "src": "/assets/layers/painting-03/layer-005-main-wave.webp", "alt": "从右侧高高翻卷的深蓝色巨浪", "description": "巨浪以深蓝纸层盘旋上升，浪身形成空洞的弧线，像一只即将合拢的手。", "z": 52, "shadow": 0.54, "selection3d": { "z": 118, "rotateX": -2, "rotateY": 0, "scale": 1.055, "foldAngle": 45, "mesh": { "segmentsX": 24, "segmentsY": 24, "maxBend": 62, "maxLift": 132, "maxTwist": 11, "damping": 0.13 } },
+      "bounds": { "x": 573, "y": 84, "width": 963, "height": 940 },
+      "assembly": { "start": 3.35, "duration": 1.45, "from": { "x": 760, "y": -460, "rotation": 11, "scale": 0.88 }, "via": { "x": 280, "y": -130 }, "ease": "power3.out" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": 16, "y": -12, "z": 58, "scale": 1.01, "rotation": 0.8, "opacity": 1 },
+      "animation": { "start": 0.64, "duration": 0.21, "ease": "power3.out" }, "parallax": { "x": 5, "y": 4 }
+    },
+    {
+      "id": "layer-006-foam", "name": "浪尖与飞沫", "src": "/assets/layers/painting-03/layer-006-foam.webp", "alt": "巨浪顶端如利爪般翻卷的白色泡沫", "description": "白色泡沫被剪成密集的爪状末梢，悬在船与远山上方，是整幅画最紧张的一层。", "z": 64, "shadow": 0.5, "selection3d": { "z": 124, "rotateX": -3, "rotateY": 0, "scale": 1.06, "foldAngle": 45, "mesh": { "segmentsX": 24, "segmentsY": 16, "maxBend": 64, "maxLift": 138, "maxTwist": 12, "damping": 0.12 } },
+      "ambient": { "kind": "breeze", "x": 6.5, "y": -4, "rotation": -0.85, "duration": 4.4, "delay": -1.7 },
+      "bounds": { "x": 480, "y": 40, "width": 900, "height": 520 },
+      "assembly": { "start": 4.25, "duration": 1.25, "from": { "x": 120, "y": -620, "rotation": -9, "scale": 0.9 }, "via": { "x": 45, "y": -190 }, "ease": "back.out(1.12)" },
+      "collapsed": { "x": 0, "y": 0, "z": 0, "scale": 1, "rotation": 0, "opacity": 1 },
+      "expanded": { "x": 12, "y": -15, "z": 66, "scale": 1.02, "rotation": -0.8, "opacity": 1 },
+      "animation": { "start": 0.71, "duration": 0.16, "ease": "back.out(1.12)" }, "parallax": { "x": 6, "y": 5 }
+    }
+  ]
+}
