@@ -2,6 +2,7 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import rawScene01 from '../manifests/paintings/painting-01.json'
 import rawScene02 from '../manifests/paintings/painting-02.json'
+import rawScene03 from '../manifests/paintings/painting-03.json'
 import { validatePaintingScene } from './lib/scene/painting'
 import { useInteractionStore } from './stores/interaction'
 import type { PaintingScene } from './types/painting'
@@ -16,7 +17,7 @@ const chapter = ref<HTMLElement | null>(null)
 let sceneError = ''
 const scenes: PaintingScene[] = []
 try {
-  scenes.push(validatePaintingScene(rawScene01), validatePaintingScene(rawScene02))
+  scenes.push(validatePaintingScene(rawScene01), validatePaintingScene(rawScene02), validatePaintingScene(rawScene03))
 } catch (error) {
   sceneError = error instanceof Error ? error.message : '未知配置错误'
 }

@@ -484,7 +484,8 @@ button { color: inherit; }
   .atelier__workspace { width: 118%; left: -9%; }
   .atelier__paper-bed { width: min(94vw, calc(90svh * var(--art-ratio, .8))); padding: 16px; }
   .painting-switcher { top: auto; bottom: 14px; max-width: calc(100vw - 24px); }
-  .painting-switcher button { padding-inline: 9px; font-size: 10px; }
+  .painting-switcher { width: calc(100vw - 24px); }
+  .painting-switcher button { flex: 1 1 0; padding-inline: 6px; font-size: 9px; }
   .atelier__work-label { top: 16px; left: 14px; width: min(224px, calc(100vw - 92px)); padding: 13px 15px; }
   .paper-label h1 { font-size: 20px; }
   .paper-label__english-title { font-size: 10px; letter-spacing: .025em; }

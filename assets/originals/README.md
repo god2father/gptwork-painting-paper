@@ -1,22 +1,22 @@
 # 原始名画素材
 
-GPT Work 在识别参考视频中的作品后，将合法来源的高清原画分别放入：
+GPT Work 在识别作品后生成纸艺母版，并分别放入：
 
 ```text
-assets/originals/painting-01/original.jpg
-assets/originals/painting-02/original.jpg
-assets/originals/painting-03/original.jpg
+assets/originals/painting-01/original.png
+assets/originals/painting-02/original.png
+assets/originals/painting-03/original.png
 ```
 
-优先使用公共领域馆藏开放图像，并在 `sources.md` 中记录：
+每幅母版都在对应的 `generation.json` 和 `sources.md` 中记录：
 
 - 作品名称
 - 作者
 - 创作年代
-- 馆藏机构
-- 原始页面
-- 下载地址
-- 许可或公共领域说明
-- 下载日期
+- 生成工具与日期
+- 构图知识来源
+- 提示词摘要
+- 透明图层提取方式
+- 最终输出路径
 
-不要直接从参考视频截图代替高清原画，除非仅用于临时构图分析。
+参考视频只用于理解视觉语言，不从视频截图、抠图或提取可发布素材。

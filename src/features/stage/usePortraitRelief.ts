@@ -47,9 +47,9 @@ export function usePortraitRelief() {
   const current: RotationState = { x: 0, y: 0 }
   const target: RotationState = { x: 0, y: 0 }
   const scene = new Scene()
-  const ambient = new AmbientLight(0xfff2de, 1.35)
-  const keyLight = new DirectionalLight(0xffdfb0, 2.8)
-  const fillLight = new DirectionalLight(0x7f9bb5, 0.48)
+  const ambient = new AmbientLight(0xffffff, 0.55)
+  const keyLight = new DirectionalLight(0xffffff, 0.9)
+  const fillLight = new DirectionalLight(0xffffff, 0.16)
 
   keyLight.position.set(-180, 220, 360)
   fillLight.position.set(160, -80, 180)
@@ -145,7 +145,7 @@ export function usePortraitRelief() {
       map: colorTexture,
       emissive: new Color('#ffffff'),
       emissiveMap: colorTexture,
-      emissiveIntensity: 0.28,
+      emissiveIntensity: 0.58,
       roughness: 0.84,
       metalness: 0,
       side: FrontSide,

@@ -71,4 +71,15 @@ describe('LayeredStage', () => {
     expect(html).toContain('left:51.7%')
     expect(html).toContain('--highlight-duration:4.6s')
   })
+
+  it('renders the Great Wave foam and boats as ambient interactive layers', async () => {
+    const rawWave = (await import('../../../manifests/paintings/painting-03.json')).default
+    const scene = validatePaintingScene(rawWave)
+    const foam = scene.layers.find((layer) => layer.id === 'layer-006-foam')!
+    const boats = scene.layers.find((layer) => layer.id === 'layer-007-center-boat')!
+    expect(scene.canvas).toEqual({ width: 1536, height: 1024 })
+    expect(foam.ambient?.kind).toBe('breeze')
+    expect(boats.ambient?.y).toBe(4.5)
+    expect(scene.layers).toHaveLength(7)
+  })
 })

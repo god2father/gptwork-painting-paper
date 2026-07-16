@@ -1,0 +1,38 @@
+{
+  "paintingId": "painting-03",
+  "title": "神奈川冲浪里",
+  "generatedAt": "2026-07-15",
+  "tool": "built-in image generation",
+  "sourceReference": "Katsushika Hokusai, The Great Wave off Kanagawa, circa 1831; public-domain composition reference",
+  "assetPolicy": "GPT-generated washi-paper reinterpretation; no source artwork pixels copied into the project",
+  "masterPromptSummary": "A recognizable museum-quality washi paper-collage reinterpretation with a giant curling Prussian-blue wave, claw-like foam, three boats, rowers and distant Mount Fuji.",
+  "master": {
+    "sourceOutput": "assets/generated/painting-03/master-source.png",
+    "finalOutput": "assets/originals/painting-03/original.png",
+    "normalization": "generated and retained at 1536x1024"
+  },
+  "background": {
+    "sourceOutput": "assets/generated/painting-03/background-source.png",
+    "finalOutput": "assets/layers/painting-03/background.webp",
+    "processing": "built-in precise object removal; calm washi sky and distant sea retained as the empty assembly plate"
+  },
+  "layers": {
+    "source": "assets/originals/painting-03/original.png",
+    "maskDefinition": "scripts/extract_painting_03_layers.py",
+    "processing": "registered color-aware semantic masks; full-canvas lossless WebP",
+    "outputs": [
+      "assets/layers/painting-03/layer-001-distant-sea.webp",
+      "assets/layers/painting-03/layer-002-fuji.webp",
+      "assets/layers/painting-03/layer-003-boats.webp",
+      "assets/layers/painting-03/layer-004-left-wave.webp",
+      "assets/layers/painting-03/layer-005-main-wave.webp",
+      "assets/layers/painting-03/layer-006-foam.webp",
+      "assets/layers/painting-03/layer-007-center-boat.webp"
+    ]
+  },
+  "relief": {
+    "colorOutput": "assets/layers/painting-03/relief-color.webp",
+    "depthOutput": "assets/layers/painting-03/relief-depth.webp",
+    "processing": "registered master color plus deterministic luminance depth with semantic wave and foam boosts"
+  }
+}
