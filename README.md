@@ -120,16 +120,16 @@ App
 
 执行顺序：
 
-1. 整个屏幕由纸张覆盖。
-2. 裁纸刀从右向左快速划过。
-3. 静态纸逐渐隐藏，裁切后的两片纸逐渐显现。
-4. 刀具完整越过屏幕最左侧。
-5. 上层纸向上离开。
-6. 下层纸向下离开。
+1. 整个屏幕由纸张覆盖，等待用户轻触启封。
+2. Web Audio API 合成刀剑出鞘声，不加载外部音频素材。
+3. 裁纸刀与声效同步，从右向左快速划过。
+4. 静态纸逐渐隐藏，裁切后的两片纸逐渐显现。
+5. 刀具完整越过屏幕最左侧。
+6. 上层纸向上离开，下层纸向下离开。
 7. 露出木桌与第一幅画。
 8. 名画纸片开始飞入。
 
-动画由 [`src/lib/motion/buildTimeline.ts`](src/lib/motion/buildTimeline.ts) 使用 GSAP 组织。
+动画由 [`src/lib/motion/buildTimeline.ts`](src/lib/motion/buildTimeline.ts) 使用 GSAP 组织，声效由 [`src/lib/motion/bladeUnsheathe.ts`](src/lib/motion/bladeUnsheathe.ts) 实时合成。
 
 ## 五、纸片飞入拼装
 

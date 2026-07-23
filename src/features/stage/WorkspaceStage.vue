@@ -7,8 +7,12 @@ import type { PaintingScene } from '../../types/painting'
 import PaperLabel from './PaperLabel.vue'
 import PortraitFrame from './PortraitFrame.vue'
 
-const props = withDefaults(defineProps<{ scene: PaintingScene; assembled: boolean; opening?: boolean }>(), { opening: false })
+const props = withDefaults(defineProps<{ scene: PaintingScene; assembled: boolean; opening?: boolean; awaitingStart?: boolean }>(), {
+  opening: false,
+  awaitingStart: false,
+})
 const emit = defineEmits<{
+  start: []
   ready: [elements: Map<string, HTMLElement>]
   error: [id: string]
   swipe: [direction: PaintingSwipeDirection]
@@ -179,5 +183,12 @@ onUnmounted(() => {
     <div class="atelier__wipe atelier__wipe--top atelier__wipe--cut" data-motion-wipe-top aria-hidden="true"><span><b class="atelier__cut-mark">紙</b></span></div>
     <div class="atelier__wipe atelier__wipe--bottom atelier__wipe--cut" data-motion-wipe-bottom aria-hidden="true"><span><b class="atelier__cut-mark">紙</b></span></div>
     <div class="atelier__paper-knife" data-motion-paper-knife aria-hidden="true" />
+    <button
+      v-if="awaitingStart"
+      class="atelier__opening-trigger"
+      type="button"
+      aria-label="播放刀剑出鞘声并开始开场动画"
+      @click.stop="emit('start')"
+    >轻触启封</button>
   </section>
 </template>
