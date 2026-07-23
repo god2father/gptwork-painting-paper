@@ -9,6 +9,7 @@ import type { PaintingScene } from './types/painting'
 import WorkspaceStage from './features/stage/WorkspaceStage.vue'
 import { useStageMotion } from './features/stage/useStageMotion'
 import type { PaintingSwipeDirection } from './lib/motion/paintingSwipe'
+import { playBladeUnsheathe } from './lib/motion/bladeUnsheathe'
 
 const store = useInteractionStore()
 const errors = ref<string[]>([])
@@ -24,10 +25,12 @@ try {
 
 const activeIndex = ref(0)
 const openingPlayed = ref(false)
+const openingStarted = ref(false)
 const scene = computed(() => scenes[activeIndex.value])
 const motions = scenes.map((item) => useStageMotion(item))
+let pendingElements: Map<string, HTMLElement> | null = null
 
-function handleReady(elements: Map<string, HTMLElement>) {
+function connectStage(elements: Map<string, HTMLElement>) {
   errors.value = []
   assembled.value = false
   const stage = chapter.value?.querySelector<HTMLElement>('[data-testid="stage-canvas"]')
@@ -35,6 +38,18 @@ function handleReady(elements: Map<string, HTMLElement>) {
     assembled.value = true
     openingPlayed.value = true
   })
+}
+
+function handleReady(elements: Map<string, HTMLElement>) {
+  pendingElements = elements
+  if (openingPlayed.value || openingStarted.value) connectStage(elements)
+}
+
+function startOpening() {
+  if (openingStarted.value) return
+  openingStarted.value = true
+  void playBladeUnsheathe()
+  if (pendingElements) connectStage(pendingElements)
 }
 
 function switchPainting(index: number) {
@@ -89,7 +104,16 @@ onUnmounted(() => window.removeEventListener('keydown', clearWithEscape))
     </nav>
     <Transition name="painting-swap" :duration="950">
       <section ref="chapter" :key="scene.id" class="story-chapter" aria-label="作品拆解章节">
-        <WorkspaceStage :scene="scene" :assembled="assembled" :opening="!openingPlayed" @ready="handleReady" @error="reportError" @swipe="switchFromSwipe" />
+        <WorkspaceStage
+          :scene="scene"
+          :assembled="assembled"
+          :opening="!openingPlayed"
+          :awaiting-start="!openingPlayed && !openingStarted"
+          @start="startOpening"
+          @ready="handleReady"
+          @error="reportError"
+          @swipe="switchFromSwipe"
+        />
       </section>
     </Transition>
   </main>

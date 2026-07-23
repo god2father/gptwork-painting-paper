@@ -22,6 +22,8 @@ describe('painting switcher', () => {
     expect(html).toContain('data-opening="true"')
     expect(html).toContain('aria-hidden="true"')
     expect(html).toContain('aria-label="切换世界名画"')
+    expect(html).toContain('播放刀剑出鞘声并开始开场动画')
+    expect(html).toContain('轻触启封')
     expect(html).toContain('戴珍珠耳环的少女')
     expect(html).toContain('阿尔诺芬妮夫妇像')
     expect(html).toContain('神奈川冲浪里')
